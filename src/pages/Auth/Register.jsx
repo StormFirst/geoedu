@@ -11,7 +11,6 @@ export default function Register() {
   const navigate = useNavigate()
   const [form, setForm] = useState({
     name: '', email: '', password: '', confirmPassword: '',
-    university: '', group: '', role: 'student',
   })
   const [showPw, setShowPw] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -29,12 +28,10 @@ export default function Register() {
     setLoading(true)
     try {
       await register({
-        name: `${form.name}`,
+        name: form.name,
         email: form.email,
         password: form.password,
-        university: form.university,
-        group: form.group,
-        role: form.role,
+        role: 'student',
       })
       toast.success("Muvaffaqiyatli ro'yxatdan o'tdingiz!")
       navigate('/dashboard')
@@ -74,25 +71,6 @@ export default function Register() {
             <div>
               <label className="label">{t('auth.email')}</label>
               <input type="email" className="input" placeholder="email@example.com" value={form.email} onChange={set('email')} required />
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="label">{t('auth.university')}</label>
-                <input className="input" placeholder="ToshDTU" value={form.university} onChange={set('university')} />
-              </div>
-              <div>
-                <label className="label">{t('auth.group')}</label>
-                <input className="input" placeholder="GIS-21" value={form.group} onChange={set('group')} />
-              </div>
-            </div>
-
-            <div>
-              <label className="label">{t('auth.role')}</label>
-              <select className="input" value={form.role} onChange={set('role')}>
-                <option value="student">{t('auth.student')}</option>
-                <option value="teacher">{t('auth.teacher')}</option>
-              </select>
             </div>
 
             <div>

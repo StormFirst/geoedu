@@ -1,75 +1,101 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { DEMO_USERS } from '../data/mockData'
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+} from 'firebase/auth'
+import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
+import { auth, db } from '../firebase/config'
+
+function buildUserProfile(uid, email, { name, role = 'student' } = {}) {
+  return {
+    uid,
+    email,
+    name: (name || '').trim(),
+    role,
+    joinDate: new Date().toISOString().split('T')[0],
+    completedTopics: [],
+    testResults: [],
+    certificates: [],
+    avatar: null,
+    createdAt: serverTimestamp(),
+  }
+}
 
 const AuthContext = createContext(null)
-
-const STORAGE_KEY = 'geoedu-user'
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored) {
-      try {
-        setCurrentUser(JSON.parse(stored))
-      } catch {
-        localStorage.removeItem(STORAGE_KEY)
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        const docSnap = await getDoc(doc(db, 'users', firebaseUser.uid))
+        const profile = docSnap.exists() ? docSnap.data() : {}
+        setCurrentUser({ uid: firebaseUser.uid, email: firebaseUser.email, ...profile })
+      } else {
+        setCurrentUser(null)
       }
-    }
-    setLoading(false)
+      setLoading(false)
+    })
+    return unsubscribe
   }, [])
 
   const login = async (email, password) => {
-    const user = Object.values(DEMO_USERS).find(
-      (u) => u.email === email && u.password === password
-    )
-    if (!user) throw new Error('Email yoki parol noto\'g\'ri')
-    const { password: _pw, ...safeUser } = user
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(safeUser))
-    setCurrentUser(safeUser)
-    return safeUser
+    const { user } = await signInWithEmailAndPassword(auth, email, password)
+    const docSnap = await getDoc(doc(db, 'users', user.uid))
+    const profile = docSnap.exists() ? docSnap.data() : {}
+    const merged = { uid: user.uid, email: user.email, ...profile }
+    setCurrentUser(merged)
+    return merged
   }
 
   const register = async (userData) => {
-    const existing = Object.values(DEMO_USERS).find((u) => u.email === userData.email)
-    if (existing) throw new Error('Bu email allaqachon ro\'yxatdan o\'tgan')
-    const newUser = {
-      id: 'user-' + Date.now(),
-      ...userData,
-      role: userData.role || 'student',
-      joinDate: new Date().toISOString().split('T')[0],
-      completedTopics: [],
-      testResults: [],
-      certificates: [],
-      avatar: null,
+    if (!auth || !db) {
+      throw new Error('Firebase ulanishi mavjud emas. .env faylini tekshiring.')
     }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(newUser))
-    setCurrentUser(newUser)
-    return newUser
+
+    const { email, password, name, role = 'student' } = userData
+    const { user } = await createUserWithEmailAndPassword(auth, email, password)
+
+    const profile = buildUserProfile(user.uid, user.email, { name, role })
+    const userRef = doc(db, 'users', user.uid)
+    await setDoc(userRef, profile)
+
+    const merged = {
+      uid: user.uid,
+      email: user.email,
+      name: profile.name,
+      role: profile.role,
+      joinDate: profile.joinDate,
+      completedTopics: profile.completedTopics,
+      testResults: profile.testResults,
+      certificates: profile.certificates,
+      avatar: profile.avatar,
+    }
+    setCurrentUser(merged)
+    return merged
   }
 
-  const logout = () => {
-    localStorage.removeItem(STORAGE_KEY)
-    setCurrentUser(null)
+  const logout = () => signOut(auth)
+
+  const updateUser = async (updates) => {
+    if (!currentUser) return
+    await updateDoc(doc(db, 'users', currentUser.uid), updates)
+    setCurrentUser((prev) => ({ ...prev, ...updates }))
   }
 
-  const updateUser = (updates) => {
-    const updated = { ...currentUser, ...updates }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated))
-    setCurrentUser(updated)
-  }
-
-  const completeTopicDemo = (topicId) => {
+  const completeTopicDemo = async (topicId) => {
     if (!currentUser) return
     const completedTopics = currentUser.completedTopics || []
     if (!completedTopics.includes(topicId)) {
-      updateUser({ completedTopics: [...completedTopics, topicId] })
+      await updateUser({ completedTopics: [...completedTopics, topicId] })
     }
   }
 
-  const saveTestResult = (result) => {
+  const saveTestResult = async (result) => {
     if (!currentUser) return
     const results = currentUser.testResults || []
     const existingIdx = results.findIndex((r) => r.testId === result.testId)
@@ -80,7 +106,7 @@ export function AuthProvider({ children }) {
     } else {
       updated = [...results, result]
     }
-    updateUser({ testResults: updated })
+    await updateUser({ testResults: updated })
   }
 
   return (

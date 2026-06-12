@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import {
-  User, Edit3, Save, X, Mail, Building, Users,
+  User, Edit3, Save, X, Mail,
   CheckCircle, FileText, TrendingUp, Calendar,
 } from 'lucide-react'
 import { TOPICS, SUBJECTS } from '../../data/mockData'
@@ -17,8 +17,6 @@ export default function ProfilePage() {
   const [editing, setEditing] = useState(false)
   const [form, setForm] = useState({
     name: currentUser?.name || '',
-    university: currentUser?.university || '',
-    group: currentUser?.group || '',
   })
 
   const completedTopics = currentUser?.completedTopics || []
@@ -95,38 +93,6 @@ export default function ProfilePage() {
               <Calendar size={15} className="text-gray-400" />
               {currentUser?.joinDate}
             </div>
-          </div>
-          <div>
-            <label className="label text-xs">{t('auth.university')}</label>
-            {editing ? (
-              <input
-                className="input"
-                value={form.university}
-                onChange={(e) => setForm({ ...form, university: e.target.value })}
-                placeholder="Universitet nomi"
-              />
-            ) : (
-              <div className="flex items-center gap-2 input cursor-default">
-                <Building size={15} className="text-gray-400" />
-                {currentUser?.university || '—'}
-              </div>
-            )}
-          </div>
-          <div>
-            <label className="label text-xs">{t('auth.group')}</label>
-            {editing ? (
-              <input
-                className="input"
-                value={form.group}
-                onChange={(e) => setForm({ ...form, group: e.target.value })}
-                placeholder="GIS-21"
-              />
-            ) : (
-              <div className="flex items-center gap-2 input cursor-default">
-                <Users size={15} className="text-gray-400" />
-                {currentUser?.group || '—'}
-              </div>
-            )}
           </div>
         </div>
       </div>

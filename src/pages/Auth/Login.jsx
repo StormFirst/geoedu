@@ -27,15 +27,6 @@ export default function Login() {
     }
   }
 
-  const fillDemo = (role) => {
-    const creds = {
-      admin: { email: 'admin@geoedu.uz', password: 'admin123' },
-      teacher: { email: 'teacher@geoedu.uz', password: 'teacher123' },
-      student: { email: 'student@geoedu.uz', password: 'student123' },
-    }
-    setForm(creds[role])
-  }
-
   return (
     <div className="min-h-screen flex bg-gray-50 dark:bg-gray-950">
       <div className="hidden lg:flex flex-1 bg-gradient-to-br from-primary-800 to-primary-600 p-12 flex-col justify-between">
@@ -74,21 +65,6 @@ export default function Login() {
 
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{t('auth.login')}</h1>
           <p className="text-gray-500 dark:text-gray-400 mb-6">{t('app.tagline')}</p>
-
-          <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
-            <p className="text-xs font-semibold text-blue-700 dark:text-blue-400 mb-2 uppercase">{t('auth.demoHint')}</p>
-            <div className="flex gap-2 flex-wrap">
-              {['admin', 'teacher', 'student'].map((role) => (
-                <button
-                  key={role}
-                  onClick={() => fillDemo(role)}
-                  className="text-xs px-3 py-1.5 bg-white dark:bg-gray-800 border border-blue-200 dark:border-blue-700 rounded-lg text-blue-700 dark:text-blue-400 font-medium hover:bg-blue-50 dark:hover:bg-blue-900/30 capitalize"
-                >
-                  {role}
-                </button>
-              ))}
-            </div>
-          </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>

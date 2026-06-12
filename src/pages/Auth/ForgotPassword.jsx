@@ -2,15 +2,27 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Map, Mail, ArrowLeft, CheckCircle } from 'lucide-react'
+import { sendPasswordResetEmail } from 'firebase/auth'
+import { auth } from '../../firebase/config'
+import toast from 'react-hot-toast'
 
 export default function ForgotPassword() {
   const { t } = useTranslation()
   const [email, setEmail] = useState('')
   const [sent, setSent] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setSent(true)
+    setLoading(true)
+    try {
+      await sendPasswordResetEmail(auth, email)
+      setSent(true)
+    } catch (err) {
+      toast.error(err.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -65,8 +77,8 @@ export default function ForgotPassword() {
                     />
                   </div>
                 </div>
-                <button type="submit" className="btn-primary w-full justify-center py-3">
-                  {t('auth.sendResetLink')}
+                <button type="submit" disabled={loading} className="btn-primary w-full justify-center py-3">
+                  {loading ? t('common.loading') : t('auth.sendResetLink')}
                 </button>
               </form>
               <p className="text-center mt-5">
