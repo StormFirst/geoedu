@@ -10,6 +10,7 @@ import SubjectsList from './pages/Subjects/SubjectsList'
 import SubjectDetail from './pages/Subjects/SubjectDetail'
 import TopicDetail from './pages/Subjects/TopicDetail'
 import VideosPage from './pages/Videos/VideosPage'
+import MapToolsPage from './pages/MapTools/MapToolsPage'
 import TestsList from './pages/Tests/TestsList'
 import TestTaker from './pages/Tests/TestTaker'
 import TestResults from './pages/Tests/TestResults'
@@ -53,6 +54,7 @@ export default function App() {
         <Route path="/subjects" element={<SubjectsList />} />
         <Route path="/subjects/:subjectId" element={<SubjectDetail />} />
         <Route path="/subjects/:subjectId/topics/:topicId" element={<TopicDetail />} />
+        <Route path="/map-tools" element={<MapToolsPage />} />
         <Route path="/videos" element={<VideosPage />} />
         <Route path="/tests" element={<TestsList />} />
         <Route path="/tests/:testId" element={<TestTaker />} />

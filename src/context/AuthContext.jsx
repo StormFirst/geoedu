@@ -7,6 +7,7 @@ import {
 } from 'firebase/auth'
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
 import { auth, db } from '../firebase/config'
+import { TESTS } from '../data/mockData'
 
 function buildUserProfile(uid, email, { name, role = 'student' } = {}) {
   return {
@@ -18,6 +19,7 @@ function buildUserProfile(uid, email, { name, role = 'student' } = {}) {
     completedTopics: [],
     testResults: [],
     certificates: [],
+    totalScore: 0,
     avatar: null,
     createdAt: serverTimestamp(),
   }
@@ -99,6 +101,16 @@ export function AuthProvider({ children }) {
     if (!currentUser) return
     const results = currentUser.testResults || []
     const existingIdx = results.findIndex((r) => r.testId === result.testId)
+
+    // Calculate points earned: 10 points per correct answer
+    const pointsEarned = result.correct * 10
+
+    // Calculate previous points for this test (if retake)
+    let prevPoints = 0
+    if (existingIdx >= 0) {
+      prevPoints = (results[existingIdx].correct || 0) * 10
+    }
+
     let updated
     if (existingIdx >= 0) {
       updated = [...results]
@@ -106,7 +118,24 @@ export function AuthProvider({ children }) {
     } else {
       updated = [...results, result]
     }
-    await updateUser({ testResults: updated })
+
+    // Update totalScore: add new points, subtract old points (for retakes)
+    const currentTotal = currentUser.totalScore || 0
+    const newTotal = Math.max(0, currentTotal - prevPoints + pointsEarned)
+
+    // Mark topic completed if test is passed
+    const test = Object.values(TESTS).find(t => t.id === result.testId)
+    const completedTopics = currentUser.completedTopics || []
+    let newCompletedTopics = completedTopics
+    if (result.passed && test && test.topicId && !completedTopics.includes(test.topicId)) {
+      newCompletedTopics = [...completedTopics, test.topicId]
+    }
+
+    await updateUser({
+      testResults: updated,
+      totalScore: newTotal,
+      completedTopics: newCompletedTopics
+    })
   }
 
   return (

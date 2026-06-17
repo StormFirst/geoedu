@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
-import { Map, Mountain, Globe, BookOpen, Video, FileText, Users, ChevronRight } from 'lucide-react'
-import { SUBJECTS, TOPICS } from '../../data/mockData'
+import { Map, Mountain, Globe, BookOpen, Video, FileText, ChevronRight } from 'lucide-react'
+import { SUBJECTS, TOPICS, TESTS } from '../../data/mockData'
 
 const subjectIcons = { kartografiya: Map, topografiya: Mountain, gis: Globe }
 const subjectGradients = {
@@ -35,6 +35,8 @@ export default function SubjectsList() {
         {SUBJECTS.map((subject) => {
           const Icon = subjectIcons[subject.id]
           const topicsList = TOPICS[subject.id] || []
+          const videosCount = topicsList.filter((t) => t.videoUrl || t.video).length
+          const testsCount = Object.values(TESTS).filter((t) => t.subjectId === subject.id).length
           const done = topicsList.filter((t) => completedTopics.includes(t.id)).length
           const pct = Math.round((done / topicsList.length) * 100)
 
@@ -51,21 +53,20 @@ export default function SubjectsList() {
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                 {subject.name[lang] || subject.name.uz}
               </h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 leading-relaxed line-clamp-2 min-h-[40px]">
                 {subject.description[lang] || subject.description.uz}
               </p>
 
-              <div className="grid grid-cols-2 gap-2 mb-4">
+              <div className="grid grid-cols-3 gap-2 mb-5 bg-gray-50 dark:bg-gray-800/40 p-2.5 rounded-xl border border-gray-100 dark:border-gray-700/50">
                 {[
-                  { icon: BookOpen, val: subject.topicsCount, label: 'mavzu' },
-                  { icon: Video, val: subject.videosCount, label: 'video' },
-                  { icon: FileText, val: subject.testsCount, label: 'test' },
-                  { icon: Users, val: subject.studentsCount, label: 'talaba' },
+                  { icon: BookOpen, val: topicsList.length, label: 'mavzu' },
+                  { icon: Video, val: videosCount, label: 'video' },
+                  { icon: FileText, val: testsCount, label: 'test' },
                 ].map(({ icon: I, val, label }) => (
-                  <div key={label} className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
-                    <I size={14} />
-                    <span className="font-medium text-gray-700 dark:text-gray-300">{val}</span>
-                    <span>{label}</span>
+                  <div key={label} className="flex flex-col items-center text-center">
+                    <I size={15} className="text-primary-500 mb-1" />
+                    <span className="font-semibold text-gray-700 dark:text-gray-300 text-sm">{val}</span>
+                    <span className="text-[10px] text-gray-400 dark:text-gray-500 font-medium uppercase tracking-wider">{label}</span>
                   </div>
                 ))}
               </div>

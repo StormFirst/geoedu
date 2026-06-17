@@ -1,6 +1,6 @@
 import { useLocation, Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { CheckCircle, XCircle, Trophy, RotateCcw, BookOpen } from 'lucide-react'
+import { CheckCircle, XCircle, Trophy, RotateCcw, BookOpen, Star } from 'lucide-react'
 import { TESTS } from '../../data/mockData'
 import clsx from 'clsx'
 
@@ -8,7 +8,13 @@ export default function TestResults() {
   const { testId } = useParams()
   const { t, i18n } = useTranslation()
   const { state } = useLocation()
-  const lang = i18n.language
+  const lang = i18n.language?.slice(0, 2) || 'uz'
+
+  const getOptions = (q) => {
+    const opts = q?.options
+    if (!opts) return []
+    return (Array.isArray(opts) ? opts : (opts[lang] || opts.uz || opts.ru || opts.en || []))
+  }
 
   const result = state?.result
   const test = state?.test || TESTS[testId] || Object.values(TESTS).find((t) => t.id === testId)
@@ -23,6 +29,8 @@ export default function TestResults() {
   }
 
   const questions = test.questions || []
+  const earnedOchko = (result.correct || 0) * 10
+  const maxOchko = questions.length * 10
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -41,6 +49,15 @@ export default function TestResults() {
 
         <div className="text-5xl font-extrabold text-gray-900 dark:text-white my-4">
           {result.score}%
+        </div>
+
+        {/* Ochko badge */}
+        <div className="inline-flex items-center gap-2 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-full px-5 py-2 mb-6">
+          <Star size={18} className="text-yellow-500" fill="currentColor" />
+          <span className="font-bold text-yellow-700 dark:text-yellow-400 text-lg">
+            +{earnedOchko} ochko
+          </span>
+          <span className="text-yellow-500 text-sm">/ {maxOchko}</span>
         </div>
 
         <div className="flex justify-center gap-8 text-sm text-gray-600 dark:text-gray-400 mb-6">
@@ -79,7 +96,7 @@ export default function TestResults() {
             const isCorrect =
               userAnswers.length === correct.length &&
               userAnswers.every((a) => correct.includes(a))
-            const options = q.options[lang] || q.options.uz
+            const options = getOptions(q)
 
             return (
               <div key={q.id} className={clsx('p-4 rounded-xl border', isCorrect ? 'border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/10' : 'border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/10')}>
@@ -89,9 +106,16 @@ export default function TestResults() {
                   ) : (
                     <XCircle size={16} className="text-red-500 flex-shrink-0 mt-0.5" />
                   )}
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">
-                    {idx + 1}. {q.question[lang] || q.question.uz}
-                  </p>
+                  <div className="flex-1 flex items-start justify-between gap-2">
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      {idx + 1}. {q.question[lang] || q.question.uz}
+                    </p>
+                    {isCorrect && (
+                      <span className="flex items-center gap-0.5 text-xs font-bold text-yellow-600 dark:text-yellow-400 flex-shrink-0">
+                        <Star size={11} fill="currentColor" />+10
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <div className="space-y-1.5 ml-6">
                   {options.map((opt, i) => {
@@ -102,9 +126,11 @@ export default function TestResults() {
                         key={i}
                         className={clsx(
                           'text-xs px-3 py-1.5 rounded-lg flex items-center gap-2',
-                          isCorrectOpt ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 font-medium' :
-                          userChose ? 'bg-red-100 dark:bg-red-900/30 text-red-600 line-through' :
-                          'text-gray-500'
+                          isCorrectOpt
+                            ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 font-medium'
+                            : userChose
+                            ? 'bg-red-100 dark:bg-red-900/30 text-red-600 line-through'
+                            : 'text-gray-500'
                         )}
                       >
                         <span className="font-bold">{String.fromCharCode(65 + i)}.</span>

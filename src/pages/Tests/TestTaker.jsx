@@ -12,28 +12,39 @@ export default function TestTaker() {
   const { t, i18n } = useTranslation()
   const { saveTestResult } = useAuth()
   const navigate = useNavigate()
-  const lang = i18n.language
+  const lang = i18n.language?.slice(0, 2) || 'uz'
+
+  // Safe getter: returns the options array for current lang, falling back to 'uz'
+  const getOptions = (q) => {
+    const opts = q?.options
+    if (!opts) return []
+    return (Array.isArray(opts) ? opts : (opts[lang] || opts.uz || opts.ru || opts.en || []))
+  }
 
   const test = TESTS[testId] || Object.values(TESTS).find((t) => t.id === testId)
   const [started, setStarted] = useState(false)
   const [current, setCurrent] = useState(0)
   const [answers, setAnswers] = useState({})
-  const [timeLeft, setTimeLeft] = useState(0)
+  const [timeLeft, setTimeLeft] = useState(null)   // null = timer not yet initialized
   const [submitted, setSubmitted] = useState(false)
 
+  // Set the timer once when test starts
   useEffect(() => {
     if (!started || submitted) return
     setTimeLeft(test.timeLimit * 60)
   }, [started])
 
+  // Countdown ticker — only runs when timeLeft is a real number > 0
   useEffect(() => {
-    if (!started || submitted || timeLeft <= 0) {
-      if (started && !submitted && timeLeft === 0) handleSubmit()
+    if (!started || submitted || timeLeft === null) return
+    if (timeLeft <= 0) {
+      handleSubmit()
       return
     }
     const timer = setInterval(() => setTimeLeft((t) => t - 1), 1000)
     return () => clearInterval(timer)
   }, [started, submitted, timeLeft])
+
 
   if (!test) return <Navigate to="/tests" replace />
 
@@ -41,6 +52,7 @@ export default function TestTaker() {
   const q = questions[current]
 
   const formatTime = (secs) => {
+    if (secs === null) return '--:--'
     const m = Math.floor(secs / 60)
     const s = secs % 60
     return `${m}:${s.toString().padStart(2, '0')}`
@@ -156,7 +168,7 @@ export default function TestTaker() {
         </h2>
 
         <div className="space-y-3">
-          {(q.options[lang] || q.options.uz).map((option, idx) => {
+          {getOptions(q).map((option, idx) => {
             const isSelected = selectedForQ.includes(idx)
             return (
               <button

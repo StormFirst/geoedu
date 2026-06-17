@@ -50,286 +50,54 @@ export const SUBJECTS = [
 ]
 
 export const TOPICS = {
-  kartografiya: [
-    {
-      id: 'karto-1',
-      subjectId: 'kartografiya',
-      order: 1,
-      title: { uz: 'Kartografiya asoslari', ru: 'Основы картографии', en: 'Fundamentals of Cartography' },
-      content: {
-        uz: `<h2>Kartografiya asoslari</h2>
-<p>Kartografiya — yer yuzasining grafik tasvirini yaratish, tadqiq etish va ulardan foydalanish haqidagi fan. Bu fan qadimgi davrlardan boshlab rivojlanib kelgan va hozirda zamonaviy texnologiyalar bilan boyitilgan.</p>
-
-<h3>Xaritaning asosiy elementlari</h3>
-<ul>
-<li><strong>Masshtab</strong> — xaritadagi masofa va real masofa nisbati</li>
-<li><strong>Proeksiya</strong> — yer shari yuzasini tekislikka ko'chirish usuli</li>
-<li><strong>Koordinatlar tizimi</strong> — ob'ektlar joylashuvini aniqlash</li>
-<li><strong>Ramka va legenda</strong> — xaritaning chegarasi va belgilar izohi</li>
-</ul>
-
-<h3>Kartografiyaning turlari</h3>
-<p>Zamonaviy kartografiya quyidagi yo'nalishlarga bo'linadi:</p>
-<ol>
-<li>Umumgeografik kartografiya</li>
-<li>Tematik kartografiya</li>
-<li>Matematik kartografiya</li>
-<li>Kompyuter kartografiyasi</li>
-</ol>
-
-<h3>Tarixiy rivojlanish</h3>
-<p>Birinchi xaritalar 25,000 yil oldin tosh yoki sopol taxtachalariga chizilgan. Ptolemey (milodiy II asr) geografik koordinatalar tizimini ishlab chiqqan. XVI asrdan boshlab Merkator proeksiyasi keng qo'llana boshladi.</p>`,
-      },
-      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '42:15',
-      hasTest: true,
-      hasPractical: true,
-      duration: '45 daqiqa',
-      difficulty: 'beginner',
-    },
-    {
-      id: 'karto-2',
-      subjectId: 'kartografiya',
-      order: 2,
-      title: { uz: "Xaritalarning turlari", ru: 'Виды карт', en: 'Types of Maps' },
-      content: {
-        uz: `<h2>Xaritalarning turlari</h2>
-<p>Xaritalar turli mezonlar bo'yicha tasniflanadi: maqsadi, masshtabi, mavzusi va boshqalar.</p>
-
-<h3>Masshtab bo'yicha</h3>
-<ul>
-<li><strong>Katta masshtabli</strong> — 1:10 000 va undan katta (topografik xaritalar)</li>
-<li><strong>O'rta masshtabli</strong> — 1:200 000 dan 1:1 000 000 gacha</li>
-<li><strong>Kichik masshtabli</strong> — 1:1 000 000 dan kichik (umumgeografik atlaslar)</li>
-</ul>
-
-<h3>Maqsadi bo'yicha</h3>
-<ul>
-<li>Umumgeografik xaritalar</li>
-<li>Tematik xaritalar (iqlim, aholi, iqtisodiyot)</li>
-<li>Dengiz navigatsiya xaritalari</li>
-<li>Aviatsiya xaritalari</li>
-</ul>
-
-<h3>Proeksiyalar</h3>
-<p>Merkator, Lambert, Gauss-Krüger kabi proeksiyalar turli maqsadlar uchun ishlatiladi.</p>`,
-      },
-      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '38:20',
-      hasTest: true,
-      hasPractical: false,
-      duration: '40 daqiqa',
-      difficulty: 'beginner',
-    },
-    {
-      id: 'karto-3',
-      subjectId: 'kartografiya',
-      order: 3,
-      title: { uz: 'Masshtab va koordinatalar', ru: 'Масштаб и координаты', en: 'Scale and Coordinates' },
-      content: {
-        uz: `<h2>Masshtab va koordinatalar</h2>
-<p>Masshtab — xaritadagi chiziqli uzunlikning yerda shu chiziqning haqiqiy uzunligiga nisbati.</p>
-
-<h3>Masshtab turlari</h3>
-<ul>
-<li><strong>Sonli masshtab</strong>: 1:25 000 (1 sm = 250 m)</li>
-<li><strong>Chiziqli masshtab</strong>: grafik ko'rinishda</li>
-<li><strong>Og'zaki masshtab</strong>: "1 santimetr 1 km"</li>
-</ul>
-
-<h3>Koordinatalar tizimi</h3>
-<p>Kenglik (latitude) va uzunlik (longitude) — yer sharida joylashuvni aniqlashning asosiy usuli.</p>
-<ul>
-<li>Kenglik: 0° (ekvator) dan ±90° (qutblar) gacha</li>
-<li>Uzunlik: 0° (Grinvich) dan ±180° gacha</li>
-</ul>`,
-      },
-      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '55:10',
-      hasTest: true,
-      hasPractical: true,
-      duration: '60 daqiqa',
-      difficulty: 'intermediate',
-    },
-    {
-      id: 'karto-4',
-      subjectId: 'kartografiya',
-      order: 4,
-      title: { uz: 'Kartografik belgilar', ru: 'Картографические знаки', en: 'Cartographic Signs' },
-      content: {
-        uz: `<h2>Kartografik belgilar</h2>
-<p>Kartografik belgilar — xaritada turli ob'ektlarni ifodalovchi maxsus grafik elementlar.</p>
-
-<h3>Belgilar turlari</h3>
-<ul>
-<li>Nuqtali belgilar (shahar, qishloq)</li>
-<li>Chiziqli belgilar (yo'l, daryo)</li>
-<li>Maydonli belgilar (o'rmon, ko'l)</li>
-<li>Ranglar va shtrihovka</li>
-</ul>`,
-      },
-      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '35:45',
-      hasTest: true,
-      hasPractical: false,
-      duration: '40 daqiqa',
-      difficulty: 'beginner',
-    },
-    {
-      id: 'karto-5',
-      subjectId: 'kartografiya',
-      order: 5,
-      title: { uz: 'Raqamli kartografiya', ru: 'Цифровая картография', en: 'Digital Cartography' },
-      content: {
-        uz: `<h2>Raqamli kartografiya</h2>
-<p>Zamonaviy kartografiya kompyuter texnologiyalari asosida rivojlangan.</p>
-
-<h3>Asosiy dasturlar</h3>
-<ul>
-<li>ArcGIS — professional GIS tizimi</li>
-<li>QGIS — bepul ochiq kodli dastur</li>
-<li>AutoCAD Map — muhandislik xaritalari</li>
-<li>Google Maps / OpenStreetMap — veb xaritalar</li>
-</ul>`,
-      },
-      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '48:30',
-      hasTest: true,
-      hasPractical: true,
-      duration: '50 daqiqa',
-      difficulty: 'intermediate',
-    },
-    {
-      id: 'karto-6',
-      subjectId: 'kartografiya',
-      order: 6,
-      title: { uz: 'Xarita tahlili', ru: 'Анализ карт', en: 'Map Analysis' },
-      content: {
-        uz: `<h2>Xarita tahlili</h2>
-<p>Xarita tahlili — kartografik ma'lumotlardan amaliy foydalanish usullari.</p>
-
-<h3>Tahlil usullari</h3>
-<ul>
-<li>Vizual tahlil</li>
-<li>Masofani o'lchash</li>
-<li>Maydonni hisoblash</li>
-<li>Yo'nalishni aniqlash</li>
-</ul>`,
-      },
-      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '52:00',
-      hasTest: true,
-      hasPractical: true,
-      duration: '55 daqiqa',
-      difficulty: 'advanced',
-    },
-  ],
   topografiya: [
     {
       id: 'topo-1',
       subjectId: 'topografiya',
       order: 1,
-      title: { uz: 'Topografik xaritalar', ru: 'Топографические карты', en: 'Topographic Maps' },
-      content: {
-        uz: `<h2>Topografik xaritalar</h2>
-<p>Topografik xaritalar — yer yuzasining batafsil grafik tasviri bo'lib, undagi barcha muhim ob'ektlarni ko'rsatadi.</p>
-
-<h3>Asosiy xususiyatlar</h3>
-<ul>
-<li>Masshtab: 1:25 000 dan 1:200 000 gacha</li>
-<li>Gorizontallar yordamida rel'ef ko'rsatiladi</li>
-<li>Standartlashtirilgan belgilar tizimi</li>
-<li>Koordinata to'ri</li>
-</ul>
-
-<h3>Qo'llanilishi</h3>
-<p>Topografik xaritalar harbiy maqsadlar, qurilish, yer tuzish, turizm va ilmiy tadqiqotlarda keng qo'llaniladi.</p>`,
-      },
+      title: { uz: 'Kursning maqsadi va vazifalari. Yerning shakli va o\'lchamlari', ru: 'Цель и задачи курса. Форма и размеры Земли', en: 'Course Goals. Shape and Size of Earth' },
+      content: { uz: `<h2>Kursning maqsadi va vazifalari. Yerning shakli va o'lchamlari</h2><p>Topografiya — yer yuzasini batafsil o'lchash, tasvirlash va xaritaga tushirish fani. Kurs topografik o'lchash va rasmiylashtirish, plan va xarita tuzish, geodezik asboblar bilan ishlash kompetensiyalarini shakllantiradi.</p><h3>Yerning shakli</h3><p>Yer shar shaklida emas, balki geoid shaklida bo'lib, qutblardan biroz yassilangan ellipsoid (sferoid) ko'rinishiga yaqin. Krasovskiy ellipsoidida: a = 6 378 245 m, b = 6 356 863 m, 1/f = 298.3.</p><h3>Asosiy tushunchalar</h3><ul><li><strong>Geoid</strong> — o'rtacha dengiz sathiga mos keluvchi tenglik yuzasi</li><li><strong>Ellipsoid</strong> — hisob-kitob uchun qabul qilingan matematik model</li><li><strong>Plan</strong> — kichik hududni gorizontal tekislikka proyeksiyalash</li><li><strong>Xarita</strong> — katta hududni masshtabda tasvirlash</li></ul>` },
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '44:20',
+      videoDuration: '45:00',
       hasTest: true,
       hasPractical: true,
-      duration: '50 daqiqa',
+      duration: '45 daqiqa',
       difficulty: 'beginner',
     },
     {
       id: 'topo-2',
       subjectId: 'topografiya',
       order: 2,
-      title: { uz: 'Topografik belgilar', ru: 'Топографические знаки', en: 'Topographic Signs' },
-      content: {
-        uz: `<h2>Topografik belgilar</h2>
-<p>Topografik belgilar — topografik xaritalarda ob'ektlarni ifodalash uchun qo'llaniladigan standartlashtirilgan grafik belgilar.</p>
-
-<h3>Belgilar kategoriyalari</h3>
-<ul>
-<li>Aholi punktlari (shahar, qishloq, ovul)</li>
-<li>Yo'llar (avtomobil, temir yo'l, piyoda yo'l)</li>
-<li>Gidrologiya (daryo, ko'l, kanal, quduq)</li>
-<li>O'simlik qoplami (o'rmon, o'tloq, bog')</li>
-<li>Tuproq va grunt (qum, botqoq, tosh)</li>
-<li>Inshootlar (ko'prik, to'g'on, ombor)</li>
-</ul>`,
-      },
+      title: { uz: 'Plan, xarita va profillar. Masshtablar. Nomenklatura', ru: 'Планы, карты и профили. Масштабы. Номенклатура', en: 'Plans, Maps and Profiles. Scales. Nomenclature' },
+      content: { uz: `<h2>Plan, xarita va profillar. Masshtablar. Nomenklatura</h2><p>Plan va xaritaning asosiy farqi: plan kichik maydon uchun, xarita esa katta maydon uchun tuziladi va proyeksiyadan foydalanadi.</p><h3>Masshtab turlari</h3><ul><li><strong>Sonli masshtab</strong>: 1:10 000 → 1 sm = 100 m</li><li><strong>Chiziqli masshtab</strong>: grafik ko'rinishda o'lchash uchun</li><li><strong>Og'zaki masshtab</strong>: "1 santimetr — 1 kilometr"</li></ul><h3>Grafik aniqlik</h3><p>Xaritada minimal o'lchov — 0.1–0.2 mm. 1:10 000 xaritada bu joydagi 1–2 metrga mos keladi.</p><h3>Nomenklatura</h3><p>Topografik xaritalar millionlik (1:1 000 000) varaqlarga asoslanib bo'linadi. 1:100 000 — 144 varaq, 1:50 000 — 4 bo'lim, 1:25 000 — yana 4, 1:10 000 — yana 4 qismga bo'linadi.</p>` },
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '39:15',
+      videoDuration: '50:00',
       hasTest: true,
-      hasPractical: false,
-      duration: '45 daqiqa',
+      hasPractical: true,
+      duration: '50 daqiqa',
       difficulty: 'beginner',
     },
     {
       id: 'topo-3',
       subjectId: 'topografiya',
       order: 3,
-      title: { uz: "Rel'ef va balandliklar", ru: 'Рельеф и высоты', en: 'Relief and Elevations' },
-      content: {
-        uz: `<h2>Rel'ef va balandliklar</h2>
-<p>Rel'ef — yer yuzasining notekis shakllari majmuasi. Topografiyada rel'ef gorizontallar yordamida tasvirlanadi.</p>
-
-<h3>Gorizontallar</h3>
-<p>Gorizontal — bir xil balandlikdagi nuqtalarni birlashtiruvchi egri chiziq.</p>
-<ul>
-<li>Asosiy gorizontallar</li>
-<li>Yordamchi gorizontallar</li>
-<li>Qalinlashtirilgan gorizontallar (har 5-chi)</li>
-</ul>
-
-<h3>Rel'ef shakllari</h3>
-<ul>
-<li>Tog' (tepa) — barcha tomonga qiyalik bor</li>
-<li>Qozon (chuqurlik) — ichkariga qarab qiyalik</li>
-<li>Tizma (tog' tizmasi)</li>
-<li>Vodiy (daryo vodiysi)</li>
-<li>Egat (suv ajratuvchi chiziq)</li>
-</ul>`,
-      },
+      title: { uz: 'Koordinatalar va balandliklar sistemalari', ru: 'Системы координат и высот', en: 'Coordinate and Height Systems' },
+      content: { uz: `<h2>Topografiyada koordinatalar va balandliklar sistemalari</h2><p>Ob'ektning joylashuvini aniq belgilash uchun koordinata tizimlari qo'llaniladi.</p><h3>Geografik koordinatalar</h3><ul><li><strong>Kenglik (φ)</strong>: ekvatordan 0°–90° shimol/janub</li><li><strong>Uzunlik (λ)</strong>: Grinvichdan 0°–180° sharq/g'arb</li><li>Format: daraja–daqiqa–soniya (° ′ ″) yoki o'nli daraja</li></ul><h3>To'g'ri burchakli koordinatalar</h3><p>Gauss-Krüger proyeksiyasi asosida. O'zbekiston uchun 21–24 zonalar. X — shimol yo'nalishi, Y — sharq yo'nalishi + 500 km siljish.</p><h3>Balandlik sistemalari</h3><ul><li><strong>Mutloq balandlik (H)</strong>: dengiz sathidan yuqori balandlik</li><li><strong>Nisbiy balandlik (h)</strong>: ikki nuqta orasidagi balandlik farqi</li><li><strong>Baltika sistemasi</strong>: O'zbekistonda qo'llaniladigan nol sath</li></ul>` },
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '51:40',
+      videoDuration: '55:00',
       hasTest: true,
       hasPractical: true,
       duration: '55 daqiqa',
-      difficulty: 'intermediate',
+      difficulty: 'beginner',
     },
     {
       id: 'topo-4',
       subjectId: 'topografiya',
       order: 4,
-      title: { uz: 'Topografik suratga olish', ru: 'Топографическая съёмка', en: 'Topographic Survey' },
-      content: {
-        uz: `<h2>Topografik suratga olish</h2>
-<p>Topografik suratga olish — yer yuzasidagi ob'ektlarni o'lchash va xaritaga tushirish jarayoni.</p>
-
-<h3>Suratga olish usullari</h3>
-<ul>
-<li>Aerosuratga olish</li>
-<li>Kosmik suratga olish</li>
-<li>Yerdan suratga olish (nivelirovka)</li>
-<li>GPS/GNSS o'lchash</li>
-</ul>`,
-      },
+      title: { uz: 'Oriyentirlash burchaklari (azimut, direksion burchak, rumb)', ru: 'Углы ориентирования (азимут, дирекционный угол, румб)', en: 'Orientation Angles (Azimuth, Direction Angle, Rhumb)' },
+      content: { uz: `<h2>Oriyentirlash burchaklari</h2><p>Oriyentirlash — biror yo'nalishni meridian yoki boshqa mos chiziqqa nisbatan aniqlash. Topografiyada uch turdagi burchak ishlatiladi.</p><h3>Haqiqiy azimut (A)</h3><p>Haqiqiy (geografik) meridian shimoliy yo'nalishidan soat strelkasi bo'yicha o'lchangan burchak. Diapazoni: 0°–360°.</p><h3>Magnit azimut (Am)</h3><p>Magnit meridian shimolidan o'lchangan azimut. Magnit og'ishini hisobga olish zarur: A = Am ± δ.</p><h3>Direksion burchak (α)</h3><p>Koordinata tizimining shimol yo'nalishidan soat strelkasi bo'yicha o'lchangan burchak. Topografik xaritalarda asosiy qo'llaniladigan burchak.</p><h3>Rumb (r)</h3><p>Meridiandin o'tkir burchak: shimol-sharq (ŠSh), janub-sharq (JSh) va b. Diapazoni: 0°–90°.</p><h3>O'zaro munosabat</h3><ul><li>α = A ± (γ − δ), bu yerda γ — meridian yaqinlashuvi</li><li>Rumbdan direksion burchakka o'tish: NE: α=r; SE: α=180°−r; SW: α=180°+r; NW: α=360°−r</li></ul>` },
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '46:50',
+      videoDuration: '48:00',
       hasTest: true,
       hasPractical: true,
       duration: '50 daqiqa',
@@ -339,239 +107,375 @@ export const TOPICS = {
       id: 'topo-5',
       subjectId: 'topografiya',
       order: 5,
-      title: { uz: 'Nivelirovka', ru: 'Нивелирование', en: 'Leveling' },
-      content: {
-        uz: `<h2>Nivelirovka</h2>
-<p>Nivelirovka — nuqtalarning nisbiy balandligi va absolyut balandligini aniqlash usuli.</p>
-
-<h3>Nivelirovka turlari</h3>
-<ul>
-<li>Geometrik nivelirovka</li>
-<li>Trigonometrik nivelirovka</li>
-<li>Barometrik nivelirovka</li>
-<li>Gidrostatik nivelirovka</li>
-</ul>`,
-      },
+      title: { uz: 'Yer relyefi va gorizontallar', ru: 'Рельеф местности и горизонтали', en: 'Terrain Relief and Contour Lines' },
+      content: { uz: `<h2>Yer relyefi va uni xaritalarda tasvirlash</h2><p>Rel'ef — yer yuzasining notekis shakllari majmuasi. Topografiyada rel'ef gorizontallar yordamida tasvirlanadi.</p><h3>Gorizontal nima?</h3><p>Gorizontal — bir xil absolyut balandlikdagi nuqtalarni birlashtiruvchi yopiq egri chiziq. Kesim balandligi (h) — qo'shni gorizontallar orasidagi balandlik farqi.</p><h3>Gorizontal turlari</h3><ul><li><strong>Asosiy gorizontallar</strong>: to'liq chiziq, asosiy kesim balandligida</li><li><strong>Qalinlashtirilgan</strong>: har 5-chi, balandlik raqami yoziladi</li><li><strong>Yordamchi</strong>: asosiy kesimning yarmida, punktir chiziq</li></ul><h3>Rel'ef shakllari</h3><ul><li><strong>Tog' (tepa)</strong>: markazdan tashqariga qiyalik — gorizontallar qalin</li><li><strong>Qozon (chuqurlik)</strong>: ichkariga qarab — bergshtrix ichga</li><li><strong>Tizma</strong>: cho'zilgan balandlik</li><li><strong>Vodiy</strong>: ikki tizma orasidagi past joy</li><li><strong>Egat</strong>: suv yig'iladigan chiziq</li></ul><h3>Qiyalik hisoblash</h3><p>Qiyalik: i = h/d, bu yerda h — balandlik farqi, d — gorizontal masofa (joydagi). Masalan: h=5m, d=100m → i=0.05 yoki 5‰.</p>` },
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '43:25',
+      videoDuration: '52:00',
       hasTest: true,
-      hasPractical: false,
-      duration: '45 daqiqa',
-      difficulty: 'advanced',
+      hasPractical: true,
+      duration: '55 daqiqa',
+      difficulty: 'intermediate',
     },
     {
       id: 'topo-6',
       subjectId: 'topografiya',
       order: 6,
-      title: { uz: 'Topografiyada hisob-kitob', ru: 'Расчёты в топографии', en: 'Calculations in Topography' },
-      content: {
-        uz: `<h2>Topografiyada hisob-kitob</h2>
-<p>Topografik hisob-kitoblar masofa, maydon, balandlik farqlari va boshqalarni aniqlashda qo'llaniladi.</p>
-
-<h3>Asosiy hisob-kitoblar</h3>
-<ul>
-<li>Masofa hisoblash</li>
-<li>Maydon hisoblash (planimetr, raqamli usul)</li>
-<li>Qiyalik burchagini aniqlash</li>
-<li>Koordinatalarni hisoblash</li>
-</ul>`,
-      },
+      title: { uz: 'Burchaklarni o\'lchash — Teodolit', ru: 'Измерение углов — Теодолит', en: 'Angle Measurement — Theodolite' },
+      content: { uz: `<h2>Burchaklarni o'lchash — Teodolit</h2><p>Teodolit — gorizontal va vertikal burchaklarni yuqori aniqlikda o'lchovchi geodezik asbob. Topografiyada asosiy o'lchov asbobi hisoblanadi.</p><h3>Teodolit tuzilishi</h3><ul><li><strong>Gorizontal doira (limb)</strong>: 0°–360° bo'lingan</li><li><strong>Vertikal doira</strong>: balandlik burchaklarini o'lchaydi</li><li><strong>Alhidada</strong>: aylanadigan qism, o'qish qurilmasi</li><li><strong>Nivelirlash vidalari</strong>: asbobni gorizontallashtirish</li><li><strong>Tripod (shtativ)</strong>: ustun</li></ul><h3>Burchak o'lchash usullari</h3><ul><li><strong>Oddiy usul</strong>: bir marta o'lchash, KL va KO'</li><li><strong>Takrorlash usuli</strong>: bir necha marta yig'ish, o'rtacha olish</li><li><strong>Raundlar usuli</strong>: bir necha yo'nalish mavjud bo'lganda</li></ul><h3>Xatolar</h3><p>Asbob xatolari: kollimatsiya xatosi, teodolit o'qi og'ishi. Ular KL va KO' o'rtachasini olish yo'li bilan bartaraf etiladi.</p>` },
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '58:10',
+      videoDuration: '58:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '60 daqiqa',
+      difficulty: 'intermediate',
+    },
+    {
+      id: 'topo-7',
+      subjectId: 'topografiya',
+      order: 7,
+      title: { uz: 'Teodolit syomkasiga kirish', ru: 'Введение в теодолитную съёмку', en: 'Introduction to Theodolite Survey' },
+      content: { uz: `<h2>Teodolit syomkasiga kirish</h2><p>Teodolit syomkasi — teodolit va lenta (yoki elektron tachimetr) yordamida poligon va situatsiyani o'lchash. Natijada plan tuziladi.</p><h3>Syomka turlari</h3><ul><li><strong>Poligonometriya</strong>: bog'liq poligon — burchak va masofa o'lchash</li><li><strong>Tachimetriya</strong>: tachimetr yordamida tez syomka</li><li><strong>Aerosuratga olish</strong>: samolyot/drondan fotosurat</li></ul><h3>Teodolit yurishi</h3><ol><li>Bosh nuqtalar aniqlash (koordinata ma'lum)</li><li>Har bir stantsiyada burchak va masofa o'lchash</li><li>Koordinatalarni hisoblash (poligon yurish)</li><li>Xatoni baholash va taqsimlash</li><li>Planmetr tuzish</li></ol><h3>Qabul qilinadigan xatolar</h3><ul><li>Burchak yopilish xatosi: fβ ≤ 1′√n</li><li>Koordinata yopilish xatosi: fs ≤ 1/2000</li></ul>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '55:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '55 daqiqa',
+      difficulty: 'advanced',
+    },
+    {
+      id: 'topo-8',
+      subjectId: 'topografiya',
+      order: 8,
+      title: { uz: 'Nivelirlash', ru: 'Нивелирование', en: 'Leveling' },
+      content: { uz: `<h2>Nivelirlash</h2><p>Nivelirlash — nuqtalarning balandligini aniqlash jarayoni. Geodezik, qurilish, gidrologiya va boshqa sohalarda keng qo'llaniladi.</p><h3>Nivelirlash turlari</h3><ul><li><strong>Geometrik nivelirlash</strong>: gorizontal nurtadan o'qish olish — eng aniq usul</li><li><strong>Trigonometrik</strong>: teodolit yordamida burchak o'lchash orqali</li><li><strong>Barometrik</strong>: havo bosimi farqiga asosan</li><li><strong>Gidrostatik</strong>: suv sathi teng bo'ladi tamoyiliga asosan</li></ul><h3>Geometrik nivelirlash</h3><p>Nivelir — gorizontal nurni ta'minlovchi asbob. Reyka — balandlikni o'lchaydigan shkala.</p><ul><li>Oldinga o'qish: a (orqa nuqtaga)</li><li>Oldinga o'qish: b (oldingi nuqtaga)</li><li>Balandlik farqi: h = a − b</li></ul><h3>Nivelirlash tartibi</h3><ol><li>Stantsiyani o'rnatish va gorizontallashtirish</li><li>Orqa reykadan o'qish (a)</li><li>Oldingi reykadan o'qish (b)</li><li>h = a − b hisoblash</li><li>Balandlikni hisoblash: H₂ = H₁ + h</li></ol>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '60:00',
       hasTest: true,
       hasPractical: true,
       duration: '60 daqiqa',
       difficulty: 'advanced',
     },
   ],
+
+  kartografiya: [
+    {
+      id: 'karto-1',
+      subjectId: 'kartografiya',
+      order: 1,
+      title: { uz: 'Xarita va kartografik asarlar (atlaslar)', ru: 'Карта и картографические произведения (атласы)', en: 'Maps and Cartographic Works (Atlases)' },
+      content: { uz: `<h2>Xarita va boshqa kartografik asarlar</h2><p>Xarita — yer yuzasini yoki uning qismini masshtabda tekislikka proyeksiyalangan tasviri. Kartografik asarlar orasida xaritalar, atlaslar, globuslar va kartogrammalar mavjud.</p><h3>Xaritaning asosiy xususiyatlari</h3><ul><li><strong>Masshtab</strong>: haqiqiy masofaning xaritadagi nisbati</li><li><strong>Proyeksiya</strong>: yer sharini tekislikka o'tkazish usuli</li><li><strong>Generalizatsiya</strong>: axborotni tanlash va soddalashtirish</li><li><strong>Legenda</strong>: belgilar izohi</li></ul><h3>Atlas</h3><p>Atlas — tizimli tartibda tuzilgan xaritalar to'plami. Maktab, ilmiy, milliy, dunyo atlaslaridan iborat. Loyihalash konsepsiyasi, mazmun va dizayn birligi atlasni oddiy xaritalar to'plamidan ajratib turadi.</p><h3>Xarita turlari (maqsad bo'yicha)</h3><ul><li>Umumgeografik: hududni har tomonlama ko'rsatadi</li><li>Tematik: biror hodisani batafsil ko'rsatadi (iqlim, aholiy va b.)</li><li>Maxsus: navigatsiya, harbiy va boshqalar</li></ul>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '45:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '45 daqiqa',
+      difficulty: 'beginner',
+    },
+    {
+      id: 'karto-2',
+      subjectId: 'kartografiya',
+      order: 2,
+      title: { uz: 'Xaritaning matematik asosi (ellipsoid, masshtab, proyeksiyalar)', ru: 'Математическая основа карты (эллипсоид, масштаб, проекции)', en: 'Mathematical Basis of Maps (Ellipsoid, Scale, Projections)' },
+      content: { uz: `<h2>Xaritaning matematik asosi</h2><p>Xarita tuzish uchun yer yuzasini matematik jihatdan tekislikka o'tkazish zarur. Buning uchun ellipsoid, masshtab va proyeksiya tushunchalari muhim.</p><h3>Ellipsoid</h3><p>Yer ellipsoid shaklida qabul qilinadi. O'zbekistonda Krasovskiy ellipsoidi (1940): a=6 378 245 m, b=6 356 863 m.</p><h3>Masshtab buzilishlari</h3><p>Proyeksiya jarayonida uzunlik, burchak va maydon buzilishi yuzaga keladi. Buzilish turiga qarab proyeksiyalar: <strong>konform</strong> (burchakni saqlaydi), <strong>ekvivalent</strong> (maydonni saqlaydi), <strong>ekvidistant</strong> (masofani saqlaydi).</p><h3>Proyeksiyalar</h3><ul><li><strong>Silindrli</strong>: Merkator — navigatsiya uchun</li><li><strong>Konusli</strong>: Lambert — o'rta kengliklardagi mamlakatlar</li><li><strong>Azimutli</strong>: qutb hududlari</li><li><strong>Gauss-Krüger</strong>: topografik xaritalar uchun</li></ul>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '50:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '50 daqiqa',
+      difficulty: 'beginner',
+    },
+    {
+      id: 'karto-3',
+      subjectId: 'kartografiya',
+      order: 3,
+      title: { uz: 'Proyeksiyalar tanlash', ru: 'Выбор проекций', en: 'Choosing Projections' },
+      content: { uz: `<h2>Proyeksiyalar tanlash</h2><p>Proyeksiyani tanlash — xarita tuzishdagi eng muhim qarorlardan biri. Noto'g'ri proyeksiya tanlash katta xatoliklarga olib keladi.</p><h3>Tanlash mezonlari</h3><ul><li><strong>Maqsad</strong>: navigatsiya → konform; maydon hisoblash → ekvivalent</li><li><strong>Hudud o'lchami va shakli</strong>: katta hudud → maxsus proyeksiya</li><li><strong>Joylashuv</strong>: qutbiy → azimutli; ekvatorial → silindrli; o'rta kengliklar → konusli</li></ul><h3>Mashhur proyeksiyalar</h3><ul><li><strong>Merkator (1569)</strong>: navigatsiya uchun, rumb chiziqlarini to'g'ri chiziq ko'rsatadi</li><li><strong>Lambert konus</strong>: AQSh, Kanada va Yevropa xaritalari</li><li><strong>Robinson</strong>: dunyo xaritasi — buzilishlar muvozanati</li><li><strong>Mollveide</strong>: maydon tengligini saqlaydi</li></ul><h3>Web Mercator</h3><p>Google Maps, OpenStreetMap va boshqa veb-xaritalarda EPSG:3857 — Sferik Merkator proyeksiyasi ishlatiladi.</p>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '48:00',
+      hasTest: true,
+      hasPractical: false,
+      duration: '48 daqiqa',
+      difficulty: 'beginner',
+    },
+    {
+      id: 'karto-4',
+      subjectId: 'kartografiya',
+      order: 4,
+      title: { uz: 'Kartografik tasvirlash usullari', ru: 'Методы картографического изображения', en: 'Cartographic Representation Methods' },
+      content: { uz: `<h2>Kartografik tasvirlash usullari</h2><p>Kartografik tasvirlash usullari — tematik xaritalarda hodisalarni vizual ifodalash yo'llari. To'g'ri usul tanlash xaritaning o'qiluvchanligini ta'minlaydi.</p><h3>Asosiy usullar</h3><ul><li><strong>Areallar usuli</strong>: hodisaning tarqalish zonasini ko'rsatadi (rangli fon)</li><li><strong>Kartogramma</strong>: ma'muriy birliklar bo'yicha intensivlikni rang bilan ifodalaydi</li><li><strong>Kartodiagramma</strong>: har bir birlik uchun diagramma chiziladi</li><li><strong>Nuqtali usul</strong>: har bir nuqta ma'lum miqdorni anglatadi (aholi, mol boshi)</li><li><strong>Izochiziqlar</strong>: bir xil qiymatli nuqtalarni birlashtiradi (izoterma, izobar)</li><li><strong>Harakatlanish strelkalari</strong>: oqim, migratsiya yo'nalishlarini ko'rsatadi</li></ul><h3>Belgilar</h3><ul><li>Geometrik (nuqta, doira, kvadrat) — aniq joylashuvni ko'rsatadi</li><li>Piktogramma — ob'ektga mos rasm (fabrika, aeroport)</li><li>Harf belgilar — qisqartirilgan matn</li></ul>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '52:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '50 daqiqa',
+      difficulty: 'intermediate',
+    },
+    {
+      id: 'karto-5',
+      subjectId: 'kartografiya',
+      order: 5,
+      title: { uz: 'Relyefni tasvirlash usullari (kartografik yondashuv)', ru: 'Методы изображения рельефа (картографический подход)', en: 'Methods of Relief Representation (Cartographic Approach)' },
+      content: { uz: `<h2>Relyefni tasvirlash usullari</h2><p>Rel'efni xaritada to'g'ri ifodalash — kartografiyaning eng muhim vazifalaridan biri. Turli usullar mavjud, ularning har biri o'z afzallik va kamchiliklariga ega.</p><h3>Gorizontallar usuli</h3><p>Topografik xaritalardagi asosiy usul. Balandlikni aniq ko'rsatadi, qiyalik va shakl o'qiladi. Kamchiligi: murakkab rel'ef qiyinroq o'qiladi.</p><h3>Shtrix usuli</h3><p>Gerber-Leman shtrihlari: qiylik qanchalik katta bo'lsa, shtrixlar qanchalik qalin. Qadimiy usul, hozir kamdan-kam ishlatiladi.</p><h3>Rang-balandlik shkala</h3><p>Balandlik zonalari turli ranglar bilan ko'rsatiladi: yashil (past), sariq, jigarrang (baland), oq (qor). Umumgeografik xaritalarda keng qo'llaniladi.</p><h3>Analitik relyef</h3><p>Kompyuter yordamida DEM (raqamli balandlik modeli) dan: hillshading (yoritish), slope (qiyalik), aspect (ekspozitsiya) xaritalari yaratiladi.</p><h3>Profil</h3><p>Tanlangan chiziq bo'ylab masofa–balandlik grafigi. Yo'l qurish, quvur o'tkazish uchun muhim.</p>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '50:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '50 daqiqa',
+      difficulty: 'intermediate',
+    },
+    {
+      id: 'karto-6',
+      subjectId: 'kartografiya',
+      order: 6,
+      title: { uz: 'Kartografik generalizatsiya', ru: 'Картографическая генерализация', en: 'Cartographic Generalization' },
+      content: { uz: `<h2>Kartografik generalizatsiya</h2><p>Generalizatsiya — xaritadagi axborotni maqsad va masshtabga mos ravishda tanlash, soddalashtirish va umumlashtirish jarayoni. "Hamma narsani ko'rsatib bo'lmaydi" — asosiy tamoyil.</p><h3>Generalizatsiya turlari</h3><ul><li><strong>Tanlash (seleksiya)</strong>: muhim ob'ektlarni qoldirish, ahamiyatsizlarini chiqarib tashlash</li><li><strong>Umumlashtirish</strong>: konturlarni soddalashtirish, kichik maydonlarni birlashtirish</li><li><strong>Siljitish</strong>: masshtab sababli bir-biriga yaqin ob'ektlarni ajratish uchun</li><li><strong>Yiriklashtirish</strong>: kichik ob'ektlarni kattalatirish (masshtabdan kichik bo'lsa ham)</li></ul><h3>Generalizatsiyaga ta'sir etuvchi omillar</h3><ul><li>Masshtab: kichik masshtab — ko'proq generalizatsiya</li><li>Maqsad: turizm xaritasi va harbiy xarita farqlanadi</li><li>Hudud: shahar batafsil, cho'l soddalashtirilib ko'rsatiladi</li></ul><h3>Generalizatsiya mezonlari</h3><p>Minimal o'lcham: tekislikda 0.5 mm², chiziqda 0.4 mm kenglik. Bundan kichik ob'ektlar olib tashlanadi yoki yiriklantiriladi.</p>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '47:00',
+      hasTest: true,
+      hasPractical: false,
+      duration: '45 daqiqa',
+      difficulty: 'intermediate',
+    },
+    {
+      id: 'karto-7',
+      subjectId: 'kartografiya',
+      order: 7,
+      title: { uz: 'Geografik xarita va atlaslar: tiplari, loyihalash va tuzish', ru: 'Географические карты и атласы: типы, проектирование и составление', en: 'Geographic Maps and Atlases: Types, Design and Compilation' },
+      content: { uz: `<h2>Geografik xarita va atlaslar tiplari, loyihalash va tuzish</h2><p>Zamonaviy xarita va atlaslar murakkab texnologik jarayon asosida yaratiladi. Loyihalash bosqichi — eng muhim qarorlar qabul qilinadigan bosqich.</p><h3>Atlaslar tipologiyasi</h3><ul><li><strong>Maktab atlasi</strong>: o'quv maqsadi, sodda tasvirlash</li><li><strong>Milliy atlas</strong>: mamlakatni har tomonlama ko'rsatadi</li><li><strong>Ilmiy-ma'lumotnoma</strong>: ilmiy tadqiqot uchun</li><li><strong>Sayohat atlasi</strong>: navigator, turist</li></ul><h3>Loyihalash bosqichlari</h3><ol><li>Konsepsiya va maqsad belgilash</li><li>Mazmun tuzilmasi (bo'limlar, xaritalar ro'yxati)</li><li>Proyeksiya va masshtabni tanlash</li><li>Dizayn standartini ishlab chiqish</li><li>Ma'lumot to'plash va qayta ishlash</li><li>Xaritalarni tuzish va tahrirlash</li><li>Chop etish yoki raqamli nashr</li></ol><h3>Raqamli kartografiya</h3><p>GIS (QGIS, ArcGIS), Adobe Illustrator, Mapbox kabi vositalar zamonaviy atlas tuzishda ishlatiladi.</p>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '55:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '55 daqiqa',
+      difficulty: 'advanced',
+    },
+    {
+      id: 'karto-8',
+      subjectId: 'kartografiya',
+      order: 8,
+      title: { uz: 'Xaritalardan foydalanish', ru: 'Использование карт', en: 'Using Maps' },
+      content: { uz: `<h2>Xaritalardan foydalanish</h2><p>Xaritadan foydalanish — topografik va tematik xaritalardan amaliy ma'lumot olish ko'nikmalari majmuasi.</p><h3>Masofani o'lchash</h3><ul><li>Chizg'ich bilan to'g'ri chiziq masofa: L = l × M (l — xaritadagi, M — masshtab maxraj)</li><li>Kurvimetr bilan egri chiziqli masofa</li><li>Chiziqli masshtabdan o'qish</li></ul><h3>Maydon hisoblash</h3><ul><li>Analitik usul: koordinatalar matritsasi</li><li>Grafik usul: kartada kvadratlash</li><li>Planimetr bilan o'lchash</li></ul><h3>Azimut va yo'nalish aniqlash</li></h3><ul><li>Transportir yordamida burchak o'lchash</li><li>Magnit azimutni haqiqiyga aylantirish: A = Am + δ</li></ul><h3>Profil tuzish</h3><p>Gorizontallarni kesuvchi chiziq bo'ylab balandlik grafigi: x — masofa, y — balandlik.</p><h3>Koordinata aniqlash</h3><p>To'g'ri burchakli koordinatalar: km to'ri bo'yicha X va Y; geografik: ramkadan interpolatsiya.</p>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '50:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '50 daqiqa',
+      difficulty: 'advanced',
+    },
+    {
+      id: 'karto-9',
+      subjectId: 'kartografiya',
+      order: 9,
+      title: { uz: 'Xarita va atlaslarni tahlil qilish va baholash', ru: 'Анализ и оценка карт и атласов', en: 'Analysis and Evaluation of Maps and Atlases' },
+      content: { uz: `<h2>Xarita va atlaslarni tahlil qilish va baholash</h2><p>Xarita sifatini baholash — uni ishlatishdan oldin o'tkazilishi shart bo'lgan tahlil. Har qanday xarita o'z cheklovi va xatolariga ega.</p><h3>Baholash mezonlari</h3><ul><li><strong>Ishonchliligi</strong>: ma'lumot manbayi, yangilanish sanasi</li><li><strong>Aniqligi</strong>: masshtab aniqligi, proyeksiya buzilishlari</li><li><strong>To'liqligi</strong>: hududning qanchalik batafsil ko'rsatilgani</li><li><strong>Hozirgiligi</strong>: oxirgi yangilanish</li><li><strong>Legenda va metadata sifati</strong></li><li><strong>Dizayn va o'qiluvchanlik</strong></li></ul><h3>Kartometrik tahlil</h3><p>Masofalar, maydonlar, burchaklar va koordinatalarni aniqlik bilan tekshirish. Namuna nuqtalarni yerda GPS bilan tekshirish.</p><h3>Vizual-grafik tahlil</h3><p>Ranglar, shtrixlar, belgilar izchilligi; matn joylashuvi; umumiy estetik muvozanat.</p><h3>Raqamli xarita baholash</h3><p>Metadata standartlari (ISO 19115), CRS to'g'riligi, topologik izchillik, atribut aniqligi.</p>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '52:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '50 daqiqa',
+      difficulty: 'advanced',
+    },
+  ],
+
   gis: [
     {
       id: 'gis-1',
       subjectId: 'gis',
       order: 1,
-      title: { uz: 'GIS tushunchasi', ru: 'Понятие ГИС', en: 'GIS Concepts' },
-      content: {
-        uz: `<h2>GIS tushunchasi</h2>
-<p>Geografik Axborot Tizimi (GIS) — fazoviy ma'lumotlarni to'plash, saqlash, qayta ishlash, tahlil qilish va vizuallashtirish uchun mo'ljallangan kompyuter tizimi.</p>
-
-<h3>GIS ning asosiy tarkibiy qismlari</h3>
-<ul>
-<li><strong>Apparat ta'minot</strong> — kompyuter, GPS qurilmalar, printerlar</li>
-<li><strong>Dastur ta'minot</strong> — ArcGIS, QGIS, MapInfo</li>
-<li><strong>Ma'lumotlar</strong> — vektor, raster, atribut ma'lumotlari</li>
-<li><strong>Metodlar</strong> — tahlil va vizualizatsiya usullari</li>
-<li><strong>Foydalanuvchilar</strong> — mutaxassislar va boshqalar</li>
-</ul>
-
-<h3>GIS ning qo'llanilishi</h3>
-<p>GIS quyidagi sohalarda keng qo'llaniladi:</p>
-<ul>
-<li>Shahar rejalashtirish</li>
-<li>Atrof-muhit monitoringi</li>
-<li>Qishloq xo'jaligi</li>
-<li>Transport va logistika</li>
-<li>Favqulodda vaziyatlar boshqaruvi</li>
-</ul>`,
-      },
+      title: { uz: 'Geografik axborot tizimlari va asoslari', ru: 'Основы географических информационных систем', en: 'Fundamentals of Geographic Information Systems' },
+      content: { uz: `<h2>Geografik axborot tizimlari (GAT) asoslari</h2><p>GAT (GIS) — fazoviy ma'lumotlarni to'plash, saqlash, qayta ishlash, tahlil qilish va vizuallashtirish uchun mo'ljallangan kompyuter tizimi. Zamonaviy dunyo muammolarining aksariyatiga geografik o'lcham tegishli.</p><h3>GATning 5 komponenti</h3><ul><li><strong>Apparat ta'minot</strong>: kompyuter, server, GPS qabul qilgich, skaner, plotter</li><li><strong>Dastur ta'minot</strong>: ArcGIS, QGIS, MapInfo, Google Earth Engine</li><li><strong>Ma'lumotlar</strong>: vektor, raster, atribut, metadata</li><li><strong>Metodlar</strong>: fazoviy tahlil algoritmlari va modellashtirish</li><li><strong>Foydalanuvchilar</strong>: operatorlar, tahlilchilar, qaror qabul qiluvchilar</li></ul><h3>GATning qo'llanilish sohalari</h3><ul><li>Shahar va hududiy rejalashtirish</li><li>Atrof-muhit monitoringi</li><li>Qishloq xo'jaligi va yer boshqaruvi</li><li>Transport va logistika</li><li>Favqulodda vaziyatlar va falokatlarni boshqarish</li><li>Sog'liqni saqlash va epidemiologiya</li></ul>` },
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '50:30',
-      hasTest: true,
-      hasPractical: false,
-      duration: '55 daqiqa',
-      difficulty: 'beginner',
-    },
-    {
-      id: 'gis-2',
-      subjectId: 'gis',
-      order: 2,
-      title: { uz: 'ArcGIS bilan ishlash', ru: 'Работа с ArcGIS', en: 'Working with ArcGIS' },
-      content: {
-        uz: `<h2>ArcGIS bilan ishlash</h2>
-<p>ArcGIS — Esri kompaniyasi tomonidan ishlab chiqilgan professional GIS dasturiy majmuasi.</p>
-
-<h3>ArcGIS Desktop komponentlari</h3>
-<ul>
-<li><strong>ArcMap</strong> — asosiy xarita muharriri</li>
-<li><strong>ArcCatalog</strong> — ma'lumotlar boshqaruvi</li>
-<li><strong>ArcToolbox</strong> — geoijro vositalari</li>
-<li><strong>ArcScene</strong> — 3D vizualizatsiya</li>
-</ul>
-
-<h3>Asosiy operatsiyalar</h3>
-<ol>
-<li>Ma'lumot qatlamlarini yuklash</li>
-<li>Atribut jadvallar bilan ishlash</li>
-<li>Fazoviy so'rovlar</li>
-<li>Xarita chiqarish</li>
-</ol>`,
-      },
-      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '68:45',
-      hasTest: true,
-      hasPractical: true,
-      duration: '75 daqiqa',
-      difficulty: 'intermediate',
-    },
-    {
-      id: 'gis-3',
-      subjectId: 'gis',
-      order: 3,
-      title: { uz: 'QGIS bilan ishlash', ru: 'Работа с QGIS', en: 'Working with QGIS' },
-      content: {
-        uz: `<h2>QGIS bilan ishlash</h2>
-<p>QGIS (Quantum GIS) — bepul, ochiq kodli GIS dasturi. GNU General Public License ostida tarqatiladi.</p>
-
-<h3>QGIS ning afzalliklari</h3>
-<ul>
-<li>Bepul va ochiq manba</li>
-<li>Ko'p platformali (Windows, macOS, Linux)</li>
-<li>Keng plagina tizimi</li>
-<li>Python skriptlash imkoniyati</li>
-</ul>
-
-<h3>Asosiy funksiyalar</h3>
-<ul>
-<li>Vektor va raster ma'lumotlarni yuklash</li>
-<li>Geoprotsessing vositalari</li>
-<li>Chop etish composer</li>
-<li>PostGIS integratsiyasi</li>
-</ul>`,
-      },
-      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '62:20',
-      hasTest: true,
-      hasPractical: true,
-      duration: '70 daqiqa',
-      difficulty: 'intermediate',
-    },
-    {
-      id: 'gis-4',
-      subjectId: 'gis',
-      order: 4,
-      title: { uz: "Vektor va raster ma'lumotlar", ru: 'Векторные и растровые данные', en: 'Vector and Raster Data' },
-      content: {
-        uz: `<h2>Vektor va raster ma'lumotlar</h2>
-<p>GIS da ma'lumotlar ikki asosiy shaklda saqlanadi: vektor va raster.</p>
-
-<h3>Vektor ma'lumotlar</h3>
-<ul>
-<li>Nuqtalar (shaharchalar, quduqlar)</li>
-<li>Chiziqlar (yo'llar, daryolar)</li>
-<li>Ko'pburchaklar (davlatlar, ko'llar)</li>
-</ul>
-
-<h3>Raster ma'lumotlar</h3>
-<ul>
-<li>Piksel asosida</li>
-<li>Sun'iy yo'ldosh tasvirlari</li>
-<li>DEM (raqamli balandlik modeli)</li>
-</ul>`,
-      },
-      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '47:55',
+      videoDuration: '50:00',
       hasTest: true,
       hasPractical: false,
       duration: '50 daqiqa',
       difficulty: 'beginner',
     },
     {
+      id: 'gis-2',
+      subjectId: 'gis',
+      order: 2,
+      title: { uz: 'GATni qo\'llanilish sohalari (geomatika, geokodlash)', ru: 'Области применения ГИС (геоматика, геокодирование)', en: 'GIS Application Areas (Geomatics, Geocoding)' },
+      content: { uz: `<h2>GATni qo'llanilish sohalari</h2><p>Geomatika — geografik ma'lumotlarni to'plash, boshqarish va tahlil qilish uchun texnologiyalar majmuasi. GAT uning asosiy vositasidir.</p><h3>Geokodlash</h3><p>Manzilni geografik koordinatalarga aylantirish jarayoni. Masalan: "Toshkent, Amir Temur ko'chasi 1" → (41.299°N, 69.240°E).</p><ul><li>To'g'ri geokodlash: manzil → koordinata</li><li>Teskari geokodlash: koordinata → manzil</li></ul><h3>Qo'llanilish sohalari</h3><ul><li><strong>Yer kadastri</strong>: yer uchastkalarini ro'yxatga olish</li><li><strong>Kommunal xizmatlar</strong>: suv, gaz, elektr tarmoqlari</li><li><strong>Atrof-muhit</strong>: ifloslanish monitoringi, o'rmon boshqaruvi</li><li><strong>Savdo-sotiq</strong>: bozor tahlili, do'kon joylashuvini optimallashtirish</li><li><strong>Harbiy</strong>: razvedka va topografik tahlil</li><li><strong>Telekommunikatsiya</strong>: tarmoq qoplamasi</li></ul>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '48:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '48 daqiqa',
+      difficulty: 'beginner',
+    },
+    {
+      id: 'gis-3',
+      subjectId: 'gis',
+      order: 3,
+      title: { uz: 'GAT uchun ma\'lumotlarni to\'plash va kiritish', ru: 'Сбор и ввод данных для ГИС', en: 'Data Collection and Input for GIS' },
+      content: { uz: `<h2>GAT uchun ma'lumotlarni to'plash va kiritish</h2><p>GISning sifati ko'p jihatdan ma'lumotlar sifatiga bog'liq. Ma'lumot to'plash usulini to'g'ri tanlash loyihaning muvaffaqiyatini belgilaydi.</p><h3>Ma'lumot to'plash usullari</h3><ul><li><strong>GPS/GNSS o'lchash</strong>: maydon ma'lumotlarini to'plash</li><li><strong>Masofadan zondlash</strong>: sun'iy yo'ldosh va dron tasvirlari</li><li><strong>Raqamlashtirish</strong>: kog'oz xaritalarni skanerlab vektorlashtirish</li><li><strong>Mavjud ma'lumotlar bazasi</strong>: OpenStreetMap, davlat kadastr ma'lumotlari</li><li><strong>So'rovnoma va maydon tadqiqoti</strong></li></ul><h3>Ma'lumot kiritish usullari</h3><ul><li>Klaviatura orqali koordinata kiritish</li><li>Import: Shapefile, GeoJSON, KML, CSV formatlaridan</li><li>Skaner va raqamlashtirish plansheti</li><li>WFS/WMS orqali onlayn qatlamlar</li></ul><h3>Sifat nazorati (QA/QC)</h3><p>Topologik tekshiruv, atribut to'liqligi, koordinata tizimlari mosligi. Xatolarni vaqtida aniqlash keyingi tahlil sifatini ta'minlaydi.</p>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '55:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '55 daqiqa',
+      difficulty: 'beginner',
+    },
+    {
+      id: 'gis-4',
+      subjectId: 'gis',
+      order: 4,
+      title: { uz: 'Rastr va vektor mohiyati (fotogrammetriya, GPS)', ru: 'Суть растра и вектора (фотограмметрия, GPS)', en: 'Raster and Vector (Photogrammetry, GPS)' },
+      content: { uz: `<h2>Rastr va vektor ma'lumotlar</h2><p>GISda ma'lumotlar ikki asosiy shaklda — vektor va raster ko'rinishida saqlanadi. Har birining o'z qo'llanilish sohalari va afzalliklari bor.</p><h3>Vektor ma'lumotlar</h3><ul><li><strong>Nuqta</strong>: aniq joylashuv (shahar, quduq, stantsiya)</li><li><strong>Chiziq (polychiziq)</strong>: yo'l, daryo, gazoprovod</li><li><strong>Ko'pburchak (polygon)</strong>: mamlakat, ko'l, yer uchastkasi</li></ul><p>Afzalliklari: ixcham, aniq, masshtablanuvchi. Kamchiligi: uzluksiz hodisalarni ko'rsatish qiyin.</p><h3>Raster ma'lumotlar</h3><p>Piksellar to'ri (grid). Har bir katak bitta qiymatga ega.</p><ul><li>Sun'iy yo'ldosh tasvirlari (Landsat, Sentinel)</li><li>DEM — raqamli balandlik modeli</li><li>Skanerlangan xaritalar</li></ul><p>Afzalliklari: uzluksiz hodisalar (balandlik, harorat). Kamchiligi: katta hajm.</p><h3>Fotogrammetriya</h3><p>Aero va kosmik suratlardan 3D model va xarita yaratish fani. Stereoskopik ko'rish tamoyiliga asoslanadi.</p>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '52:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '52 daqiqa',
+      difficulty: 'intermediate',
+    },
+    {
       id: 'gis-5',
       subjectId: 'gis',
       order: 5,
-      title: { uz: 'Fazoviy tahlil', ru: 'Пространственный анализ', en: 'Spatial Analysis' },
-      content: {
-        uz: `<h2>Fazoviy tahlil</h2>
-<p>Fazoviy tahlil — ob'ektlarning joylashuvi va ular orasidagi munosabatlarni o'rganish.</p>
-
-<h3>Tahlil usullari</h3>
-<ul>
-<li>Buffer tahlili</li>
-<li>Kesishma (Intersect)</li>
-<li>Birlashtirma (Union)</li>
-<li>Proximity tahlili</li>
-<li>Network tahlili</li>
-</ul>`,
-      },
+      title: { uz: 'Internet manbalaridan geoma\'lumotlar olish', ru: 'Получение геоданных из интернет-источников', en: 'Getting Geodata from Internet Sources' },
+      content: { uz: `<h2>Internet manbalaridan geoma'lumotlar olish</h2><p>Internet hozirda ulkan geoma'lumot manbayiga aylangan. Bu ma'lumotlardan GIS loyihalarida samarali foydalanish mumkin.</p><h3>Ochiq ma'lumot manbalari</h3><ul><li><strong>OpenStreetMap (OSM)</strong>: bepul vektorli xarita ma'lumotlari</li><li><strong>SRTM/ASTER</strong>: NASA raqamli balandlik modellari</li><li><strong>Copernicus/Sentinel Hub</strong>: ESA sun'iy yo'ldosh tasvirlari</li><li><strong>USGS Earth Explorer</strong>: Landsat va boshqa tasvirlar</li><li><strong>Google Earth Engine</strong>: bulutli geoprotsessing platformasi</li></ul><h3>WMS va WFS xizmatlari</h3><p>Web Map Service (WMS) — rasm ko'rinishida xarita; Web Feature Service (WFS) — vektor ma'lumot formatida. GIS dasturlariga to'g'ridan-to'g'ri ulanish mumkin.</p><h3>API orqali ma'lumot olish</h3><ul><li>Overpass API — OSM ma'lumotlari uchun</li><li>Google Maps API, HERE Maps</li><li>OpenWeatherMap — ob-havo geodata</li></ul>` },
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '55:35',
+      videoDuration: '48:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '48 daqiqa',
+      difficulty: 'intermediate',
+    },
+    {
+      id: 'gis-6',
+      subjectId: 'gis',
+      order: 6,
+      title: { uz: 'Geoma\'lumotlar bazasi (SQL, indekslash)', ru: 'База геоданных (SQL, индексирование)', en: 'Geodatabase (SQL, Indexing)' },
+      content: { uz: `<h2>Geoma'lumotlar bazasi</h2><p>Geoma'lumotlar bazasi — fazoviy va atribut ma'lumotlarni birgalikda saqlash, boshqarish va so'rov yo'llash uchun mo'ljallangan tizim.</p><h3>MBBT turlari</h3><ul><li><strong>PostgreSQL + PostGIS</strong>: eng kuchli ochiq manbali geoDB</li><li><strong>SpatiaLite</strong>: SQLite asosidagi, yengil</li><li><strong>Oracle Spatial</strong>: korporativ yechim</li><li><strong>File Geodatabase (Esri)</strong>: ArcGIS uchun</li></ul><h3>Fazoviy SQL</h3><p>PostGIS kengaytmasi SQL ga fazoviy funksiyalar qo'shadi:</p><ul><li><code>ST_Distance(geom1, geom2)</code> — masofa</li><li><code>ST_Intersects(a, b)</code> — kesishishi</li><li><code>ST_Buffer(geom, radius)</code> — bufer</li><li><code>ST_Within(a, b)</code> — ichida joylashishi</li></ul><h3>Indekslash</h3><p>Fazoviy indeks (R-tree, GiST) so'rovlarni tezlashtiradi. Katta ma'lumot bazasida indekssiz so'rov sekin ishlaydi. PostGIS'da: <code>CREATE INDEX idx ON table USING GIST(geom);</code></p>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '58:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '58 daqiqa',
+      difficulty: 'intermediate',
+    },
+    {
+      id: 'gis-7',
+      subjectId: 'gis',
+      order: 7,
+      title: { uz: 'Ma\'lumotlar bazasi (MBBT) haqida tushuncha', ru: 'Понятие о системах управления базами данных (СУБД)', en: 'Database Management Systems (DBMS) Concepts' },
+      content: { uz: `<h2>Ma'lumotlar bazasi boshqaruv tizimlari</h2><p>MBBT (DBMS) — ma'lumotlarni tartibli saqlash, boshqarish va so'rov yo'llash uchun mo'ljallangan dasturiy tizim. GIS ma'lumotlarining katta qismi MBBT da saqlanadi.</p><h3>Relatsion MBBT modeli</h3><p>Ma'lumot jadvallar (tables) ko'rinishida: satrlar — yozuvlar, ustunlar — atributlar. Jadvallar munosabatlar (relations) orqali bog'lanadi.</p><h3>SQL asoslari GIS uchun</h3><ul><li><code>SELECT * FROM buildings WHERE area > 100;</code></li><li><code>INSERT INTO points VALUES (41.3, 69.2, 'Toshkent');</code></li><li><code>UPDATE lands SET owner='Abdullayev' WHERE id=5;</code></li><li><code>JOIN</code> — jadvallarni birlashtirish</li></ul><h3>NoSQL va GIS</h3><p>MongoDB GeoJSON formatini qo'llab-quvvatlaydi. Katta hajmdagi geoma'lumotlar uchun ishlatiladi. CouchDB, Elasticsearch ham fazoviy so'rovlarni qo'llaydi.</p><h3>Normalizatsiya</h3><p>Takrorlanishni kamaytirish uchun jadvallarni to'g'ri tuzilmalashtirish. 1NF, 2NF, 3NF — normalizatsiya darajalari.</p>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '55:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '55 daqiqa',
+      difficulty: 'intermediate',
+    },
+    {
+      id: 'gis-8',
+      subjectId: 'gis',
+      order: 8,
+      title: { uz: 'GATda ma\'lumotlarni tahlil qilish (geovizuallashtirish)', ru: 'Анализ данных в ГИС (геовизуализация)', en: 'GIS Data Analysis (Geovisualization)' },
+      content: { uz: `<h2>GATda geovizuallashtirish</h2><p>Geovizuallashtirish — fazoviy ma'lumotlarni interaktiv va statik xaritalar, diagrammalar va 3D modellar orqali ko'rgazmali ifodalash.</p><h3>Vizualizatsiya turlari</h3><ul><li><strong>Choropleth xarita</strong>: ma'muriy birliklar bo'yicha rang gradatsiyasi</li><li><strong>Proportional Symbol</strong>: kattaligi qiymatga mos belgi</li><li><strong>Heatmap (issiqlik xaritasi)</strong>: zichlik vizualizatsiyasi</li><li><strong>3D xarita</strong>: balandlik va hajmni ko'rsatadi</li><li><strong>Animatsion xarita</strong>: vaqt bo'yicha o'zgarishlar</li></ul><h3>GIS dasturlarida vizualizatsiya</h3><p>QGIS: Layer Properties → Symbology bo'limi. Ko'p qatlamli xarita: transparency, blending mode, layer order muhim.</p><h3>Web xaritalar</h3><ul><li>Leaflet.js — engil JavaScript kutubxona</li><li>Mapbox GL JS — 3D vektor xaritalar</li><li>Google Maps API — eng keng tarqalgan</li><li>QGIS2Web — QGIS dan Leaflet/OL export</li></ul>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '55:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '55 daqiqa',
+      difficulty: 'advanced',
+    },
+    {
+      id: 'gis-9',
+      subjectId: 'gis',
+      order: 9,
+      title: { uz: 'GATda fazoviy modellashtirish', ru: 'Пространственное моделирование в ГИС', en: 'Spatial Modeling in GIS' },
+      content: { uz: `<h2>GATda fazoviy modellashtirish</h2><p>Fazoviy modellashtirish — real dunyo hodisalarini matematik va mantiqiy modellar yordamida GISda simulyatsiya qilish.</p><h3>Modellashtirish turlari</h3><ul><li><strong>Deterministik model</strong>: aniq matematik formulalar asosida</li><li><strong>Stoxastik model</strong>: ehtimollik va tasodifiy o'zgaruvchilar bilan</li><li><strong>Agent-asosli model</strong>: individual agentlar harakati simulyatsiyasi</li></ul><h3>Sirt tahlili</h3><ul><li><strong>Slope (qiyalik)</strong>: DEM dan qiyalik burchagini hisoblash</li><li><strong>Aspect (ekspozitsiya)</strong>: qaysi tomonga yo'nalganlik</li><li><strong>Hillshade</strong>: sun yoritishini simulyatsiya</li><li><strong>Viewshed</strong>: nuqtadan ko'rinadigan hududni aniqlash</li></ul><h3>Interpolatsiya</h3><p>Mavjud nuqtalar asosida noma'lum qiymatlarni hisoblash:</p><ul><li>IDW (Inverse Distance Weighting)</li><li>Kriging — geostatistik interpolatsiya</li><li>Spline — tekis yuzani yaratish</li></ul>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '60:00',
       hasTest: true,
       hasPractical: true,
       duration: '60 daqiqa',
       difficulty: 'advanced',
     },
     {
-      id: 'gis-6',
+      id: 'gis-10',
       subjectId: 'gis',
-      order: 6,
-      title: { uz: 'GPS va GNSS texnologiyalari', ru: 'GPS и GNSS технологии', en: 'GPS and GNSS Technologies' },
-      content: {
-        uz: `<h2>GPS va GNSS texnologiyalari</h2>
-<p>GPS (Global Positioning System) — sun'iy yo'ldoshlar yordamida yerda joylashuvni aniqlash tizimi.</p>
-
-<h3>GNSS tizimlari</h3>
-<ul>
-<li>GPS (AQSH) — 31 ta sun'iy yo'ldosh</li>
-<li>GLONASS (Rossiya) — 24 ta</li>
-<li>Galileo (Yevropa) — 30 ta</li>
-<li>BeiDou (Xitoy) — 35 ta</li>
-</ul>
-
-<h3>GIS da GPS ishlatish</h3>
-<ul>
-<li>Maydon ma'lumot to'plash</li>
-<li>Koordinatalarni tekshirish</li>
-<li>Real vaqt monitoringi</li>
-</ul>`,
-      },
+      order: 10,
+      title: { uz: 'Geofazoviy tahlil usullari (overlay, tarmoq, yer yuzasi tahlili)', ru: 'Методы геопространственного анализа (наложение, сети, анализ поверхности)', en: 'Geospatial Analysis Methods (Overlay, Network, Surface Analysis)' },
+      content: { uz: `<h2>Geofazoviy tahlil usullari</h2><p>Fazoviy tahlil — GISning eng kuchli tomonlaridan biri. Turli usullar yordamida murakkab geografik muammolarga javob topish mumkin.</p><h3>Overlay (qatlam ustma-ust) tahlili</h3><ul><li><strong>Intersect</strong>: faqat umumiy qismni qoldiradi</li><li><strong>Union</strong>: barcha geometriyalarni birlashtiradi</li><li><strong>Erase</strong>: bir qatlamdan boshqasini olib tashlaydi</li><li><strong>Identity</strong>: bir qatlam boshqasini "qisqartiradi"</li></ul><h3>Buffer (bufer) tahlili</h3><p>Ob'ekt atrofida belgilangan masofada zona yaratish. Misol: daryo atrofida 100m muhofaza zonasi.</p><h3>Tarmoq tahlili (Network Analysis)</h3><ul><li><strong>Eng qisqa yo'l</strong>: Dijkstra algoritmi</li><li><strong>Xizmat hududi (Service Area)</strong>: 5 daqiqalik masofadagi hudud</li><li><strong>Eng yaqin ob'ekt</strong>: Closest Facility</li><li><strong>Marshrutlash</strong>: Traveling Salesman muammosi</li></ul>` },
       videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      videoDuration: '49:10',
+      videoDuration: '62:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '62 daqiqa',
+      difficulty: 'advanced',
+    },
+    {
+      id: 'gis-11',
+      subjectId: 'gis',
+      order: 11,
+      title: { uz: 'Tadqiqot ma\'lumotlarini GATda aks ettirish', ru: 'Отображение исследовательских данных в ГИС', en: 'Representing Research Data in GIS' },
+      content: { uz: `<h2>Tadqiqot ma'lumotlarini GATda aks ettirish</h2><p>Ilmiy tadqiqot natijalarini GIS yordamida ko'rgazmali ifodalash — zamonaviy geoinformatikaning muhim qismi.</p><h3>Klassifikatsiya usullari</h3><ul><li><strong>Teng intervalli</strong>: ma'lumot diapazoni teng qismlarga bo'linadi</li><li><strong>Kvantil</strong>: har bir sinfda teng miqdordagi ob'ekt</li><li><strong>Tabiiy to'siqlar (Jenks)</strong>: ma'lumot ichidagi tabiiy bo'linishlar</li><li><strong>Standart og'ish</strong>: o'rtacha qiymatdan og'ish asosida</li></ul><h3>Layout (xarita sahifasi) yaratish</h3><ul><li>QGIS Print Composer / Layout Manager</li><li>Sarlavha, legenda, kompas, masshtab panjarasi</li><li>Ma'lumotnoma qutisi (inset map)</li></ul><h3>Export formatlari</h3><ul><li>PDF/PNG — chop etish uchun</li><li>GeoTIFF — georeferenslangan raster</li><li>Shapefile, GeoJSON — vektor</li><li>KML/KMZ — Google Earth</li></ul>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '55:00',
       hasTest: true,
       hasPractical: true,
       duration: '55 daqiqa',
-      difficulty: 'intermediate',
+      difficulty: 'advanced',
+    },
+    {
+      id: 'gis-12',
+      subjectId: 'gis',
+      order: 12,
+      title: { uz: 'GATda aqlli shahar loyihasi va 3D modellashtirish', ru: 'Проект умного города и 3D-моделирование в ГИС', en: 'Smart City Project and 3D Modeling in GIS' },
+      content: { uz: `<h2>GATda aqlli shahar loyihasi va 3D model</h2><p>Aqlli shahar (Smart City) — raqamli texnologiyalar orqali shahar infratuzilmasini optimallashtirish. GIS bu jarayonning markazida turadi.</p><h3>Aqlli shahar komponentlari</h3><ul><li><strong>Aqlli transport</strong>: real vaqt monitoring, optimizatsiya</li><li><strong>Aqlli energetika</strong>: SmartGrid, iste'mol monitoring</li><li><strong>Aqlli muhit</strong>: havo, suv sifatini kuzatish</li><li><strong>Aqlli boshqaruv</strong>: raqamli xizmatlar, e-hukumat</li></ul><h3>3D GIS va CityGML</h3><p>3D shahar modeli — binolar, ko'chalar, kommunikatsiyalar va yer yuzasining uch o'lchamli tasviri.</p><ul><li><strong>CityGML</strong>: OGC standarti, LOD 0–4 darajalar</li><li><strong>BIM-GIS integratsiyasi</strong>: bino va infrastruktura modeli</li><li><strong>Digital Twin</strong>: shaharning raqamli egizagi</li></ul><h3>Platformalar</h3><p>ArcGIS Urban, QGIS + GRASS, CesiumJS, ArcGIS CityEngine — 3D shahar modellash uchun asosiy vositalar.</p>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '58:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '58 daqiqa',
+      difficulty: 'advanced',
+    },
+    {
+      id: 'gis-13',
+      subjectId: 'gis',
+      order: 13,
+      title: { uz: 'Masofadan zondlash haqida umumiy ma\'lumotlar', ru: 'Общие сведения о дистанционном зондировании', en: 'General Information about Remote Sensing' },
+      content: { uz: `<h2>Masofadan zondlash</h2><p>Masofadan zondlash (Remote Sensing) — ob'ektlar bilan bevosita aloqasiz ulardan ma'lumot to'plash texnologiyasi. Sun'iy yo'ldosh va samolyotdan yerga elektromagnit to'lqinlar yuborilib, qaytgan signal tahlil qilinadi.</p><h3>Elektromagnit spektr</h3><ul><li><strong>Ko'rinadigan yorug'lik</strong>: 400–700 nm (RGB kanallar)</li><li><strong>Yaqin infraqizil (NIR)</link>: o'simlik indeksi uchun</li><li><strong>O'rta infraqizil (SWIR)</strong>: minerallar, namlik</li><li><strong>Termal infraqizil</strong>: yer sathi harorati</li><li><strong>Mikroto'lqin (SAR)</strong>: bulutdan o'tadi, tungi ham ishlaydi</li></ul><h3>Spektral indekslar</h3><ul><li><strong>NDVI</strong> = (NIR−Red)/(NIR+Red): o'simlik sog'liqligi</li><li><strong>NDWI</strong>: suv tanasi aniqlash</li><li><strong>NDBI</strong>: qurilgan hudud indeksi</li></ul><h3>Asosiy sun'iy yo'ldoshlar</h3><ul><li>Landsat (USGS): 30m, 1972 yildan</li><li>Sentinel-2 (ESA): 10m, 5 kunlik qayta ko'rish</li><li>MODIS: 250m–1km, kunlik</li></ul>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '55:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '55 daqiqa',
+      difficulty: 'advanced',
+    },
+    {
+      id: 'gis-14',
+      subjectId: 'gis',
+      order: 14,
+      title: { uz: 'GATda kosmik suratlarni olish usullari (GPS)', ru: 'Методы получения космических снимков в ГИС (GPS)', en: 'Methods of Obtaining Satellite Images in GIS (GPS)' },
+      content: { uz: `<h2>Kosmik suratlarni olish usullari</h2><p>Zamonaviy GIS uchun kosmik suratlar asosiy ma'lumot manbayi hisoblanadi. Ularni to'g'ri olish va qayta ishlash texnikasini bilish muhim.</p><h3>Passiv sensorlar</h3><p>Quyosh nuri yoki yer yuzasidan tabiiy nurlanishni qayd etadi.</p><ul><li>Optik-elektron kamera (multispektral, panxromatik)</li><li>Giperspektral sensor: yuzlab tor kanallar</li><li>Issiqlik (termal) sensor</li></ul><h3>Aktiv sensorlar</h3><p>O'zi nurlanish yuborib, qaytganini qayd etadi.</p><ul><li><strong>SAR (Synthetic Aperture Radar)</strong>: bulutdan o'tadi</li><li><strong>LiDAR</strong>: lazer impulslari, DEM uchun yuqori aniqlik</li></ul><h3>GPS va GNSS</h3><p>Global Positioning System — Amerika yo'ldosh tizimi. GLONASS (Rossiya), Galileo (Yevropa), BeiDou (Xitoy) bilan birgalikda GNSS deyiladi.</p><ul><li>GPS aniqlik: oddiy — 3–5 m; DGPS — 0.1 m; RTK — sm darajada</li><li>GIS da GPS: maydon ma'lumot to'plash, georeferenslash</li></ul>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '52:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '52 daqiqa',
+      difficulty: 'advanced',
+    },
+    {
+      id: 'gis-15',
+      subjectId: 'gis',
+      order: 15,
+      title: { uz: 'GAT texnologiyalari asosida aerokosmik suratlarni qayta ishlash', ru: 'Обработка аэрокосмических снимков на основе технологий ГИС', en: 'Processing Aerospace Images Based on GIS Technologies' },
+      content: { uz: `<h2>Aerokosmik suratlarni qayta ishlash</h2><p>Xom kosmik tasvir GISda foydalanish uchun bir necha qayta ishlash bosqichlaridan o'tishi kerak. Bu bosqichlar tasvirning aniqligini va ma'lumot sifatini oshiradi.</p><h3>Qayta ishlash bosqichlari</h3><ol><li><strong>Georeferenslash</strong>: tasvirni koordinata tizimiga bog'lash</li><li><strong>Ortorektifikatsiya</strong>: kamera og'ishi va rel'ef xatolarini tuzatish</li><li><strong>Radiometrik tuzatish</strong>: sensor xatolarini bartaraf etish</li><li><strong>Atmosfera tuzatish</strong>: havo ta'sirini kompensatsiya qilish</li><li><strong>Mozaika</strong>: bir necha suratni birlash</li><li><strong>Pansharpening</strong>: past va yuqori rezolyutsiyani birlashtirish</li></ol><h3>Klassifikatsiya</h3><ul><li><strong>Nazoratli</strong>: treyn namunalar asosida piksellarni sinflarga ajratish</li><li><strong>Nazoratlanmagan</strong>: K-means, ISODATA klasterizatsiya</li><li><strong>Chuqur o'qitish</strong>: CNN asosida neyron tarmoq klassifikatsiyasi</li></ul><h3>Aniqlik baholash</h3><p>Xatolik matritsasi (Confusion Matrix), Overall Accuracy, Kappa koeffitsiyenti — klassifikatsiya sifatini baholash usullari.</p>` },
+      videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      videoDuration: '65:00',
+      hasTest: true,
+      hasPractical: true,
+      duration: '65 daqiqa',
+      difficulty: 'advanced',
     },
   ],
 }
+
 
 export const TESTS = {
   'karto-1': {
