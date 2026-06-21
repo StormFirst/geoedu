@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import {
   LayoutDashboard, BookOpen, Video, FileText, ClipboardList,
   Download, User, Trophy, Award, Settings, Users, BarChart3,
-  Map, X,
+  Map, X, Gamepad2,
 } from 'lucide-react'
 import clsx from 'clsx'
 
@@ -12,6 +12,7 @@ const studentLinks = [
   { to: '/dashboard', label: 'nav.dashboard', icon: LayoutDashboard },
   { to: '/subjects', label: 'nav.subjects', icon: BookOpen },
   { to: '/map-tools', label: 'nav.mapTools', icon: Map },
+  { to: '/gamification', label: 'nav.gamification', icon: Gamepad2 },
   { to: '/videos', label: 'nav.videos', icon: Video },
   { to: '/tests', label: 'nav.tests', icon: FileText },
   { to: '/assignments', label: 'nav.assignments', icon: ClipboardList },

@@ -6,7 +6,7 @@ import Header from './Header'
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const location = useLocation()
-  const isMapPage = location.pathname === '/map-tools'
+  const isMapPage = location.pathname === '/map-tools' || location.pathname === '/gamification'
 
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-gray-950 overflow-hidden">

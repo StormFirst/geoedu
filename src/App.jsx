@@ -11,6 +11,7 @@ import SubjectDetail from './pages/Subjects/SubjectDetail'
 import TopicDetail from './pages/Subjects/TopicDetail'
 import VideosPage from './pages/Videos/VideosPage'
 import MapToolsPage from './pages/MapTools/MapToolsPage'
+import GamificationPage from './pages/Gamification/GamificationPage'
 import TestsList from './pages/Tests/TestsList'
 import TestTaker from './pages/Tests/TestTaker'
 import TestResults from './pages/Tests/TestResults'
@@ -55,6 +56,7 @@ export default function App() {
         <Route path="/subjects/:subjectId" element={<SubjectDetail />} />
         <Route path="/subjects/:subjectId/topics/:topicId" element={<TopicDetail />} />
         <Route path="/map-tools" element={<MapToolsPage />} />
+        <Route path="/gamification" element={<GamificationPage />} />
         <Route path="/videos" element={<VideosPage />} />
         <Route path="/tests" element={<TestsList />} />
         <Route path="/tests/:testId" element={<TestTaker />} />
