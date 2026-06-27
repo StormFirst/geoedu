@@ -35,7 +35,18 @@ export default function MaterialsPage() {
   const getSubjectName = (id) => SUBJECTS.find((s) => s.id === id)?.name[lang] || id
 
   const handleDownload = (material) => {
-    toast.success(`"${material.title[lang] || material.title.uz}" yuklab olindi`)
+    if (material.url && material.url !== '#') {
+      window.open(material.url, '_blank')
+      toast.success(`"${material.title[lang] || material.title.uz}" yuklab olish boshlandi`)
+    } else {
+      toast.error(
+        lang === 'uz' 
+          ? "Ushbu material uchun fayl topilmadi" 
+          : lang === 'ru' 
+            ? "Файл для этого материала не найден" 
+            : "File not found for this material"
+      )
+    }
   }
 
   return (

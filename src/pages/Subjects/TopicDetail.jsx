@@ -1,21 +1,24 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useParams, Navigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import {
   ArrowLeft, CheckCircle, Video, FileText, ChevronLeft, ChevronRight,
   BookOpen, PresentationIcon, Wrench, FlaskConical, Lock,
-  PlayCircle, Presentation,
+  PlayCircle, Presentation, Sparkles, Copy, Key, RefreshCw
 } from 'lucide-react'
 import { SUBJECTS, TOPICS, TESTS } from '../../data/mockData'
 import toast from 'react-hot-toast'
 import clsx from 'clsx'
+import { ref, getDownloadURL } from 'firebase/storage'
+import { storage, isDemoMode } from '../../firebase/config'
 
 const TABS = [
   { id: 'nazariy',    label: 'Nazariy',      icon: BookOpen },
   { id: 'video',      label: 'Video darslik', icon: PlayCircle },
   { id: 'taqdimot',  label: 'Taqdimot',      icon: Presentation },
   { id: 'amaliy',    label: 'Amaliy',        icon: FlaskConical },
+  { id: 'ai_tahlil',  label: 'AI Tahlil',     icon: Sparkles },
   { id: 'test',      label: 'Test',          icon: FileText },
 ]
 
@@ -26,6 +29,238 @@ export default function TopicDetail() {
   const lang = i18n.language?.slice(0, 2) || 'uz'
 
   const [activeTab, setActiveTab] = useState('nazariy')
+
+  // AI Analysis States
+  const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [aiAnalysisResult, setAiAnalysisResult] = useState('')
+
+  // Reset analysis when topicId changes
+  useEffect(() => {
+    setAiAnalysisResult('')
+    setIsAnalyzing(false)
+  }, [topicId])
+
+  const [storageContent, setStorageContent] = useState(null)
+  const [isLoadingContent, setIsLoadingContent] = useState(false)
+
+  // Fetch topic content from Firebase Storage (optimized with Stale-While-Revalidate caching)
+  useEffect(() => {
+    if (isDemoMode || !storage) {
+      setStorageContent(null)
+      setIsLoadingContent(false)
+      return
+    }
+
+    const cacheKey = `cache_topic_content_${topicId}`
+    const cached = localStorage.getItem(cacheKey)
+
+    if (cached) {
+      setStorageContent(cached)
+      setIsLoadingContent(false)
+    } else {
+      setStorageContent(null)
+      setIsLoadingContent(true)
+    }
+
+    const fetchContent = async () => {
+      try {
+        const storageRef = ref(storage, `topics/${topicId}.html`)
+        const url = await getDownloadURL(storageRef)
+        const res = await fetch(url)
+        if (!res.ok) throw new Error('Failed to fetch file from download URL')
+        const htmlText = await res.text()
+
+        // Update cache and state if different or not cached
+        if (htmlText !== cached) {
+          localStorage.setItem(cacheKey, htmlText)
+          setStorageContent(htmlText)
+        }
+      } catch (err) {
+        console.warn('Storage content background sync failed:', err)
+      } finally {
+        setIsLoadingContent(false)
+      }
+    }
+
+    fetchContent()
+  }, [topicId])
+
+  const generateOfflineAnalysis = (currTopic, currentLang) => {
+    const title = currTopic.title[currentLang] || currTopic.title.uz
+    const rawHtml = storageContent || currTopic.content?.[currentLang] || currTopic.content?.uz || ''
+    
+    const doc = new DOMParser().parseFromString(rawHtml, 'text/html')
+    const paragraphs = Array.from(doc.querySelectorAll('p')).map(p => p.textContent.trim()).filter(Boolean)
+    const listItems = Array.from(doc.querySelectorAll('li')).map(li => li.textContent.trim()).filter(Boolean)
+    
+    const summary = paragraphs[0] || (currentLang === 'uz' ? "Ushbu mavzu bo'yicha nazariy qism va materiallarni o'rganish tavsiya etiladi." : "It is recommended to study the theoretical parts and materials of this topic.")
+    
+    let keyTermsMd = ''
+    if (listItems.length > 0) {
+      keyTermsMd = listItems.map(item => `* ${item}`).join('\n')
+    } else {
+      keyTermsMd = currentLang === 'uz' 
+        ? "* **Tushuncha**: Mavzuda keltirilgan asosiy nazariy elementlar.\n* **Metodologiya**: Mavzudagi tahlil usullari."
+        : "* **Concept**: Basic theoretical elements presented in the topic.\n* **Methodology**: Analysis methods within the topic."
+    }
+    
+    if (currentLang === 'uz') {
+      return `## 🧠 "${title}" Mavzusi bo'yicha AI Tahlili (Oflayn Namuna)
+
+> [!NOTE]
+> Bu oflayn rejimda tayyorlangan tahlil namunasi. OpenAI API kalitini kiritish orqali siz real vaqtda jonli tahlil olishingiz mumkin.
+
+### 📝 Mavzuning qisqacha mazmuni
+${summary}
+
+### 🔑 Kalit atamalar va tushunchalar
+${keyTermsMd}
+
+### 🚀 Amaliy ahamiyati va qo'llanilishi
+Ushbu mavzuning o'rganilishi quyidagi sohalarda amaliy qo'llaniladi:
+* **Xaritalash va Fazoviy tahlil**: Joylashuv va geografik munosabatlarni aniqlash.
+* **Geodeziya va Loyihalash**: Muhandislik va qurilish hisob-kitoblarida to'g'ri o'lchovlar olib borish.
+* **GIS tizimlarida integratsiya**: Turli xil ma'lumotlar qatlamlarini birlashtirish va tahlil qilish.
+
+### 💡 Mavzuni chuqurroq o'rganish uchun tavsiyalar
+1. Mavzuning **Nazariy** bo'limidagi matnlarni diqqat bilan o'qib chiqing.
+2. Agar mavjud bo'lsa, **Video darslik**ni tomosha qiling, u yerda asboblar va vizual ko'rsatmalar berilgan.
+3. Bilimingizni sinash uchun **Test** bo'limidagi savollarga javob bering.`
+    } else if (currentLang === 'ru') {
+      return `## 🧠 ИИ-Анализ по теме "${title}" (Оффлайн образец)
+
+> [!NOTE]
+> Это образец анализа, созданный в оффлайн-режиме. Введя ключ API OpenAI, вы сможете получить живой анализ в реальном времени.
+
+### 📝 Краткое содержание темы
+${summary}
+
+### 🔑 Ключевые термины и понятия
+${keyTermsMd}
+
+### 🚀 Практическое значение и применение
+Иизнучение данной темы имеет важное практическое значение в следующих областях:
+* **Картографирование и пространственный анализ**: Определение местоположений и географических взаимосвязей.
+* **Геодезия и проектирование**: Проведение точных измерений в инженерных расчетах.
+* **Интеграция в ГИС-системах**: Объединение и анализ различных слоев данных.
+
+### 💡 Рекомендации по более глубокому изучению темы
+1. Внимательно прочтите текст в разделе **Теория**.
+2. Посмотрите **Видеоурок** (при наличии) для визуализации инструментов и процессов.
+3. Ответьте на вопросы в разделе **Тест**, чтобы проверить свои знания.`
+    } else {
+      return `## 🧠 AI Analysis for "${title}" (Offline Sample)
+
+> [!NOTE]
+> This is a sample analysis generated offline. By entering an OpenAI API key, you can get a live analysis in real-time.
+
+### 📝 Topic Summary
+${summary}
+
+### 🔑 Key Terms and Concepts
+${keyTermsMd}
+
+### 🚀 Practical Applications
+Studying this topic provides practical value in:
+* **Mapping and Spatial Analysis**: Defining locations and geographic relationships.
+* **Geodesy and Engineering**: Performing accurate measurements in engineering calculations.
+* **GIS Integration**: Combining and analyzing various layers of data.
+
+### 💡 Deeper Learning Tips
+1. Carefully read the text in the **Theory** section.
+2. Watch the **Video tutorial** (if available) for visualization of tools.
+3. Take the **Test** to assess your understanding.`
+    }
+  }
+
+  const runAiAnalysis = async () => {
+    setIsAnalyzing(true)
+    setAiAnalysisResult('')
+    
+    const activeApiKey = import.meta.env.VITE_OPENAI_API_KEY || ''
+    
+    if (activeApiKey) {
+      try {
+        const topicHtml = storageContent || topic.content?.[lang] || topic.content?.uz || ''
+        const cleanContent = topicHtml.replace(/<[^>]*>/g, '')
+        
+        const prompt = `You are a professional GIS Academic Assistant.
+Please analyze the following topic in detail:
+Title: "${topic.title[lang] || topic.title.uz}"
+Content: "${cleanContent}"
+
+Provide the analysis structured in these sections:
+1. 📝 Mavzuning qisqacha mazmuni (Summary)
+2. 🔑 Kalit atamalar va tushunchalar (Key concepts)
+3. 🚀 Amaliy ahamiyati va qo'llanilishi (Practical applications)
+4. 💡 Mavzuni chuqurroq o'rganish uchun tavsiyalar (Tips for deeper learning)
+
+Language: Answer in ${lang === 'uz' ? 'Uzbek' : lang === 'ru' ? 'Russian' : 'English'}.
+Format: Return the output formatted in beautiful, clean markdown with icons. Include bold text and headers.`
+
+        const response = await fetch(
+          `https://api.openai.com/v1/chat/completions`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${activeApiKey}`
+            },
+            body: JSON.stringify({
+              model: 'gpt-4o-mini',
+              messages: [{ role: 'user', content: prompt }]
+            }),
+          }
+        )
+
+        if (!response.ok) {
+          throw new Error(`OpenAI API error (Status: ${response.status})`)
+        }
+
+        const data = await response.json()
+        const reply = data.choices?.[0]?.message?.content
+        
+        setTimeout(() => {
+          setAiAnalysisResult(reply)
+          setIsAnalyzing(false)
+          toast.success(lang === 'uz' ? 'Tahlil yakunlandi!' : 'Analysis completed!')
+        }, 1000)
+      } catch (err) {
+        toast.error(
+          lang === 'uz'
+            ? "OpenAI API tahlili amalga oshmadi. Oflayn tahlil yuklanmoqda..."
+            : "OpenAI API analysis failed. Loading offline analysis..."
+        )
+        setTimeout(() => {
+          const offlineText = generateOfflineAnalysis(topic, lang)
+          setAiAnalysisResult(offlineText)
+          setIsAnalyzing(false)
+        }, 1200)
+      }
+    } else {
+      setTimeout(() => {
+        setIsAnalyzing(false)
+        toast.error(lang === 'uz' ? 'OpenAI API kaliti .env faylida topilmadi!' : 'OpenAI API key not found in .env file!')
+      }, 1000)
+    }
+  }
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(aiAnalysisResult)
+    toast.success(lang === 'uz' ? 'Nusxalandi!' : 'Copied!')
+  }
+
+  const getTabLabel = (id) => {
+    switch (id) {
+      case 'nazariy': return lang === 'uz' ? 'Nazariy' : lang === 'ru' ? 'Теория' : 'Theory'
+      case 'video': return lang === 'uz' ? 'Video darslik' : lang === 'ru' ? 'Видеоурок' : 'Video Lesson'
+      case 'taqdimot': return lang === 'uz' ? 'Taqdimot' : lang === 'ru' ? 'Презентация' : 'Presentation'
+      case 'amaliy': return lang === 'uz' ? 'Amaliy' : lang === 'ru' ? 'Практика' : 'Practice'
+      case 'test': return lang === 'uz' ? 'Test' : lang === 'ru' ? 'Тест' : 'Test'
+      case 'ai_tahlil': return lang === 'uz' ? 'AI Tahlil' : lang === 'ru' ? 'ИИ-Анализ' : 'AI Analysis'
+      default: return ''
+    }
+  }
 
   const subject = SUBJECTS.find((s) => s.id === subjectId)
   const topicsList = TOPICS[subjectId] || []
@@ -91,47 +326,50 @@ export default function TopicDetail() {
         </span>
       </div>
 
-      {/* Header card */}
-      <div className="card overflow-hidden mb-5">
-        <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-5">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="text-primary-200 text-xs mb-1 font-medium tracking-wide uppercase">
-                {topicIndex + 1} / {topicsList.length} — mavzu
-              </p>
-              <h1 className="text-lg font-bold text-white leading-snug">
-                {topic.title[lang] || topic.title.uz}
-              </h1>
-              <p className="text-primary-200 text-xs mt-1.5">{topic.duration}</p>
-            </div>
-            <div className="flex flex-col items-end gap-2 flex-shrink-0">
-              {isCompleted ? (
-                <div className="flex items-center gap-1.5 bg-green-500 text-white px-3 py-1.5 rounded-full text-xs font-medium">
-                  <CheckCircle size={13} /> Tugatildi
-                </div>
-              ) : !test ? (
-                <button
-                  onClick={markComplete}
-                  className="bg-white/20 hover:bg-white/30 text-white px-3 py-1.5 rounded-full text-xs font-medium transition-colors border border-white/30"
-                >
-                  ✓ Tugatildi deb belgilash
-                </button>
-              ) : (
-                <div className="text-white/80 text-xs italic">
-                  Tugallash uchun testni o'ting
-                </div>
-              )}
-              {testPassed && (
-                <div className="flex items-center gap-1 bg-emerald-500 text-white px-2.5 py-1 rounded-full text-xs font-medium">
-                  <CheckCircle size={11} /> Test o'tildi
-                </div>
-              )}
+      {/* Sticky Header and Tabs Container */}
+      <div className="sticky top-0 z-20 bg-gray-50 dark:bg-gray-950 pt-1 pb-4">
+        {/* Header card */}
+        <div className="card overflow-hidden mb-3">
+          <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-5">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-primary-200 text-xs mb-1 font-medium tracking-wide uppercase">
+                  {topicIndex + 1} / {topicsList.length} — mavzu
+                </p>
+                <h1 className="text-lg font-bold text-white leading-snug">
+                  {topic.title[lang] || topic.title.uz}
+                </h1>
+                <p className="text-primary-200 text-xs mt-1.5">{topic.duration}</p>
+              </div>
+              <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                {isCompleted ? (
+                  <div className="flex items-center gap-1.5 bg-green-500 text-white px-3 py-1.5 rounded-full text-xs font-medium">
+                    <CheckCircle size={13} /> Tugatildi
+                  </div>
+                ) : !test ? (
+                  <button
+                    onClick={markComplete}
+                    className="bg-white/20 hover:bg-white/30 text-white px-3 py-1.5 rounded-full text-xs font-medium transition-colors border border-white/30"
+                  >
+                    ✓ Tugatildi deb belgilash
+                  </button>
+                ) : (
+                  <div className="text-white/90 text-xs font-medium bg-white/10 px-3 py-1.5 rounded-full border border-white/20 animate-pulse">
+                    ⚠️ Tugallash uchun testni o'ting
+                  </div>
+                )}
+                {testPassed && (
+                  <div className="flex items-center gap-1 bg-emerald-500 text-white px-2.5 py-1 rounded-full text-xs font-medium">
+                    <CheckCircle size={11} /> Test o'tildi
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <div className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
           <div className="flex overflow-x-auto scrollbar-none">
             {TABS.map((tab) => {
               const Icon = tab.icon
@@ -150,7 +388,7 @@ export default function TopicDetail() {
                   )}
                 >
                   <Icon size={15} />
-                  {tab.label}
+                  {getTabLabel(tab.id)}
                   {isTestTab && testPassed && (
                     <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
                   )}
@@ -159,16 +397,26 @@ export default function TopicDetail() {
             })}
           </div>
         </div>
+      </div>
 
         {/* Tab content */}
         <div className="p-6">
           {/* NAZARIY */}
           {activeTab === 'nazariy' && (
-            <div
-              className="prose prose-gray dark:prose-invert max-w-none prose-headings:font-bold prose-h2:text-xl prose-h3:text-base prose-li:text-sm"
-              dangerouslySetInnerHTML={{ __html: topic.content?.[lang] || topic.content?.uz || '<p>Nazariy matn mavjud emas.</p>' }}
-              style={{ lineHeight: '1.75', color: 'inherit' }}
-            />
+            isLoadingContent ? (
+              <div className="flex flex-col items-center justify-center py-20 space-y-4">
+                <div className="w-10 h-10 border-4 border-gray-200 border-t-primary-600 rounded-full animate-spin"></div>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {lang === 'uz' ? 'Nazariy material yuklanmoqda...' : lang === 'ru' ? 'Загрузка теоретического материала...' : 'Loading theory material...'}
+                </p>
+              </div>
+            ) : (
+              <div
+                className="prose prose-gray dark:prose-invert max-w-none prose-headings:font-bold prose-h2:text-xl prose-h3:text-base prose-li:text-sm"
+                dangerouslySetInnerHTML={{ __html: storageContent || topic.content?.[lang] || topic.content?.uz || '<p>Nazariy matn mavjud emas.</p>' }}
+                style={{ lineHeight: '1.75', color: 'inherit' }}
+              />
+            )
           )}
 
           {/* VIDEO DARSLIK */}
@@ -346,8 +594,111 @@ export default function TopicDetail() {
               )}
             </div>
           )}
+
+          {/* AI TAHLIL */}
+          {activeTab === 'ai_tahlil' && (
+            <div className="space-y-6">
+              {/* Introduction Card */}
+              {!aiAnalysisResult && !isAnalyzing && (
+                <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 p-6 rounded-2xl border border-indigo-100 dark:border-indigo-900/30">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-xl flex items-center justify-center shadow-md flex-shrink-0">
+                      <Sparkles size={24} className="text-white animate-pulse" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 dark:text-white text-base">
+                        {lang === 'uz' ? 'AI yordamida mavzu tahlili' : lang === 'ru' ? 'ИИ-анализ темы' : 'AI Topic Analysis'}
+                      </h3>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed mt-1.5">
+                        {lang === 'uz'
+                          ? "Ushbu mavzuni Sun'iy Intellekt (AI) yordamida tahlil qiling. Tizim dars mazmunini o'rganib, uning qisqacha xulosasi, muhim tayanch so'zlari, amaliy tatbiqi va chuqurroq tushunish bo'yicha tavsiyalar beruvchi o'quv hisobotini tayyorlaydi."
+                          : lang === 'ru'
+                          ? 'Проанализируйте эту тему с помощью искусственного интеллекта (ИИ). Система изучит содержание урока и подготовит учебный отчет, содержащий краткое резюме, ключевые опорные слова, практическое применение и рекомендации по более глубокому пониманию.'
+                          : 'Analyze this topic using Artificial Intelligence (AI). The system will study the lesson content and prepare a study report containing a brief summary, key words, practical application, and recommendations for deeper understanding.'}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Actions buttons */}
+                  <div className="flex gap-3 mt-6">
+                    <button
+                      onClick={runAiAnalysis}
+                      className="btn-primary flex-1 justify-center py-2.5 text-xs font-bold gap-1.5 flex items-center shadow-sm"
+                    >
+                      <Sparkles size={14} />
+                      {lang === 'uz' ? 'AI Tahlilini Boshlash' : lang === 'ru' ? 'Запустить ИИ-Анализ' : 'Start AI Analysis'}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Analyzing / Loading State */}
+              {isAnalyzing && (
+                <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
+                  <div className="relative w-16 h-16 flex items-center justify-center">
+                    <div className="absolute inset-0 rounded-full border-4 border-indigo-100 dark:border-indigo-900/30 border-t-indigo-600 animate-spin"></div>
+                    <Sparkles size={24} className="text-indigo-600 animate-pulse" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-800 dark:text-gray-200 text-sm">
+                      {lang === 'uz' ? 'AI mavzuni tahlil qilmoqda...' : 'AI is analyzing the topic...'}
+                    </h4>
+                    <p className="text-xs text-gray-400 mt-1">
+                      {lang === 'uz' ? 'Kuting, o\'quv hisoboti shakllantirilmoqda...' : 'Please wait, generating analysis report...'}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Analysis Result Display */}
+              {aiAnalysisResult && !isAnalyzing && (
+                <div className="space-y-4 animate-fadeIn">
+                  <div className="flex justify-between items-center bg-gray-50 dark:bg-gray-900/40 px-4 py-2.5 rounded-xl border border-gray-150 dark:border-gray-850">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-gray-500">
+                      <Sparkles size={14} className="text-indigo-500 animate-pulse" />
+                      <span>{lang === 'uz' ? 'AI Tomonidan Yaratilgan Tahlil' : 'AI-Generated Analysis'}</span>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={copyToClipboard}
+                        className="btn-secondary py-1 px-2.5 text-[10px] font-semibold flex items-center gap-1 hover:text-primary-600"
+                      >
+                        <Copy size={11} />
+                        {lang === 'uz' ? 'Nusxalash' : 'Copy'}
+                      </button>
+                      <button
+                        onClick={runAiAnalysis}
+                        className="btn-secondary py-1 px-2.5 text-[10px] font-semibold flex items-center gap-1 text-indigo-600 hover:bg-indigo-50"
+                      >
+                        <RefreshCw size={11} />
+                        {lang === 'uz' ? 'Qayta tahlil' : 'Re-analyze'}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="bg-white dark:bg-gray-800/80 p-6 rounded-2xl border border-gray-150 dark:border-gray-700 shadow-sm leading-relaxed">
+                    <div
+                      className="prose prose-indigo dark:prose-invert max-w-none text-xs leading-relaxed space-y-4
+                        prose-headings:font-bold prose-h2:text-base prose-h3:text-sm prose-h4:text-xs
+                        prose-p:text-gray-650 dark:prose-p:text-gray-300
+                        prose-li:text-gray-650 dark:prose-li:text-gray-300
+                        prose-strong:text-gray-900 dark:prose-strong:text-white"
+                      dangerouslySetInnerHTML={{
+                        __html: aiAnalysisResult
+                          .replace(/^## (.*$)/gim, '<h2 class="text-base font-bold text-indigo-600 dark:text-indigo-400 mt-4 mb-2">$1</h2>')
+                          .replace(/^### (.*$)/gim, '<h3 class="text-sm font-bold text-gray-850 dark:text-gray-200 mt-3 mb-1.5">$1</h3>')
+                          .replace(/^\* (.*$)/gim, '<li class="list-disc ml-5 my-1 text-gray-650 dark:text-gray-300">$1</li>')
+                          .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-gray-900 dark:text-white">$1</strong>')
+                          .replace(/> \[\!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\n> (.*$)/gim, '<div class="p-3.5 bg-indigo-50/50 dark:bg-indigo-950/10 border-l-4 border-indigo-500 rounded-r-lg text-[11px] my-3 text-indigo-750 dark:text-indigo-300">$2</div>')
+                          .replace(/\n\n/g, '<p class="my-2"></p>')
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
-      </div>
 
       {/* Navigation */}
       <div className="flex items-center justify-between gap-3">

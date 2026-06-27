@@ -11,6 +11,9 @@ import SubjectDetail from './pages/Subjects/SubjectDetail'
 import TopicDetail from './pages/Subjects/TopicDetail'
 import VideosPage from './pages/Videos/VideosPage'
 import MapToolsPage from './pages/MapTools/MapToolsPage'
+import AIAssistantPage from './pages/AIAssistant/AIAssistantPage'
+import GISLaboratoryPage from './pages/MapTools/GISLaboratoryPage'
+import GISCaseStudyPage from './pages/MapTools/GISCaseStudyPage'
 import GamificationPage from './pages/Gamification/GamificationPage'
 import TestsList from './pages/Tests/TestsList'
 import TestTaker from './pages/Tests/TestTaker'
@@ -56,6 +59,9 @@ export default function App() {
         <Route path="/subjects/:subjectId" element={<SubjectDetail />} />
         <Route path="/subjects/:subjectId/topics/:topicId" element={<TopicDetail />} />
         <Route path="/map-tools" element={<MapToolsPage />} />
+        <Route path="/ai-assistant" element={<AIAssistantPage />} />
+        <Route path="/gis-lab" element={<GISLaboratoryPage />} />
+        <Route path="/gis-case-study" element={<GISCaseStudyPage />} />
         <Route path="/gamification" element={<GamificationPage />} />
         <Route path="/videos" element={<VideosPage />} />
         <Route path="/tests" element={<TestsList />} />

@@ -85,7 +85,7 @@ export function AuthProvider({ children }) {
 
   const updateUser = async (updates) => {
     if (!currentUser) return
-    await updateDoc(doc(db, 'users', currentUser.uid), updates)
+    await setDoc(doc(db, 'users', currentUser.uid), updates, { merge: true })
     setCurrentUser((prev) => ({ ...prev, ...updates }))
   }
 
