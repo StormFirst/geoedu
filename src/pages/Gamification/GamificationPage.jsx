@@ -597,7 +597,9 @@ export default function GamificationPage() {
     setShowHint(false)
 
     if (mapRef.current) {
-      mapRef.current.setView([40.0, 66.0], 6.5)
+      const center = gameTheme === 'uz_streets' ? [40.0, 66.0] : [20.0, 0.0]
+      const zoom = gameTheme === 'uz_streets' ? 6.5 : 2
+      mapRef.current.setView(center, zoom)
     }
 
     if (currentRoundIdx + 1 < roundsList.length) {
@@ -1014,6 +1016,15 @@ export default function GamificationPage() {
     }
   }, [mapHovered, isRoundFinished, screen, gameMode, roomData?.roundStatus, isMapFullscreen])
 
+  // Centrally control Leaflet guess map centering when round starts or resets
+  useEffect(() => {
+    if (screen === 'playing' && mapRef.current && !isRoundFinished) {
+      const center = gameTheme === 'uz_streets' ? [40.0, 66.0] : [20.0, 0.0]
+      const zoom = gameTheme === 'uz_streets' ? 6.5 : 2
+      mapRef.current.setView(center, zoom)
+    }
+  }, [currentRoundIdx, isRoundFinished, screen, gameTheme])
+
   // --- LEAFLET INTERACTIVE MAP RENDERING ---
 
   // Init/destruct Map instance
@@ -1021,10 +1032,13 @@ export default function GamificationPage() {
     if (screen !== 'playing') return
 
     if (mapContainerRef.current && !mapRef.current) {
+      const initialCenter = gameTheme === 'uz_streets' ? [40.0, 66.0] : [20.0, 0.0]
+      const initialZoom = gameTheme === 'uz_streets' ? 6.5 : 2
+
       mapRef.current = L.map(mapContainerRef.current, {
         zoomControl: false,
         attributionControl: false
-      }).setView([40.0, 66.0], 6.5)
+      }).setView(initialCenter, initialZoom)
 
       L.control.zoom({ position: 'bottomright' }).addTo(mapRef.current)
 
