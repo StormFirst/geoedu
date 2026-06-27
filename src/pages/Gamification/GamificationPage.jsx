@@ -1536,7 +1536,7 @@ export default function GamificationPage() {
                 )}
                 className="w-full h-full border-0 absolute inset-0 z-10"
                 style={{ display: svError ? 'none' : 'block' }}
-                referrerPolicy="no-referrer"
+                referrerPolicy="no-referrer-when-downgrade"
                 allow="accelerometer; gyroscope; magnetometer; fullscreen"
                 allowFullScreen
                 onLoad={() => setSvLoading(false)}
