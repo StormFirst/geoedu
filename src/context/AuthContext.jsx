@@ -6,21 +6,25 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth'
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
-import { auth, db } from '../firebase/config'
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { auth, db, storage } from '../firebase/config'
 import { TESTS } from '../data/mockData'
 
-function buildUserProfile(uid, email, { name, role = 'student' } = {}) {
+function buildUserProfile(uid, email, { name, role = 'student', firstName = '', lastName = '', university = '', avatar = null } = {}) {
   return {
     uid,
     email,
-    name: (name || '').trim(),
+    name: (name || `${firstName} ${lastName}`).trim(),
+    firstName: (firstName || '').trim(),
+    lastName: (lastName || '').trim(),
+    university: (university || '').trim(),
     role,
     joinDate: new Date().toISOString().split('T')[0],
     completedTopics: [],
     testResults: [],
     certificates: [],
     totalScore: 0,
-    avatar: null,
+    avatar,
     createdAt: serverTimestamp(),
   }
 }
@@ -59,23 +63,33 @@ export function AuthProvider({ children }) {
       throw new Error('Firebase ulanishi mavjud emas. .env faylini tekshiring.')
     }
 
-    const { email, password, name, role = 'student' } = userData
+    const { email, password, firstName = '', lastName = '', university = '', avatar = null, role = 'student' } = userData
     const { user } = await createUserWithEmailAndPassword(auth, email, password)
 
-    const profile = buildUserProfile(user.uid, user.email, { name, role })
+    let avatarUrl = null
+    if (avatar && typeof avatar !== 'string') {
+      const avatarRef = ref(storage, `avatars/${user.uid}`)
+      await uploadBytes(avatarRef, avatar)
+      avatarUrl = await getDownloadURL(avatarRef)
+    } else if (typeof avatar === 'string') {
+      avatarUrl = avatar
+    }
+
+    const profile = buildUserProfile(user.uid, user.email, {
+      firstName,
+      lastName,
+      university,
+      avatar: avatarUrl,
+      role
+    })
+
     const userRef = doc(db, 'users', user.uid)
     await setDoc(userRef, profile)
 
     const merged = {
       uid: user.uid,
       email: user.email,
-      name: profile.name,
-      role: profile.role,
-      joinDate: profile.joinDate,
-      completedTopics: profile.completedTopics,
-      testResults: profile.testResults,
-      certificates: profile.certificates,
-      avatar: profile.avatar,
+      ...profile
     }
     setCurrentUser(merged)
     return merged
@@ -85,8 +99,28 @@ export function AuthProvider({ children }) {
 
   const updateUser = async (updates) => {
     if (!currentUser) return
-    await setDoc(doc(db, 'users', currentUser.uid), updates, { merge: true })
-    setCurrentUser((prev) => ({ ...prev, ...updates }))
+
+    let avatarUrl = updates.avatar
+    if (updates.avatar && typeof updates.avatar !== 'string') {
+      const avatarRef = ref(storage, `avatars/${currentUser.uid}`)
+      await uploadBytes(avatarRef, updates.avatar)
+      avatarUrl = await getDownloadURL(avatarRef)
+    }
+
+    const finalUpdates = { ...updates }
+    if (avatarUrl !== undefined) {
+      finalUpdates.avatar = avatarUrl
+    }
+
+    // Rebuild name if first or last name changes
+    if (updates.firstName !== undefined || updates.lastName !== undefined) {
+      const fName = updates.firstName !== undefined ? updates.firstName : (currentUser.firstName || '')
+      const lName = updates.lastName !== undefined ? updates.lastName : (currentUser.lastName || '')
+      finalUpdates.name = `${fName} ${lName}`.trim()
+    }
+
+    await setDoc(doc(db, 'users', currentUser.uid), finalUpdates, { merge: true })
+    setCurrentUser((prev) => ({ ...prev, ...finalUpdates }))
   }
 
   const completeTopicDemo = async (topicId) => {

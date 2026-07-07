@@ -6,14 +6,34 @@ import { Map, Eye, EyeOff, UserPlus } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 export default function Register() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const lang = i18n.language || 'uz'
   const { register } = useAuth()
   const navigate = useNavigate()
   const [form, setForm] = useState({
-    name: '', email: '', password: '', confirmPassword: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    university: '',
+    password: '',
+    confirmPassword: '',
   })
+  const [avatarFile, setAvatarFile] = useState(null)
+  const [avatarPreview, setAvatarPreview] = useState(null)
   const [showPw, setShowPw] = useState(false)
   const [loading, setLoading] = useState(false)
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setAvatarFile(file)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setAvatarPreview(reader.result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -28,9 +48,12 @@ export default function Register() {
     setLoading(true)
     try {
       await register({
-        name: form.name,
+        firstName: form.firstName,
+        lastName: form.lastName,
+        university: form.university,
         email: form.email,
         password: form.password,
+        avatar: avatarFile,
         role: 'student',
       })
       toast.success("Muvaffaqiyatli ro'yxatdan o'tdingiz!")
@@ -63,9 +86,39 @@ export default function Register() {
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="label">{lang === 'uz' ? "Ism" : lang === 'ru' ? "Имя" : "First Name"}</label>
+                <input className="input" placeholder="Bobur" value={form.firstName} onChange={set('firstName')} required />
+              </div>
+              <div>
+                <label className="label">{lang === 'uz' ? "Familiya" : lang === 'ru' ? "Фамилия" : "Last Name"}</label>
+                <input className="input" placeholder="Mirzayev" value={form.lastName} onChange={set('lastName')} required />
+              </div>
+            </div>
+
             <div>
-              <label className="label">{t('auth.firstName')}</label>
-              <input className="input" placeholder="Ism Familiya" value={form.name} onChange={set('name')} required />
+              <label className="label">{lang === 'uz' ? "O'quv muassasasi" : lang === 'ru' ? "Учебное заведение" : "Educational Institution"}</label>
+              <input className="input" placeholder="O'zbekiston Milliy Universiteti" value={form.university} onChange={set('university')} required />
+            </div>
+
+            <div>
+              <label className="label">{lang === 'uz' ? "Profil rasmi" : lang === 'ru' ? "Фото профиля" : "Profile Picture"}</label>
+              <div className="flex items-center gap-4 mt-1 bg-white dark:bg-gray-800 p-3 rounded-xl border border-gray-200 dark:border-gray-700">
+                <div className="w-12 h-12 rounded-xl bg-gray-55/50 dark:bg-gray-700/50 flex items-center justify-center text-gray-400 border border-gray-150 dark:border-gray-650 overflow-hidden flex-shrink-0">
+                  {avatarPreview ? (
+                    <img src={avatarPreview} alt="Preview" className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-[10px] text-center leading-none text-gray-400">No Image</span>
+                  )}
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="text-xs text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 dark:file:bg-primary-950/30 dark:file:text-primary-400 cursor-pointer"
+                />
+              </div>
             </div>
 
             <div>

@@ -196,9 +196,13 @@ export default function Sidebar({ open, onClose }) {
         {/* User profile footer */}
         <div className="px-4 py-4 border-t border-gray-150 dark:border-gray-800 bg-gray-50/20 dark:bg-gray-950/20 select-none">
           <div className="flex items-center gap-3 p-2.5 rounded-xl bg-white dark:bg-gray-850 border border-gray-100 dark:border-gray-800 shadow-sm">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-primary-500 to-emerald-400 flex items-center justify-center text-white font-black text-sm shadow-inner relative flex-shrink-0">
-              {currentUser?.name?.charAt(0) || 'U'}
-              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white dark:border-gray-850 rounded-full"></span>
+            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-primary-500 to-emerald-400 flex items-center justify-center text-white font-black text-sm shadow-inner relative flex-shrink-0 overflow-hidden border border-gray-150 dark:border-gray-800">
+              {currentUser?.avatar ? (
+                <img src={currentUser.avatar} alt="Avatar" className="w-full h-full object-cover" />
+              ) : (
+                currentUser?.name?.charAt(0) || 'U'
+              )}
+              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white dark:border-gray-850 rounded-full z-10"></span>
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs font-bold text-gray-900 dark:text-white truncate">

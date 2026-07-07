@@ -15,9 +15,15 @@ export default function ProfilePage() {
   const { currentUser, updateUser } = useAuth()
   const lang = i18n.language
   const [editing, setEditing] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [form, setForm] = useState({
-    name: currentUser?.name || '',
+    firstName: currentUser?.firstName || '',
+    lastName: currentUser?.lastName || '',
+    university: currentUser?.university || '',
+    avatar: currentUser?.avatar || null,
   })
+  const [avatarFile, setAvatarFile] = useState(null)
+  const [avatarPreview, setAvatarPreview] = useState(currentUser?.avatar || null)
 
   const completedTopics = currentUser?.completedTopics || []
   const testResults = currentUser?.testResults || []
@@ -26,10 +32,34 @@ export default function ProfilePage() {
     : 0
   const passedTests = testResults.filter((r) => r.passed).length
 
-  const save = () => {
-    updateUser(form)
-    setEditing(false)
-    toast.success(t('common.success'))
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setAvatarFile(file)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setAvatarPreview(reader.result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const save = async () => {
+    setSaving(true)
+    try {
+      await updateUser({
+        firstName: form.firstName,
+        lastName: form.lastName,
+        university: form.university,
+        avatar: avatarFile || form.avatar,
+      })
+      setEditing(false)
+      toast.success(t('common.success'))
+    } catch (err) {
+      toast.error(err.message)
+    } finally {
+      setSaving(false)
+    }
   }
 
   const getSubjectName = (id) => SUBJECTS.find((s) => s.id === id)?.name[lang] || id
@@ -45,10 +75,29 @@ export default function ProfilePage() {
             </button>
           ) : (
             <div className="flex gap-2">
-              <button onClick={save} className="btn-primary text-sm py-1.5">
-                <Save size={15} /> {t('profile.save')}
+              <button onClick={save} disabled={saving} className="btn-primary text-sm py-1.5 flex items-center gap-1.5">
+                {saving ? (
+                  <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <Save size={15} />
+                )}
+                {saving ? (lang === 'uz' ? 'Saqlanmoqda...' : 'Saving...') : t('profile.save')}
               </button>
-              <button onClick={() => setEditing(false)} className="btn-secondary text-sm py-1.5">
+              <button 
+                onClick={() => { 
+                  setEditing(false)
+                  setAvatarPreview(currentUser?.avatar || null)
+                  setAvatarFile(null)
+                  setForm({
+                    firstName: currentUser?.firstName || '',
+                    lastName: currentUser?.lastName || '',
+                    university: currentUser?.university || '',
+                    avatar: currentUser?.avatar || null
+                  })
+                }} 
+                disabled={saving} 
+                className="btn-secondary text-sm py-1.5"
+              >
                 <X size={15} /> {t('profile.cancel')}
               </button>
             </div>
@@ -56,30 +105,70 @@ export default function ProfilePage() {
         </div>
 
         <div className="flex items-center gap-5 mb-6">
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white text-3xl font-bold flex-shrink-0">
-            {currentUser?.name?.charAt(0) || 'U'}
-          </div>
-          <div>
-            {editing ? (
-              <input
-                className="input text-xl font-bold mb-2"
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-              />
+          <div className="relative group w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white text-3xl font-bold flex-shrink-0 overflow-hidden border border-gray-250 dark:border-gray-750">
+            {avatarPreview ? (
+              <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">{currentUser?.name}</h2>
+              currentUser?.name?.charAt(0) || 'U'
             )}
-            <span className={`badge text-xs capitalize mt-1 ${
-              currentUser?.role === 'admin' ? 'bg-red-100 text-red-700' :
-              currentUser?.role === 'teacher' ? 'bg-purple-100 text-purple-700' :
-              'bg-blue-100 text-blue-700'
-            }`}>
-              {currentUser?.role}
-            </span>
+            {editing && (
+              <label className="absolute inset-0 bg-black/50 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <Edit3 size={18} className="text-white" />
+                <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+              </label>
+            )}
+          </div>
+          <div className="flex-1 min-w-0">
+            {editing ? (
+              <div className="grid grid-cols-2 gap-3 max-w-sm">
+                <div>
+                  <label className="label text-[10px] uppercase font-bold text-gray-400">Ism</label>
+                  <input
+                    className="input py-1 px-2.5 text-sm"
+                    value={form.firstName}
+                    onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <label className="label text-[10px] uppercase font-bold text-gray-400">Familiya</label>
+                  <input
+                    className="input py-1 px-2.5 text-sm"
+                    value={form.lastName}
+                    onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white leading-tight">{currentUser?.name}</h2>
+                <span className={`badge text-[10px] uppercase font-bold tracking-wider mt-1 inline-block ${
+                  currentUser?.role === 'admin' ? 'bg-red-100 text-red-700 dark:bg-red-950/30 dark:text-red-400' :
+                  currentUser?.role === 'teacher' ? 'bg-purple-100 text-purple-700 dark:bg-purple-950/30 dark:text-purple-400' :
+                  'bg-blue-100 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400'
+                }`}>
+                  {currentUser?.role}
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
         <div className="grid sm:grid-cols-2 gap-4">
+          <div className="sm:col-span-2">
+            <label className="label text-xs">O'quv muassasasi</label>
+            {editing ? (
+              <input
+                className="input"
+                value={form.university}
+                placeholder="O'quv muassasangiz nomini kiriting"
+                onChange={(e) => setForm({ ...form, university: e.target.value })}
+              />
+            ) : (
+              <div className="input bg-gray-50/30 dark:bg-gray-800/10 dark:border-gray-700 text-gray-700 dark:text-gray-300">
+                {currentUser?.university || "Kiritilmagan"}
+              </div>
+            )}
+          </div>
           <div>
             <label className="label text-xs">{t('auth.email')}</label>
             <div className="flex items-center gap-2 input cursor-not-allowed opacity-70">

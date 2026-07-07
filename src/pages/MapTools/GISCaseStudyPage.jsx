@@ -53,6 +53,19 @@ export default function GISCaseStudyPage() {
   // Refs for tracking loads
   const isResetAllowedRef = useRef(true)
 
+  // Parse assignment from URL
+  const [assignmentId, setAssignmentId] = useState(null)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const aid = params.get('assignmentId')
+    setAssignmentId(aid)
+    if (aid === 'gis-10') {
+      setActiveProject('hospitals')
+    } else if (aid === 'gis-12') {
+      setActiveProject('schools')
+    }
+  }, [])
+
   // Current active project study: 'roads', 'schools', 'hospitals', 'land'
   const [activeProject, setActiveProject] = useState('roads')
   const mapContainerRef = useRef(null)
@@ -2010,6 +2023,87 @@ export default function GISCaseStudyPage() {
             )}
           </div>
         </div>
+
+        {/* Floating assignment overlay for gis-10 and gis-12 */}
+        {assignmentId && (assignmentId === 'gis-10' || assignmentId === 'gis-12') && (
+          <div className="absolute top-4 right-4 z-[1000] w-64 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-4 rounded-2xl">
+            <h5 className="text-xs font-bold text-gray-900 dark:text-white flex items-center gap-1.5 mb-2">
+              <Briefcase size={14} className="text-primary-500" />
+              <span>Amaliy Topshiriq: {assignmentId.toUpperCase()}</span>
+            </h5>
+
+            {assignmentId === 'gis-10' && (
+              <div className="space-y-3">
+                <p className="text-[10px] text-gray-500 dark:text-gray-400 leading-relaxed">
+                  Tez yordam qamrovi radiusini <b>1250 metr</b> qilib o'rnating.
+                </p>
+                <div className="p-2 rounded bg-gray-50 dark:bg-gray-900/40 text-xs border border-gray-150 dark:border-gray-750 flex items-center justify-between">
+                  <span className="text-gray-650 dark:text-gray-300">Hozirgi radius:</span>
+                  <span className={`font-mono font-bold ${coverageRadius === 1250 ? 'text-emerald-500' : 'text-amber-500'}`}>
+                    {coverageRadius} m
+                  </span>
+                </div>
+                {coverageRadius === 1250 ? (
+                  <button
+                    onClick={() => {
+                      localStorage.setItem('completed_practical_gis-10', 'true')
+                      toast.success("Topshiriq 100 ball bilan muvaffaqiyatli topshirildi! 🎉")
+                      window.location.href = "/subjects/gis/topics/gis-10"
+                    }}
+                    className="w-full btn-primary py-2 text-xs font-bold rounded-xl justify-center"
+                  >
+                    Topshirish
+                  </button>
+                ) : (
+                  <p className="text-[9px] text-amber-500 font-medium">Iltimos, chap panelda radius slayderini 1250 m ga keltiring.</p>
+                )}
+              </div>
+            )}
+
+            {assignmentId === 'gis-12' && (
+              <div className="space-y-3">
+                <p className="text-[10px] text-gray-500 dark:text-gray-400 leading-relaxed">
+                  Chap panelda maktab muvofiqligi tahlil mezonlarining barchasini yoqing:
+                </p>
+                <div className="space-y-1.5 text-[10px]">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600 dark:text-gray-400">1. Aholi zichligi:</span>
+                    <span className={schoolChecklist.popDensity ? 'text-emerald-500 font-bold' : 'text-gray-400'}>
+                      {schoolChecklist.popDensity ? '✓ Yoqilgan' : '✗ O\'chirilgan'}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600 dark:text-gray-400">2. Maktab buferi:</span>
+                    <span className={schoolChecklist.schoolBuffer ? 'text-emerald-500 font-bold' : 'text-gray-400'}>
+                      {schoolChecklist.schoolBuffer ? '✓ Yoqilgan' : '✗ O\'chirilgan'}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600 dark:text-gray-400">3. Yo'lga yaqinlik:</span>
+                    <span className={schoolChecklist.roadAccess ? 'text-emerald-500 font-bold' : 'text-gray-400'}>
+                      {schoolChecklist.roadAccess ? '✓ Yoqilgan' : '✗ O\'chirilgan'}
+                    </span>
+                  </div>
+                </div>
+
+                {schoolChecklist.popDensity && schoolChecklist.schoolBuffer && schoolChecklist.roadAccess ? (
+                  <button
+                    onClick={() => {
+                      localStorage.setItem('completed_practical_gis-12', 'true')
+                      toast.success("Topshiriq 100 ball bilan muvaffaqiyatli topshirildi! 🎉")
+                      window.location.href = "/subjects/gis/topics/gis-12"
+                    }}
+                    className="w-full btn-primary py-2 text-xs font-bold rounded-xl justify-center"
+                  >
+                    Topshirish
+                  </button>
+                ) : (
+                  <p className="text-[9px] text-amber-500 font-medium">Iltimos, chap panelda barcha 3 ta mezonni belgilang.</p>
+                )}
+              </div>
+            )}
+          </div>
+        )}
 
       </div>
 

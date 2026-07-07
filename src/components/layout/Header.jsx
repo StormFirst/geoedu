@@ -97,8 +97,12 @@ export default function Header({ onMenuClick }) {
             onClick={() => { setUserOpen(!userOpen); setLangOpen(false) }}
             className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           >
-            <div className="w-7 h-7 rounded-full bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center text-primary-700 dark:text-primary-400 font-semibold text-xs">
-              {currentUser?.name?.charAt(0) || 'U'}
+            <div className="w-7 h-7 rounded-full bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center text-primary-700 dark:text-primary-400 font-semibold text-xs overflow-hidden border border-gray-200 dark:border-gray-700">
+              {currentUser?.avatar ? (
+                <img src={currentUser.avatar} alt="Avatar" className="w-full h-full object-cover" />
+              ) : (
+                currentUser?.name?.charAt(0) || 'U'
+              )}
             </div>
             <span className="hidden sm:block text-sm font-medium text-gray-700 dark:text-gray-300 max-w-[100px] truncate">
               {currentUser?.name}

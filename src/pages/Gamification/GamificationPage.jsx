@@ -300,6 +300,121 @@ const GAME_LOCATIONS = [
   }
 ]
 
+const PREDEFINED_UZ_FEATURES = [
+  {
+    id: 'uz-f1',
+    target: { lat: 41.6201, lng: 70.0160 },
+    name: { uz: 'Chimyon tog\'i', ru: 'Гора Чимган', en: 'Mount Chimgan' },
+    hint: { uz: 'Toshkent viloyatidagi eng baland tog\' cho\'qqilaridan biri — qishki kurort hududi.', ru: 'Одна из самых высоких горных вершин Ташкентской области — горнолыжный курорт.', en: 'One of the highest mountain peaks in Tashkent region — a winter resort area.' }
+  },
+  {
+    id: 'uz-f2',
+    target: { lat: 41.6253, lng: 70.0402 },
+    name: { uz: 'Chorvoq suv ombori', ru: 'Чарвакское водохранилище', en: 'Charvak Reservoir' },
+    hint: { uz: 'Ugam-Chotqol milliy bog\'idagi mashhur yirik sun\'iy ko\'l.', ru: 'Популярное крупное искусственное озеро в Угам-Чаткальском национальном парке.', en: 'Popular large artificial lake in the Ugam-Chatkal National Park.' }
+  },
+  {
+    id: 'uz-f3',
+    target: { lat: 43.7667, lng: 59.0333 },
+    name: { uz: 'Mo\'ynoq kema qabristoni (Orol dengizi)', ru: 'Кладбище кораблей в Муйнаке (Аральское море)', en: 'Muynak Ship Graveyard (Aral Sea)' },
+    hint: { uz: 'Qurib qolgan Orol dengizining sobiq tubidagi tashlab ketilgan kemalar qabristoni.', ru: 'Кладбище заброшенных кораблей на бывшем дне высохшего Аральского моря.', en: 'Graveyard of abandoned ships on the former bed of the dried-up Aral Sea.' }
+  },
+  {
+    id: 'uz-f4',
+    target: { lat: 39.6022, lng: 68.3244 },
+    name: { uz: 'Zomin milliy bog\'i', ru: 'Зааминский национальный парк', en: 'Zaamin National Park' },
+    hint: { uz: 'Jizzax viloyatidagi archazor o\'rmonlar va toza havoli tog\'lar o\'lkasi.', ru: 'Край арчовых лесов и чистого горного воздуха в Джизакской области.', en: 'Land of juniper forests and fresh mountain air in the Jizzakh region.' }
+  },
+  {
+    id: 'uz-f5',
+    target: { lat: 39.3528, lng: 66.9038 },
+    name: { uz: 'Taxtaqoracha dovoni (Kitob dovoni)', ru: 'Перевал Тахтакарача', en: 'Takhtakaracha Pass' },
+    hint: { uz: 'Samarqand va Qashqadaryo viloyatlarini bog\'lovchi go\'zal tog\' dovoni.', ru: 'Живописный горный перевал, соединяющий Самаркандскую и Кашкадарьинскую области.', en: 'Scenic mountain pass connecting Samarkand and Kashkadarya regions.' }
+  },
+  {
+    id: 'uz-f6',
+    target: { lat: 40.7181, lng: 66.7844 },
+    name: { uz: 'Aydarkul ko\'li bo\'yi', ru: 'Озеро Айдаркуль', en: 'Aydarkul Lake' },
+    hint: { uz: 'Qizilqum cho\'li markazidagi yirik sho\'r ko\'l.', ru: 'Крупное соленое озеро в центре пустыни Кызылкум.', en: 'Large saline lake in the center of the Kyzylkum Desert.' }
+  },
+  {
+    id: 'uz-f7',
+    target: { lat: 38.9667, lng: 67.3333 },
+    name: { uz: 'Hisor tog\' tizmalari', ru: 'Гиссарский хребет', en: 'Hissar Mountain Range' },
+    hint: { uz: 'O\'zbekistonning eng baland cho\'qqilari joylashgan rugged ohaktosh tog\'lari.', ru: 'Суровые известняковые горы, где расположены самые высокие вершины Узбекистана.', en: 'Rugged limestone mountains housing the highest peaks in Uzbekistan.' }
+  },
+  {
+    id: 'uz-f8',
+    target: { lat: 41.5333, lng: 60.6333 },
+    name: { uz: 'Amudaryo vodiysi', ru: 'Долина реки Амударья', en: 'Amu Darya River Valley' },
+    hint: { uz: 'O\'rta Osiyodagi eng yirik daryolardan birining keng qumli o\'zani.', ru: 'Широкое песчаное русло одной из крупнейших рек Средней Азии.', en: 'Wide sandy bed of one of the largest rivers in Central Asia.' }
+  }
+]
+
+const PREDEFINED_WORLD_FEATURES = [
+  {
+    id: 'w-f1',
+    target: { lat: 28.0026, lng: 86.8528 },
+    name: { uz: 'Everest tog\'i bazaviy lageri', ru: 'Базовый лагерь Эвереста', en: 'Mount Everest Base Camp' },
+    hint: { uz: 'Dunyodagi eng baland cho\'qqining etagida joylashgan alpinistlar boshpanasi.', ru: 'Приют альпинистов у подножия самой высокой вершины мира.', en: 'Shelter for climbers at the foot of the highest peak in the world.' }
+  },
+  {
+    id: 'w-f2',
+    target: { lat: 36.0573, lng: -112.1432 },
+    name: { uz: 'Grand Kanyon, AQSh', ru: 'Гранд-Каньон, США', en: 'Grand Canyon, USA' },
+    hint: { uz: 'Kolorado daryosi million yillar davomida o\'yib chiqqan ulkan darasi.', ru: 'Гигантское ущелье, высеченное рекой Колорадо за миллионы лет.', en: 'Giant gorge carved by the Colorado River over millions of years.' }
+  },
+  {
+    id: 'w-f3',
+    target: { lat: 35.3606, lng: 138.7274 },
+    name: { uz: 'Fuji tog\'i, Yaponiya', ru: 'Гора Фудзи, Япония', en: 'Mount Fuji, Japan' },
+    hint: { uz: 'Yaponiyaning ramzi bo\'lgan qorli faol vulqon cho\'qqisi.', ru: 'Заснеженная вершина действующего вулкана, символ Японии.', en: 'Snow-capped active volcano peak, symbol of Japan.' }
+  },
+  {
+    id: 'w-f4',
+    target: { lat: 31.0983, lng: -3.9822 },
+    name: { uz: 'Sahroi Kabir (Merzuga barxanlari)', ru: 'Пустыня Сахара (дюны Мерзуга)', en: 'Sahara Desert (Merzouga dunes)' },
+    hint: { uz: 'Dunyodagi eng katta issiq cho\'lning ulkan to\'q sariq qum tepaliklari.', ru: 'Гигантские оранжевые песчаные холмы крупнейшей жаркой пустыни в мире.', en: 'Gigantic orange sand dunes of the largest hot desert in the world.' }
+  },
+  {
+    id: 'w-f5',
+    target: { lat: 45.9763, lng: 7.6585 },
+    name: { uz: 'Alp tog\'lari (Matterhorn, Shveysariya)', ru: 'Альпы (Маттерхорн, Швейцария)', en: 'Swiss Alps (Matterhorn)' },
+    hint: { uz: 'Piramida shaklidagi go\'zal cho\'qqi — Yevropa Alplari ramzi.', ru: 'Живописная пирамидальная вершина — символ европейских Альп.', en: 'Picturesque pyramidal peak — symbol of the European Alps.' }
+  },
+  {
+    id: 'w-f6',
+    target: { lat: 43.0828, lng: -79.0742 },
+    name: { uz: 'Niagara sharsharasi', ru: 'Ниагарский водопад', en: 'Niagara Falls' },
+    hint: { uz: 'AQSh va Kanada chegarasidagi dunyoning eng sersuv sharsharalaridan biri.', ru: 'Один из самых полноводных водопадов мира на границе США и Канады.', en: 'One of the most voluminous waterfalls in the world on the US-Canada border.' }
+  },
+  {
+    id: 'w-f7',
+    target: { lat: -3.1319, lng: -60.0242 },
+    name: { uz: 'Amazonka daryosi, Braziliya', ru: 'Река Амазонка, Бразилия', en: 'Amazon River, Brazil' },
+    hint: { uz: 'Dunyodagi eng sersuv daryo va uni o\'rab turgan zich tropik o\'rmonlar.', ru: 'Самая полноводная река мира и окружающие её густые тропические леса.', en: 'The most voluminous river in the world and its surrounding dense rainforests.' }
+  },
+  {
+    id: 'w-f8',
+    target: { lat: -17.9243, lng: 25.8572 },
+    name: { uz: 'Viktoriya sharsharasi', ru: 'Водопад Виктория', en: 'Victoria Falls' },
+    hint: { uz: 'Zambezi daryosidagi ulkan sharshara — \"gumburlovchi tutun\" deb ham ataladi.', ru: 'Гигантский водопад на реке Замбези, также называемый \"гремящим дымом\".', en: 'Giant waterfall on the Zambezi River, also called \"the smoke that thunders\".' }
+  },
+  {
+    id: 'w-f9',
+    target: { lat: 64.3104, lng: -20.3024 },
+    name: { uz: 'Geysir issiq buloqlari, Islandiya', ru: 'Горячие источники Гейсир, Исландия', en: 'Geysir Hot Springs, Iceland' },
+    hint: { uz: 'Vaqti-vaqti bilan qaynoq suv otilib chiquvchi geotermal hudud.', ru: 'Геотермальная зона с периодически извергающимися фонтанами горячей воды.', en: 'Geothermal area with periodically erupting fountains of hot water.' }
+  },
+  {
+    id: 'w-f10',
+    target: { lat: -0.7401, lng: -90.3113 },
+    name: { uz: 'Galapagos orollari', ru: 'Галапагосские острова', en: 'Galapagos Islands' },
+    hint: { uz: 'Tinch okeanidagi noyob hayvonot dunyosi va vulqonli tuproqli orollar.', ru: 'Острова в Тихом океане с уникальным животным миром и вулканической почвой.', en: 'Islands in the Pacific Ocean with unique wildlife and volcanic soil.' }
+  }
+]
+
+
 
 // Helper: Custom SVG Icon for markers
 const createMarkerIcon = (type = 'click') => {
@@ -558,8 +673,15 @@ export default function GamificationPage() {
     if (gameTheme === 'landmarks') {
       const shuffled = [...GAME_LOCATIONS].sort(() => 0.5 - Math.random())
       selected = shuffled.slice(0, 5)
+    } else if (gameTheme === 'uz_features') {
+      const shuffled = [...PREDEFINED_UZ_FEATURES].sort(() => 0.5 - Math.random())
+      selected = shuffled.slice(0, 5)
+    } else if (gameTheme === 'world_features') {
+      const shuffled = [...PREDEFINED_WORLD_FEATURES].sort(() => 0.5 - Math.random())
+      selected = shuffled.slice(0, 5)
     } else {
-      selected = await fetchRandomStreetLocations(5, gameTheme === 'uz_streets' ? 'uzbekistan' : 'global')
+      const shuffled = [...GAME_LOCATIONS].sort(() => 0.5 - Math.random())
+      selected = shuffled.slice(0, 5)
     }
 
     setRoundsList(selected)
@@ -597,8 +719,8 @@ export default function GamificationPage() {
     setShowHint(false)
 
     if (mapRef.current) {
-      const center = gameTheme === 'uz_streets' ? [40.0, 66.0] : [20.0, 0.0]
-      const zoom = gameTheme === 'uz_streets' ? 6.5 : 2
+      const center = gameTheme === 'uz_features' ? [40.0, 66.0] : [20.0, 0.0]
+      const zoom = gameTheme === 'uz_features' ? 6.5 : 2
       mapRef.current.setView(center, zoom)
     }
 
@@ -644,8 +766,15 @@ export default function GamificationPage() {
     if (gameTheme === 'landmarks') {
       const shuffled = [...GAME_LOCATIONS].sort(() => 0.5 - Math.random())
       selectedRounds = shuffled.slice(0, 5)
+    } else if (gameTheme === 'uz_features') {
+      const shuffled = [...PREDEFINED_UZ_FEATURES].sort(() => 0.5 - Math.random())
+      selectedRounds = shuffled.slice(0, 5)
+    } else if (gameTheme === 'world_features') {
+      const shuffled = [...PREDEFINED_WORLD_FEATURES].sort(() => 0.5 - Math.random())
+      selectedRounds = shuffled.slice(0, 5)
     } else {
-      selectedRounds = await fetchRandomStreetLocations(5, gameTheme === 'uz_streets' ? 'uzbekistan' : 'global')
+      const shuffled = [...GAME_LOCATIONS].sort(() => 0.5 - Math.random())
+      selectedRounds = shuffled.slice(0, 5)
     }
 
     const code = `GAT-${Math.floor(1000 + Math.random() * 9000)}`
@@ -1019,8 +1148,8 @@ export default function GamificationPage() {
   // Centrally control Leaflet guess map centering when round starts or resets
   useEffect(() => {
     if (screen === 'playing' && mapRef.current && !isRoundFinished) {
-      const center = gameTheme === 'uz_streets' ? [40.0, 66.0] : [20.0, 0.0]
-      const zoom = gameTheme === 'uz_streets' ? 6.5 : 2
+      const center = gameTheme === 'uz_features' ? [40.0, 66.0] : [20.0, 0.0]
+      const zoom = gameTheme === 'uz_features' ? 6.5 : 2
       mapRef.current.setView(center, zoom)
     }
   }, [currentRoundIdx, isRoundFinished, screen, gameTheme])
@@ -1032,8 +1161,8 @@ export default function GamificationPage() {
     if (screen !== 'playing') return
 
     if (mapContainerRef.current && !mapRef.current) {
-      const initialCenter = gameTheme === 'uz_streets' ? [40.0, 66.0] : [20.0, 0.0]
-      const initialZoom = gameTheme === 'uz_streets' ? 6.5 : 2
+      const initialCenter = gameTheme === 'uz_features' ? [40.0, 66.0] : [20.0, 0.0]
+      const initialZoom = gameTheme === 'uz_features' ? 6.5 : 2
 
       mapRef.current = L.map(mapContainerRef.current, {
         zoomControl: false,
@@ -1227,26 +1356,26 @@ export default function GamificationPage() {
               🏛️ Tarixiy joylar
             </button>
             <button
-              onClick={() => setGameTheme('uz_streets')}
+              onClick={() => setGameTheme('uz_features')}
               className={clsx(
                 "flex-1 py-2 text-xs font-bold rounded-xl transition-all",
-                gameTheme === 'uz_streets'
+                gameTheme === 'uz_features'
                   ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow shadow-indigo-500/20"
                   : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900/40"
               )}
             >
-              🇺🇿 O'zbekiston ko'chalari
+              🇺🇿 O'zbekiston tabiati
             </button>
             <button
-              onClick={() => setGameTheme('world_streets')}
+              onClick={() => setGameTheme('world_features')}
               className={clsx(
                 "flex-1 py-2 text-xs font-bold rounded-xl transition-all",
-                gameTheme === 'world_streets'
+                gameTheme === 'world_features'
                   ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow shadow-indigo-500/20"
                   : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900/40"
               )}
             >
-              🌍 Dunyo ko'chalari
+              🌍 Dunyo tabiati
             </button>
           </div>
 

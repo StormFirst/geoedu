@@ -8,10 +8,12 @@ import {
   PlayCircle, Presentation, Sparkles, Copy, Key, RefreshCw
 } from 'lucide-react'
 import { SUBJECTS, TOPICS, TESTS } from '../../data/mockData'
+import { PRESENTATIONS } from '../../data/presentationsData'
 import toast from 'react-hot-toast'
 import clsx from 'clsx'
 import { ref, getDownloadURL } from 'firebase/storage'
 import { storage, isDemoMode } from '../../firebase/config'
+import InteractivePracticalTask from './components/InteractivePracticalTask'
 
 const TABS = [
   { id: 'nazariy',    label: 'Nazariy',      icon: BookOpen },
@@ -28,17 +30,15 @@ export default function TopicDetail() {
   const { currentUser, completeTopicDemo } = useAuth()
   const lang = i18n.language?.slice(0, 2) || 'uz'
 
+  const subject = SUBJECTS.find((s) => s.id === subjectId)
+  const topicsList = TOPICS[subjectId] || []
+  const topic = topicsList.find((tp) => tp.id === topicId)
+  const videoId = topic?.videoUrl?.includes('watch?v=')
+    ? topic.videoUrl.split('watch?v=')[1]
+    : null
+
   const [activeTab, setActiveTab] = useState('nazariy')
-
-  // AI Analysis States
-  const [isAnalyzing, setIsAnalyzing] = useState(false)
-  const [aiAnalysisResult, setAiAnalysisResult] = useState('')
-
-  // Reset analysis when topicId changes
-  useEffect(() => {
-    setAiAnalysisResult('')
-    setIsAnalyzing(false)
-  }, [topicId])
+  const [selectedPresentationUrl, setSelectedPresentationUrl] = useState(null)
 
   const [storageContent, setStorageContent] = useState(null)
   const [isLoadingContent, setIsLoadingContent] = useState(false)
@@ -84,6 +84,185 @@ export default function TopicDetail() {
 
     fetchContent()
   }, [topicId])
+
+  const [theoryCompleted, setTheoryCompleted] = useState(() => {
+    return localStorage.getItem(`completed_theory_${topicId}`) === 'true'
+  })
+  const [videoCompleted, setVideoCompleted] = useState(() => {
+    return localStorage.getItem(`completed_video_${topicId}`) === 'true'
+  })
+  const [presentationCompleted, setPresentationCompleted] = useState(() => {
+    return localStorage.getItem(`completed_presentation_${topicId}`) === 'true'
+  })
+  const [practicalCompleted, setPracticalCompleted] = useState(() => {
+    return localStorage.getItem(`completed_practical_${topicId}`) === 'true'
+  })
+
+  // Save completion states to localStorage
+  useEffect(() => {
+    localStorage.setItem(`completed_theory_${topicId}`, theoryCompleted)
+  }, [theoryCompleted, topicId])
+
+  useEffect(() => {
+    localStorage.setItem(`completed_video_${topicId}`, videoCompleted)
+  }, [videoCompleted, topicId])
+
+  useEffect(() => {
+    localStorage.setItem(`completed_presentation_${topicId}`, presentationCompleted)
+  }, [presentationCompleted, topicId])
+
+  useEffect(() => {
+    localStorage.setItem(`completed_practical_${topicId}`, practicalCompleted)
+  }, [practicalCompleted, topicId])
+
+  // Reset/sync states when topicId changes
+  useEffect(() => {
+    setTheoryCompleted(localStorage.getItem(`completed_theory_${topicId}`) === 'true')
+    setVideoCompleted(localStorage.getItem(`completed_video_${topicId}`) === 'true')
+    setPresentationCompleted(localStorage.getItem(`completed_presentation_${topicId}`) === 'true')
+    setPracticalCompleted(localStorage.getItem(`completed_practical_${topicId}`) === 'true')
+  }, [topicId])
+
+  const isTabLocked = (tabId) => {
+    if (tabId === 'nazariy') return false
+    if (tabId === 'video') return !theoryCompleted
+    if (tabId === 'taqdimot') return videoId ? !videoCompleted : false
+    if (tabId === 'amaliy') {
+      const hasPres = PRESENTATIONS[topicId] && PRESENTATIONS[topicId].length > 0
+      return hasPres ? !presentationCompleted : false
+    }
+    if (tabId === 'ai_tahlil') return false
+    if (tabId === 'test') {
+      const hasPractical = topic ? topic.hasPractical : true
+      return hasPractical ? !practicalCompleted : false
+    }
+    return false
+  }
+
+  const handleTabClick = (tabId) => {
+    if (isTabLocked(tabId)) {
+      if (tabId === 'video') {
+        toast.error(
+          lang === 'uz' 
+            ? "Video darslikni ochish uchun avval nazariy qismni oxirigacha o'qib chiqing (eng pastiga scroll qiling)!" 
+            : "To open the video lesson, read the theoretical part to the very bottom first!"
+        )
+      } else if (tabId === 'taqdimot') {
+        toast.error(
+          lang === 'uz' 
+            ? "Taqdimotni ochish uchun avval video darslikni to'liq ko'rib chiqing!" 
+            : "To open the presentation, watch the video lesson first!"
+        )
+      } else if (tabId === 'amaliy') {
+        toast.error(
+          lang === 'uz' 
+            ? "Amaliy topshiriqni ochish uchun avval taqdimotni ko'rish (Slaydni ko'rish) tugmasini bosing!" 
+            : "To open the practical task, click the View Slides button on the presentation first!"
+        )
+      } else if (tabId === 'test') {
+        toast.error(
+          lang === 'uz' 
+            ? "Testni ochish uchun avval amaliy topshiriqni yakunlang!" 
+            : "To open the test, complete the practical task first!"
+        )
+      }
+      return
+    }
+    setActiveTab(tabId)
+  }
+
+  // Scroll to bottom of theory detection
+  useEffect(() => {
+    if (activeTab !== 'nazariy' || isLoadingContent || theoryCompleted) return
+
+    const timer = setTimeout(() => {
+      const marker = document.getElementById('theory-bottom-marker')
+      if (!marker) return
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setTheoryCompleted(true)
+            toast.success(
+              lang === 'uz' 
+                ? "Nazariy material o'rganildi! Video darslik bo'limi ochildi." 
+                : "Theory material studied! Video lesson tab unlocked."
+            )
+          }
+        },
+        { threshold: 0.1 }
+      )
+
+      observer.observe(marker)
+      return () => observer.disconnect()
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [activeTab, isLoadingContent, topicId, theoryCompleted])
+
+  // YouTube API listener for video ended detection
+  useEffect(() => {
+    if (activeTab !== 'video' || !videoId || videoCompleted) return
+
+    let player
+    let interval
+
+    const createPlayer = () => {
+      if (window.YT && window.YT.Player) {
+        player = new window.YT.Player('youtube-player', {
+          events: {
+            'onStateChange': (event) => {
+              if (event.data === 0) {
+                setVideoCompleted(true)
+                toast.success(
+                  lang === 'uz' 
+                    ? "Video darslik yakunlandi! Taqdimot bo'limi ochildi." 
+                    : "Video lesson completed! Presentation tab unlocked."
+                )
+              }
+            }
+          }
+        })
+        clearInterval(interval)
+      }
+    }
+
+    if (window.YT && window.YT.Player) {
+      createPlayer()
+    } else {
+      if (!document.getElementById('youtube-iframe-api-script')) {
+        const tag = document.createElement('script')
+        tag.id = 'youtube-iframe-api-script'
+        tag.src = 'https://www.youtube.com/iframe_api'
+        const firstScriptTag = document.getElementsByTagName('script')[0]
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
+      }
+      interval = setInterval(createPlayer, 500)
+    }
+
+    return () => {
+      clearInterval(interval)
+      if (player && player.destroy) {
+        try {
+          player.destroy()
+        } catch (e) {
+          console.warn('Error destroying YT player:', e)
+        }
+      }
+    }
+  }, [activeTab, videoId, videoCompleted, topicId])
+
+  // AI Analysis States
+  const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [aiAnalysisResult, setAiAnalysisResult] = useState('')
+
+  // Reset analysis when topicId changes
+  useEffect(() => {
+    setAiAnalysisResult('')
+    setIsAnalyzing(false)
+    setSelectedPresentationUrl(null)
+  }, [topicId])
+
 
   const generateOfflineAnalysis = (currTopic, currentLang) => {
     const title = currTopic.title[currentLang] || currTopic.title.uz
@@ -262,9 +441,6 @@ Format: Return the output formatted in beautiful, clean markdown with icons. Inc
     }
   }
 
-  const subject = SUBJECTS.find((s) => s.id === subjectId)
-  const topicsList = TOPICS[subjectId] || []
-  const topic = topicsList.find((tp) => tp.id === topicId)
   const topicIndex = topicsList.findIndex((tp) => tp.id === topicId)
   const prevTopic = topicsList[topicIndex - 1]
   const nextTopic = topicsList[topicIndex + 1]
@@ -303,9 +479,6 @@ Format: Return the output formatted in beautiful, clean markdown with icons. Inc
     toast.success('Mavzu tugatildi!')
   }
 
-  const videoId = topic.videoUrl?.includes('watch?v=')
-    ? topic.videoUrl.split('watch?v=')[1]
-    : null
 
   const canGoNext = !test ? isCompleted : testPassed
 
@@ -375,19 +548,21 @@ Format: Return the output formatted in beautiful, clean markdown with icons. Inc
               const Icon = tab.icon
               const isActive = activeTab === tab.id
               const isTestTab = tab.id === 'test'
+              const locked = isTabLocked(tab.id)
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => handleTabClick(tab.id)}
                   className={clsx(
                     'flex items-center gap-2 px-4 py-3.5 text-sm font-medium whitespace-nowrap border-b-2 transition-all flex-shrink-0',
                     isActive
                       ? 'border-primary-500 text-primary-600 dark:text-primary-400'
                       : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300',
                     isTestTab && testPassed && 'text-emerald-600 dark:text-emerald-400',
+                    locked && 'opacity-50 cursor-not-allowed',
                   )}
                 >
-                  <Icon size={15} />
+                  {locked ? <Lock size={14} className="text-gray-450 dark:text-gray-550" /> : <Icon size={15} />}
                   {getTabLabel(tab.id)}
                   {isTestTab && testPassed && (
                     <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
@@ -411,11 +586,14 @@ Format: Return the output formatted in beautiful, clean markdown with icons. Inc
                 </p>
               </div>
             ) : (
-              <div
-                className="prose prose-gray dark:prose-invert max-w-none prose-headings:font-bold prose-h2:text-xl prose-h3:text-base prose-li:text-sm"
-                dangerouslySetInnerHTML={{ __html: storageContent || topic.content?.[lang] || topic.content?.uz || '<p>Nazariy matn mavjud emas.</p>' }}
-                style={{ lineHeight: '1.75', color: 'inherit' }}
-              />
+              <div>
+                <div
+                  className="prose prose-gray dark:prose-invert max-w-none prose-headings:font-bold prose-h2:text-xl prose-h3:text-base prose-li:text-sm"
+                  dangerouslySetInnerHTML={{ __html: storageContent || topic.content?.[lang] || topic.content?.uz || '<p>Nazariy matn mavjud emas.</p>' }}
+                  style={{ lineHeight: '1.75', color: 'inherit' }}
+                />
+                <div id="theory-bottom-marker" className="h-4 mt-6 bg-transparent" />
+              </div>
             )
           )}
 
@@ -425,8 +603,9 @@ Format: Return the output formatted in beautiful, clean markdown with icons. Inc
               {videoId ? (
                 <div className="rounded-xl overflow-hidden bg-black aspect-video shadow-lg">
                   <iframe
+                    id="youtube-player"
                     className="w-full h-full"
-                    src={`https://www.youtube.com/embed/${videoId}`}
+                    src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1`}
                     title={topic.title[lang] || topic.title.uz}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
@@ -446,37 +625,144 @@ Format: Return the output formatted in beautiful, clean markdown with icons. Inc
                   ⏱ Davomiyligi: {topic.videoDuration}
                 </p>
               )}
+              {videoId && !videoCompleted && (
+                <div className="mt-5 flex justify-center">
+                  <button
+                    onClick={() => {
+                      setVideoCompleted(true)
+                      toast.success(lang === 'uz' ? "Video yakunlandi! Taqdimot bo'limi ochildi." : "Video completed! Presentation tab unlocked.")
+                    }}
+                    className="btn-secondary text-xs font-semibold py-2 px-4 rounded-xl border-dashed border-gray-300 dark:border-gray-650 hover:bg-gray-50 flex items-center gap-2"
+                  >
+                    <CheckCircle size={14} className="text-emerald-500" />
+                    {lang === 'uz' ? "Videoni ko'rdim deb belgilash" : "Mark video as watched"}
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
           {/* TAQDIMOT */}
           {activeTab === 'taqdimot' && (
             <div>
-              {topic.presentation?.[lang] || topic.presentation?.uz ? (
-                <div className="space-y-4">
-                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border border-blue-100 dark:border-blue-800">
+              {PRESENTATIONS[topicId] && PRESENTATIONS[topicId].length > 0 ? (
+                <div className="space-y-6">
+                  <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950/20 dark:to-amber-950/20 rounded-2xl p-6 border border-orange-100 dark:border-orange-900/30">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-blue-500 flex items-center justify-center">
-                        <Presentation size={20} className="text-white" />
+                      <div className="w-10 h-10 rounded-xl bg-orange-500 flex items-center justify-center text-white shadow-md shadow-orange-500/20">
+                        <Presentation size={20} />
                       </div>
                       <div>
-                        <p className="font-semibold text-gray-900 dark:text-white">Taqdimot materiallari</p>
-                        <p className="text-xs text-gray-500">{topic.title[lang] || topic.title.uz}</p>
+                        <p className="font-semibold text-gray-900 dark:text-white">
+                          {lang === 'uz' ? 'Taqdimot materiallari' : lang === 'ru' ? 'Презентационные материалы' : 'Presentation Materials'}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          {topic.title[lang] || topic.title.uz}
+                        </p>
                       </div>
                     </div>
-                    <div
-                      className="prose prose-sm dark:prose-invert max-w-none"
-                      dangerouslySetInnerHTML={{ __html: topic.presentation[lang] || topic.presentation.uz }}
-                    />
+                    
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      {PRESENTATIONS[topicId].map((pres) => (
+                        <div key={pres.num} className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 flex flex-col justify-between hover:shadow-md transition-all duration-200">
+                          <div className="flex items-start gap-3 mb-4">
+                            <div className="w-10 h-10 rounded-lg bg-orange-50 dark:bg-orange-950/50 flex items-center justify-center text-orange-600 dark:text-orange-400 flex-shrink-0">
+                              <Presentation size={20} />
+                            </div>
+                            <div className="min-w-0">
+                              <h5 className="font-semibold text-gray-900 dark:text-white text-sm leading-snug line-clamp-2" title={pres.title}>
+                                {pres.title}
+                              </h5>
+                              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                                {pres.size}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => {
+                                setSelectedPresentationUrl(pres.url)
+                                if (!presentationCompleted) {
+                                  setPresentationCompleted(true)
+                                  toast.success(
+                                    lang === 'uz'
+                                      ? "Taqdimot o'rganildi! Amaliy topshiriqlar bo'limi ochildi."
+                                      : "Presentation studied! Practical tasks tab unlocked."
+                                  )
+                                }
+                              }}
+                              className="flex-1 text-center py-2 px-3 rounded-lg text-xs font-semibold bg-orange-50 hover:bg-orange-100 text-orange-600 dark:bg-orange-950/30 dark:hover:bg-orange-950/50 dark:text-orange-400 transition-colors"
+                            >
+                              {lang === 'uz' ? "Slaydni ko'rish" : lang === 'ru' ? "Смотреть слайды" : "View Slides"}
+                            </button>
+                            <a
+                              href={pres.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="py-2 px-3 rounded-lg text-xs font-semibold bg-gray-50 hover:bg-gray-100 text-gray-600 border border-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 dark:border-gray-600 transition-colors flex items-center justify-center"
+                              onClick={() => toast.success(`"${pres.title}" yuklab olish boshlandi`)}
+                            >
+                              {lang === 'uz' ? "Yuklab olish" : lang === 'ru' ? "Скачать" : "Download"}
+                            </a>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
+
+                  {selectedPresentationUrl && (
+                    <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden transition-all duration-300">
+                      <div className="flex justify-between items-center mb-4 pb-2 border-b border-b-gray-100 dark:border-b-gray-700">
+                        <h4 className="font-bold text-gray-900 dark:text-white text-base flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+                          {lang === 'uz' ? "Slaydlar ko'rinishi (Google Docs Viewer)" : lang === 'ru' ? "Просмотр слайдов" : "Slides Preview"}
+                        </h4>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => window.open(`https://docs.google.com/viewer?url=${encodeURIComponent(selectedPresentationUrl)}`, '_blank')}
+                            className="text-xs font-semibold text-orange-600 hover:text-orange-700 bg-orange-50 hover:bg-orange-100 dark:bg-orange-950/30 dark:hover:bg-orange-950/50 dark:text-orange-400 px-3 py-1.5 rounded-lg transition-colors"
+                          >
+                            {lang === 'uz' ? "To'liq ekranda ochish" : lang === 'ru' ? "Открыть во весь экран" : "Open Full Screen"}
+                          </button>
+                          <button
+                            onClick={() => setSelectedPresentationUrl(null)}
+                            className="text-xs font-semibold text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 dark:bg-red-950/30 dark:hover:bg-red-950/50 dark:text-red-400 px-3 py-1.5 rounded-lg transition-colors"
+                          >
+                            {lang === 'uz' ? "Yopish" : lang === 'ru' ? "Закрыть" : "Close"}
+                          </button>
+                        </div>
+                      </div>
+                      <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                        <iframe
+                          src={`https://docs.google.com/viewer?url=${encodeURIComponent(selectedPresentationUrl)}&embedded=true`}
+                          width="100%"
+                          height="100%"
+                          frameBorder="0"
+                          title="Google Docs Viewer"
+                          className="w-full h-full"
+                          allowFullScreen
+                          allow="fullscreen"
+                        >
+                          Taqdimot yuklanmadi.
+                        </iframe>
+                      </div>
+                      <p className="text-xs text-gray-400 mt-2 text-center">
+                        {lang === 'uz' ? "Slaydlar yuklanishi uchun bir necha soniya vaqt ketishi mumkin." : "It may take a few seconds to load the slides."}
+                      </p>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center py-16 text-center">
                   <div className="w-16 h-16 rounded-2xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
                     <Presentation size={28} className="text-gray-400" />
                   </div>
-                  <p className="text-gray-500 dark:text-gray-400 font-medium">Taqdimot hozircha mavjud emas</p>
-                  <p className="text-gray-400 text-sm mt-1">O'qituvchi tomonidan yuklanadi</p>
+                  <p className="text-gray-500 dark:text-gray-400 font-medium">
+                    {lang === 'uz' ? "Taqdimot hozircha mavjud emas" : lang === 'ru' ? "Презентация пока недоступна" : "Presentation is not available yet"}
+                  </p>
+                  <p className="text-gray-400 text-sm mt-1">
+                    {lang === 'uz' ? "O'qituvchi tomonidan yuklanadi" : lang === 'ru' ? "Будет загружено преподавателем" : "Will be uploaded by the teacher"}
+                  </p>
                 </div>
               )}
             </div>
@@ -484,44 +770,112 @@ Format: Return the output formatted in beautiful, clean markdown with icons. Inc
 
           {/* AMALIY */}
           {activeTab === 'amaliy' && (
-            <div>
-              {topic.practical?.[lang] || topic.practical?.uz ? (
-                <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-100 dark:border-purple-800">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-purple-500 flex items-center justify-center">
-                      <FlaskConical size={20} className="text-white" />
-                    </div>
+            <div className="space-y-6">
+              {['gis-4', 'gis-10', 'gis-12'].includes(topicId) ? (
+                <div className="bg-white dark:bg-gray-850 rounded-2xl border border-gray-150 dark:border-gray-800 overflow-hidden shadow-sm p-6 space-y-5">
+                  <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
                     <div>
-                      <p className="font-semibold text-gray-900 dark:text-white">Amaliy topshiriq</p>
-                      <p className="text-xs text-gray-500">{topic.title[lang] || topic.title.uz}</p>
-                    </div>
-                  </div>
-                  <div
-                    className="prose prose-sm dark:prose-invert max-w-none"
-                    dangerouslySetInnerHTML={{ __html: topic.practical[lang] || topic.practical.uz }}
-                  />
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-100 dark:border-purple-800">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-purple-500 flex items-center justify-center">
-                        <FlaskConical size={20} className="text-white" />
-                      </div>
-                      <p className="font-semibold text-gray-900 dark:text-white">Amaliy mashg'ulot</p>
-                    </div>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
-                      Bu mavzu bo'yicha amaliy topshiriqni bajarish uchun avval nazariy qismni o'qing
-                      va video darslikni ko'ring. Keyin testni ishlang.
-                    </p>
-                    <div className="mt-4 p-4 bg-white dark:bg-gray-800 rounded-lg border border-purple-100 dark:border-purple-800">
-                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">📋 Topshiriq:</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        "{topic.title[lang] || topic.title.uz}" mavzusidagi asosiy tushunchalarni
-                        daftarga yozib chiqing va har birini o'z so'zlaringiz bilan izohlang.
+                      <h4 className="font-bold text-base text-gray-900 dark:text-white">
+                        {topicId === 'gis-4' && (lang === 'uz' ? 'Vektor va Rastr ma\'lumotlarini tahlil qilish' : 'Vector and Raster Data Analysis')}
+                        {topicId === 'gis-10' && (lang === 'uz' ? 'Proximity va Qoplamali tahlil qilish' : 'Proximity and Overlay Analysis')}
+                        {topicId === 'gis-12' && (lang === 'uz' ? 'Aqlli shahar (School Placement) muvofiqlik tahlili' : 'Smart City School Placement Analysis')}
+                      </h4>
+                      <p className="text-xs text-gray-550 dark:text-gray-400 mt-1 leading-relaxed">
+                        {topicId === 'gis-4' && (lang === 'uz' 
+                          ? 'Ushbu darsning amaliy topshirig\'ini bajarish uchun GIS Laboratoriyasi sahifasiga o\'ting va u yerda Nuqta, Chiziq va Poligon elementlarini chizishni o\'rganing.' 
+                          : 'To complete the practical task for this lesson, navigate to the GIS Laboratory page and practice drawing Point, Line, and Polygon features.')}
+                        {topicId === 'gis-10' && (lang === 'uz' 
+                          ? 'Ushbu topshiriqda GIS Case Study bo\'limidagi Kasalxonalar qamrovi tahlilini tez yordam radiusi 1250 metr qilib bajarish topshiriladi.' 
+                          : 'In this task, you are required to perform proximity coverage analysis for Hospitals inside the GIS Case Study with a 1250m buffer.')}
+                        {topicId === 'gis-12' && (lang === 'uz' 
+                          ? 'GIS Case Study bo\'limidagi Maktab joylashuvi (School Placement) tahlilini barcha muvofiqlik mezonlarini yoqib bajaring.' 
+                          : 'Complete the School Placement analysis in the GIS Case Study by activating all suitability evaluation parameters.')}
                       </p>
                     </div>
+                    {practicalCompleted ? (
+                      <span className="bg-emerald-50 text-emerald-600 dark:bg-emerald-950/20 dark:text-emerald-400 border border-emerald-150 dark:border-emerald-900/30 text-xs font-semibold px-3 py-1.5 rounded-full flex-shrink-0">
+                        100 / 100 Ball ✅
+                      </span>
+                    ) : (
+                      <span className="bg-amber-50 text-amber-600 dark:bg-amber-950/20 dark:text-amber-400 border border-amber-150 dark:border-amber-900/30 text-xs font-semibold px-3 py-1.5 rounded-full flex-shrink-0">
+                        Topshirilmagan ✗
+                      </span>
+                    )}
                   </div>
+
+                  <div className="p-4 bg-gray-50 dark:bg-gray-805/40 rounded-xl border border-gray-100 dark:border-gray-800 text-xs text-gray-600 dark:text-gray-300">
+                    <p className="font-bold mb-1 text-gray-750 dark:text-gray-200">
+                      {lang === 'uz' ? 'Baholash Mezonlari:' : 'Grading Criteria:'}
+                    </p>
+                    <ul className="list-disc pl-4 space-y-1 text-gray-500 dark:text-gray-400">
+                      {topicId === 'gis-4' && (
+                        <>
+                          <li>{lang === 'uz' ? 'Nuqta (Point) elementini chizish va tasdiqlash' : 'Draw and verify a Point feature'}</li>
+                          <li>{lang === 'uz' ? 'Chiziq (Line) elementini chizish va tasdiqlash' : 'Draw and verify a Line feature'}</li>
+                          <li>{lang === 'uz' ? 'Poligon (Polygon) elementini chizish va tasdiqlash' : 'Draw and verify a Polygon feature'}</li>
+                        </>
+                      )}
+                      {topicId === 'gis-10' && (
+                        <>
+                          <li>{lang === 'uz' ? 'Kasalxonalar loyihasiga o\'tish' : 'Open Hospitals Coverage project'}</li>
+                          <li>{lang === 'uz' ? 'Tez yordam bufer radiusini 1250 metrga sozlash' : 'Adjust response radius to 1250 meters'}</li>
+                        </>
+                      )}
+                      {topicId === 'gis-12' && (
+                        <>
+                          <li>{lang === 'uz' ? 'Maktablar loyihasiga o\'tish' : 'Open School Placement project'}</li>
+                          <li>{lang === 'uz' ? 'Aholi zichligi, Maktab buferi, va Yo\'lga yaqinlik mezonlarini belgilash' : 'Check Population density, School buffer, and Road access parameters'}</li>
+                        </>
+                      )}
+                    </ul>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    {topicId === 'gis-4' ? (
+                      <Link
+                        to="/map-tools/gis-lab?assignmentId=gis-4"
+                        className="btn-primary py-2.5 px-5 text-sm font-semibold rounded-xl"
+                      >
+                        {lang === 'uz' ? 'GIS Laboratoriyasiga o\'tish' : 'Go to GIS Laboratory'}
+                      </Link>
+                    ) : (
+                      <Link
+                        to={`/map-tools/gis-case?assignmentId=${topicId}`}
+                        className="btn-primary py-2.5 px-5 text-sm font-semibold rounded-xl"
+                      >
+                        {lang === 'uz' ? 'GIS Case Study sahifasiga o\'tish' : 'Go to GIS Case Study'}
+                      </Link>
+                    )}
+                    {practicalCompleted && (
+                      <span className="text-emerald-500 text-xs font-semibold">
+                        {lang === 'uz' ? 'Topshiriq muvaffaqiyatli topshirildi va baholandi!' : 'Task successfully completed and graded!'}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <InteractivePracticalTask
+                  topicId={topicId}
+                  lang={lang}
+                  onComplete={() => {
+                    if (!practicalCompleted) {
+                      setPracticalCompleted(true)
+                    }
+                  }}
+                  isAlreadyCompleted={practicalCompleted}
+                />
+              )}
+              
+              {(topic.practical?.[lang] || topic.practical?.uz) && (
+                <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-150 dark:border-gray-700 mt-4 shadow-sm">
+                  <h5 className="font-semibold text-gray-900 dark:text-white mb-3 text-sm flex items-center gap-2">
+                    <FlaskConical size={16} className="text-purple-500" />
+                    Topshiriq qo'shimcha ma'lumotlari
+                  </h5>
+                  <div
+                    className="prose prose-sm dark:prose-invert max-w-none text-xs text-gray-500"
+                    dangerouslySetInnerHTML={{ __html: topic.practical[lang] || topic.practical.uz }}
+                  />
                 </div>
               )}
             </div>
@@ -552,13 +906,24 @@ Format: Return the output formatted in beautiful, clean markdown with icons. Inc
                       <p className="text-gray-500 dark:text-gray-400 text-sm mb-6 max-w-sm">
                         Siz bu mavzu testini o'tdingiz. Keyingi mavzuga o'tishingiz mumkin.
                       </p>
-                      <Link
-                        to={`/tests/${test.id}`}
-                        className="btn-secondary text-sm"
-                      >
-                        <FileText size={15} />
-                        Qayta ishlash
-                      </Link>
+                       <div className="flex flex-wrap gap-3 justify-center">
+                        {nextTopic && (
+                          <Link
+                            to={`/subjects/${subjectId}/topics/${nextTopic.id}`}
+                            className="btn-primary flex items-center gap-1.5"
+                          >
+                            <span>Keyingi mavzuga o'tish</span>
+                            <ChevronRight size={16} />
+                          </Link>
+                        )}
+                        <Link
+                          to={`/tests/${test.id}`}
+                          className="btn-secondary text-sm flex items-center gap-1.5"
+                        >
+                          <FileText size={15} />
+                          Qayta ishlash
+                        </Link>
+                      </div>
                     </>
                   ) : (
                     <>

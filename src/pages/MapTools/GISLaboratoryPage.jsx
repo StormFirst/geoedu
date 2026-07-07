@@ -60,6 +60,19 @@ export default function GISLaboratoryPage() {
   const mapContainerRef = useRef(null)
   const mapRef = useRef(null)
 
+  // Parse assignment parameter from URL
+  const [assignmentId, setAssignmentId] = useState(null)
+  const [sessionDrawings, setSessionDrawings] = useState({
+    point: false,
+    line: false,
+    polygon: false
+  })
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    setAssignmentId(params.get('assignmentId'))
+  }, [])
+
   // Active Tool state: 'point', 'line', 'polygon', 'inspect'
   const [activeTool, setActiveTool] = useState('point')
   const [activeTab, setActiveTab] = useState('new-lab') // 'new-lab', 'history'
@@ -855,6 +868,96 @@ export default function GISLaboratoryPage() {
             {lang === 'uz' ? 'Koordinata tizimi: WGS 84' : 'Coordinate Reference: WGS 84'}
           </span>
         </div>
+
+        {/* Floating assignment overlay for GIS-4 */}
+        {assignmentId === 'gis-4' && (
+          <div className="absolute top-16 left-4 z-[1000] w-64 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-4 rounded-2xl">
+            <h5 className="text-xs font-bold text-gray-900 dark:text-white flex items-center gap-1.5 mb-2">
+              <Beaker size={14} className="text-primary-500" />
+              <span>Amaliy Topshiriq: GIS-4</span>
+            </h5>
+            <p className="text-[10px] text-gray-500 dark:text-gray-400 mb-3 leading-relaxed">
+              Xaritaga o'ting va ushbu 3 ta geometriya elementlarini chizib tasdiqlang:
+            </p>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-xs p-1.5 rounded-lg bg-gray-50/50 dark:bg-gray-900/10 border border-gray-100 dark:border-gray-750">
+                <span className="text-gray-700 dark:text-gray-300">Nuqta (Point)</span>
+                {sessionDrawings.point ? (
+                  <span className="text-emerald-500 text-[10px] font-bold">Bajarildi</span>
+                ) : (
+                  <button
+                    onClick={() => {
+                      if (activeTool === 'point' && drawnPoints.length > 0) {
+                        setSessionDrawings(prev => ({ ...prev, point: true }))
+                        toast.success("Nuqta (Point) muvaffaqiyatli tekshirildi!")
+                      } else {
+                        toast.error("Iltimos, avval Point (Nuqta) asbobi bilan nuqta chizing!")
+                      }
+                    }}
+                    className="py-1 px-2 bg-primary-50 hover:bg-primary-100 text-primary-600 dark:bg-primary-950/20 dark:text-primary-400 text-[10px] font-bold rounded"
+                  >
+                    Tekshirish
+                  </button>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between text-xs p-1.5 rounded-lg bg-gray-50/50 dark:bg-gray-900/10 border border-gray-100 dark:border-gray-750">
+                <span className="text-gray-700 dark:text-gray-300">Chiziq (Line)</span>
+                {sessionDrawings.line ? (
+                  <span className="text-emerald-500 text-[10px] font-bold">Bajarildi</span>
+                ) : (
+                  <button
+                    onClick={() => {
+                      if (activeTool === 'line' && drawnPoints.length > 0) {
+                        setSessionDrawings(prev => ({ ...prev, line: true }))
+                        toast.success("Chiziq (Line) muvaffaqiyatli tekshirildi!")
+                      } else {
+                        toast.error("Iltimos, avval Line (Chiziq) asbobi bilan yo'l chizing!")
+                      }
+                    }}
+                    className="py-1 px-2 bg-primary-50 hover:bg-primary-100 text-primary-600 dark:bg-primary-950/20 dark:text-primary-400 text-[10px] font-bold rounded"
+                  >
+                    Tekshirish
+                  </button>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between text-xs p-1.5 rounded-lg bg-gray-50/50 dark:bg-gray-900/10 border border-gray-100 dark:border-gray-750">
+                <span className="text-gray-700 dark:text-gray-300">Poligon (Polygon)</span>
+                {sessionDrawings.polygon ? (
+                  <span className="text-emerald-500 text-[10px] font-bold">Bajarildi</span>
+                ) : (
+                  <button
+                    onClick={() => {
+                      if (activeTool === 'polygon' && drawnPoints.length > 0) {
+                        setSessionDrawings(prev => ({ ...prev, polygon: true }))
+                        toast.success("Poligon (Polygon) muvaffaqiyatli tekshirildi!")
+                      } else {
+                        toast.error("Iltimos, avval Polygon (Poligon) asbobi bilan maydon chizing!")
+                      }
+                    }}
+                    className="py-1 px-2 bg-primary-50 hover:bg-primary-100 text-primary-600 dark:bg-primary-950/20 dark:text-primary-400 text-[10px] font-bold rounded"
+                  >
+                    Tekshirish
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {sessionDrawings.point && sessionDrawings.line && sessionDrawings.polygon && (
+              <button
+                onClick={() => {
+                  localStorage.setItem(`completed_practical_gis-4`, 'true')
+                  toast.success("Topshiriq muvaffaqiyatli topshirildi (100 ball)! 🎉")
+                  window.location.href = "/subjects/gis/topics/gis-4"
+                }}
+                className="w-full mt-3 btn-primary py-2 text-xs font-bold rounded-xl justify-center"
+              >
+                Topshirish (Baho olish)
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   )
