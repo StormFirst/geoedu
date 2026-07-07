@@ -303,51 +303,51 @@ const GAME_LOCATIONS = [
 const PREDEFINED_UZ_FEATURES = [
   {
     id: 'uz-f1',
-    target: { lat: 41.6201, lng: 70.0160 },
-    name: { uz: 'Chimyon tog\'i', ru: 'Гора Чимган', en: 'Mount Chimgan' },
-    hint: { uz: 'Toshkent viloyatidagi eng baland tog\' cho\'qqilaridan biri — qishki kurort hududi.', ru: 'Одна из самых высоких горных вершин Ташкентской области — горнолыжный курорт.', en: 'One of the highest mountain peaks in Tashkent region — a winter resort area.' }
+    target: { lat: 41.618907, lng: 70.026425 },
+    name: { uz: 'Katta Chimyon tog\'i yo\'li', ru: 'Дорога к Большому Чимгану', en: 'Greater Chimgan Peak Road' },
+    hint: { uz: 'Toshkent viloyatidagi eng baland tog\' tizmalaridan biri yonidagi manzara.', ru: 'Живописный вид у подножия одной из самых высоких горных вершин Ташкентской области.', en: 'Scenic mountain panorama near one of the highest mountain ranges in Tashkent region.' }
   },
   {
     id: 'uz-f2',
-    target: { lat: 41.6253, lng: 70.0402 },
-    name: { uz: 'Chorvoq suv ombori', ru: 'Чарвакское водохранилище', en: 'Charvak Reservoir' },
-    hint: { uz: 'Ugam-Chotqol milliy bog\'idagi mashhur yirik sun\'iy ko\'l.', ru: 'Популярное крупное искусственное озеро в Угам-Чаткальском национальном парке.', en: 'Popular large artificial lake in the Ugam-Chatkal National Park.' }
+    target: { lat: 41.625357, lng: 70.029853 },
+    name: { uz: 'Chorvoq suv ombori (Kuzatish maydonchasi)', ru: 'Чарвакское водохранилище (Смотровая)', en: 'Charvak Reservoir Overlook' },
+    hint: { uz: 'Turkuaz suv va tog\'lar bilan o\'ralgan yirik sun\'iy ko\'lni tepadan kuzatish nuqtasi.', ru: 'Смотровая площадка с видом на бирюзовое озеро, окруженное горами.', en: 'High overlook point showing the large turquoise reservoir surrounded by mountains.' }
   },
   {
     id: 'uz-f3',
-    target: { lat: 43.7667, lng: 59.0333 },
-    name: { uz: 'Mo\'ynoq kema qabristoni (Orol dengizi)', ru: 'Кладбище кораблей в Муйнаке (Аральское море)', en: 'Muynak Ship Graveyard (Aral Sea)' },
-    hint: { uz: 'Qurib qolgan Orol dengizining sobiq tubidagi tashlab ketilgan kemalar qabristoni.', ru: 'Кладбище заброшенных кораблей на бывшем дне высохшего Аральского моря.', en: 'Graveyard of abandoned ships on the former bed of the dried-up Aral Sea.' }
+    target: { lat: 39.6548, lng: 66.9757 },
+    name: { uz: 'Registon maydoni, Samarqand', ru: 'Площадь Регистан, Самарканд', en: 'Registan Square, Samarkand' },
+    hint: { uz: 'Temuriylar davriga oid uchta ulug\'vor madrasadan iborat tarixiy me\'moriy ansambl.', ru: 'Знаменитый архитектурный ансамбль из трех величественных медресе эпохи Тимуридов.', en: 'Magnificent architectural ensemble of three grand madrasahs from the Timurid era.' }
   },
   {
     id: 'uz-f4',
-    target: { lat: 39.6022, lng: 68.3244 },
-    name: { uz: 'Zomin milliy bog\'i', ru: 'Зааминский национальный парк', en: 'Zaamin National Park' },
-    hint: { uz: 'Jizzax viloyatidagi archazor o\'rmonlar va toza havoli tog\'lar o\'lkasi.', ru: 'Край арчовых лесов и чистого горного воздуха в Джизакской области.', en: 'Land of juniper forests and fresh mountain air in the Jizzakh region.' }
+    target: { lat: 39.7777, lng: 64.4108 },
+    name: { uz: 'Buxoro Ark qal\'asi', ru: 'Бухарская цитадель Арк', en: 'Ark of Bukhara' },
+    hint: { uz: 'Buxoro amirlarining qadimiy qarorgohi bo\'lgan ulkan tuproqli istehkom.', ru: 'Древняя резиденция бухарских эмиров — величественная глинобитная цитадель.', en: 'Ancient residence of Bukhara emirs — a massive earthen fortress.' }
   },
   {
     id: 'uz-f5',
     target: { lat: 39.3528, lng: 66.9038 },
-    name: { uz: 'Taxtaqoracha dovoni (Kitob dovoni)', ru: 'Перевал Тахтакарача', en: 'Takhtakaracha Pass' },
-    hint: { uz: 'Samarqand va Qashqadaryo viloyatlarini bog\'lovchi go\'zal tog\' dovoni.', ru: 'Живописный горный перевал, соединяющий Самаркандскую и Кашкадарьинскую области.', en: 'Scenic mountain pass connecting Samarkand and Kashkadarya regions.' }
+    name: { uz: 'Taxtaqoracha dovoni tog\'lari', ru: 'Горный перевал Тахтакарача', en: 'Takhtakaracha Pass Mountains' },
+    hint: { uz: 'Zarafshon tog\' tizmasi orqali o\'tuvchi va tog\' manzaralarini ochuvchi yo\'l dovoni.', ru: 'Перевал через Зарафшанский хребет с великолепными горными пейзажами.', en: 'Mountain highway pass traversing the Zarafshan range with stunning mountain views.' }
   },
   {
     id: 'uz-f6',
-    target: { lat: 40.7181, lng: 66.7844 },
-    name: { uz: 'Aydarkul ko\'li bo\'yi', ru: 'Озеро Айдаркуль', en: 'Aydarkul Lake' },
-    hint: { uz: 'Qizilqum cho\'li markazidagi yirik sho\'r ko\'l.', ru: 'Крупное соленое озеро в центре пустыни Кызылкум.', en: 'Large saline lake in the center of the Kyzylkum Desert.' }
+    target: { lat: 41.3783, lng: 60.3601 },
+    name: { uz: 'Ichan Qal\'a, Xiva', ru: 'Ичан-Кала, Хива', en: 'Ichan Kala, Khiva' },
+    hint: { uz: 'Loy devorlar bilan o\'ralgan va ochiq osmon ostidagi muzey hisoblangan qadimiy shahar.', ru: 'Древний город, окруженный глиняными стенами — музей под открытым небом.', en: 'Ancient inner city surrounded by massive clay walls — a living open-air museum.' }
   },
   {
     id: 'uz-f7',
-    target: { lat: 38.9667, lng: 67.3333 },
-    name: { uz: 'Hisor tog\' tizmalari', ru: 'Гиссарский хребет', en: 'Hissar Mountain Range' },
-    hint: { uz: 'O\'zbekistonning eng baland cho\'qqilari joylashgan rugged ohaktosh tog\'lari.', ru: 'Суровые известняковые горы, где расположены самые высокие вершины Узбекистана.', en: 'Rugged limestone mountains housing the highest peaks in Uzbekistan.' }
+    target: { lat: 39.0601, lng: 66.8286 },
+    name: { uz: 'Oqsaroy maydoni, Shahrisabz', ru: 'Площадь Аксарай, Шахрисабз', en: 'Ak Saray Square, Shakhrisabz' },
+    hint: { uz: 'Amir Temurning ulkan saroyi vayronalari joylashgan bog\' va tarixiy majmua.', ru: 'Парковый комплекс с величественными руинами гигантского дворца Амира Тимура.', en: 'Historical garden park containing the ruins of Amir Timur\'s gigantic palace.' }
   },
   {
     id: 'uz-f8',
-    target: { lat: 41.5333, lng: 60.6333 },
-    name: { uz: 'Amudaryo vodiysi', ru: 'Долина реки Амударья', en: 'Amu Darya River Valley' },
-    hint: { uz: 'O\'rta Osiyodagi eng yirik daryolardan birining keng qumli o\'zani.', ru: 'Широкое песчаное русло одной из крупнейших рек Средней Азии.', en: 'Wide sandy bed of one of the largest rivers in Central Asia.' }
+    target: { lat: 41.3111, lng: 69.2406 },
+    name: { uz: 'Amir Temur xiyoboni, Toshkent', ru: 'Сквер Амира Тимура, Ташкент', en: 'Amir Temur Square, Tashkent' },
+    hint: { uz: 'Toshkent shahrining markaziy bog\'i — atrofida Simpoziumlar saroyi va mehmonxonalar joylashgan.', ru: 'Центральный сквер Ташкента с памятником Амиру Тимуру в окружении известных зданий.', en: 'Central square park of Tashkent with the monument of Amir Timur.' }
   }
 ]
 
@@ -570,9 +570,10 @@ export default function GamificationPage() {
 
   const fetchRandomStreetLocations = (count = 5, mode = 'uzbekistan') => {
     return new Promise((resolve) => {
+      const fallbackList = mode === 'uzbekistan' ? PREDEFINED_UZ_FEATURES : PREDEFINED_WORLD_FEATURES
       if (!window.google?.maps) {
         // Fallback to pre-defined locations if Google Maps script is not yet loaded
-        const shuffled = [...GAME_LOCATIONS].sort(() => 0.5 - Math.random())
+        const shuffled = [...fallbackList].sort(() => 0.5 - Math.random())
         resolve(shuffled.slice(0, count))
         return
       }
@@ -586,7 +587,7 @@ export default function GamificationPage() {
         if (results.length >= count || attempts >= maxAttempts) {
           if (results.length < count) {
             const remaining = count - results.length
-            const shuffled = [...GAME_LOCATIONS].sort(() => 0.5 - Math.random())
+            const shuffled = [...fallbackList].sort(() => 0.5 - Math.random())
             resolve([...results, ...shuffled.slice(0, remaining)])
           } else {
             resolve(results)
@@ -673,12 +674,10 @@ export default function GamificationPage() {
     if (gameTheme === 'landmarks') {
       const shuffled = [...GAME_LOCATIONS].sort(() => 0.5 - Math.random())
       selected = shuffled.slice(0, 5)
-    } else if (gameTheme === 'uz_features') {
-      const shuffled = [...PREDEFINED_UZ_FEATURES].sort(() => 0.5 - Math.random())
-      selected = shuffled.slice(0, 5)
-    } else if (gameTheme === 'world_features') {
-      const shuffled = [...PREDEFINED_WORLD_FEATURES].sort(() => 0.5 - Math.random())
-      selected = shuffled.slice(0, 5)
+    } else if (gameTheme === 'uz_streets') {
+      selected = await fetchRandomStreetLocations(5, 'uzbekistan')
+    } else if (gameTheme === 'world_streets') {
+      selected = await fetchRandomStreetLocations(5, 'global')
     } else {
       const shuffled = [...GAME_LOCATIONS].sort(() => 0.5 - Math.random())
       selected = shuffled.slice(0, 5)
@@ -719,8 +718,8 @@ export default function GamificationPage() {
     setShowHint(false)
 
     if (mapRef.current) {
-      const center = gameTheme === 'uz_features' ? [40.0, 66.0] : [20.0, 0.0]
-      const zoom = gameTheme === 'uz_features' ? 6.5 : 2
+      const center = gameTheme === 'uz_streets' ? [40.0, 66.0] : [20.0, 0.0]
+      const zoom = gameTheme === 'uz_streets' ? 6.5 : 2
       mapRef.current.setView(center, zoom)
     }
 
@@ -766,12 +765,10 @@ export default function GamificationPage() {
     if (gameTheme === 'landmarks') {
       const shuffled = [...GAME_LOCATIONS].sort(() => 0.5 - Math.random())
       selectedRounds = shuffled.slice(0, 5)
-    } else if (gameTheme === 'uz_features') {
-      const shuffled = [...PREDEFINED_UZ_FEATURES].sort(() => 0.5 - Math.random())
-      selectedRounds = shuffled.slice(0, 5)
-    } else if (gameTheme === 'world_features') {
-      const shuffled = [...PREDEFINED_WORLD_FEATURES].sort(() => 0.5 - Math.random())
-      selectedRounds = shuffled.slice(0, 5)
+    } else if (gameTheme === 'uz_streets') {
+      selectedRounds = await fetchRandomStreetLocations(5, 'uzbekistan')
+    } else if (gameTheme === 'world_streets') {
+      selectedRounds = await fetchRandomStreetLocations(5, 'global')
     } else {
       const shuffled = [...GAME_LOCATIONS].sort(() => 0.5 - Math.random())
       selectedRounds = shuffled.slice(0, 5)
@@ -1138,18 +1135,23 @@ export default function GamificationPage() {
   // Trigger map size invalidation on dimension changes (transition delays handled)
   useEffect(() => {
     if (mapRef.current) {
-      const t = setTimeout(() => {
-        mapRef.current.invalidateSize()
-      }, 350)
-      return () => clearTimeout(t)
+      mapRef.current.invalidateSize()
+      const t1 = setTimeout(() => mapRef.current?.invalidateSize(), 50)
+      const t2 = setTimeout(() => mapRef.current?.invalidateSize(), 150)
+      const t3 = setTimeout(() => mapRef.current?.invalidateSize(), 350)
+      return () => {
+        clearTimeout(t1)
+        clearTimeout(t2)
+        clearTimeout(t3)
+      }
     }
   }, [mapHovered, isRoundFinished, screen, gameMode, roomData?.roundStatus, isMapFullscreen])
 
   // Centrally control Leaflet guess map centering when round starts or resets
   useEffect(() => {
     if (screen === 'playing' && mapRef.current && !isRoundFinished) {
-      const center = gameTheme === 'uz_features' ? [40.0, 66.0] : [20.0, 0.0]
-      const zoom = gameTheme === 'uz_features' ? 6.5 : 2
+      const center = gameTheme === 'uz_streets' ? [40.0, 66.0] : [20.0, 0.0]
+      const zoom = gameTheme === 'uz_streets' ? 6.5 : 2
       mapRef.current.setView(center, zoom)
     }
   }, [currentRoundIdx, isRoundFinished, screen, gameTheme])
@@ -1161,8 +1163,8 @@ export default function GamificationPage() {
     if (screen !== 'playing') return
 
     if (mapContainerRef.current && !mapRef.current) {
-      const initialCenter = gameTheme === 'uz_features' ? [40.0, 66.0] : [20.0, 0.0]
-      const initialZoom = gameTheme === 'uz_features' ? 6.5 : 2
+      const initialCenter = gameTheme === 'uz_streets' ? [40.0, 66.0] : [20.0, 0.0]
+      const initialZoom = gameTheme === 'uz_streets' ? 6.5 : 2
 
       mapRef.current = L.map(mapContainerRef.current, {
         zoomControl: false,
@@ -1356,26 +1358,26 @@ export default function GamificationPage() {
               🏛️ Tarixiy joylar
             </button>
             <button
-              onClick={() => setGameTheme('uz_features')}
+              onClick={() => setGameTheme('uz_streets')}
               className={clsx(
                 "flex-1 py-2 text-xs font-bold rounded-xl transition-all",
-                gameTheme === 'uz_features'
+                gameTheme === 'uz_streets'
                   ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow shadow-indigo-500/20"
                   : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900/40"
               )}
             >
-              🇺🇿 O'zbekiston tabiati
+              🇺🇿 O'zbekiston ko'chalari
             </button>
             <button
-              onClick={() => setGameTheme('world_features')}
+              onClick={() => setGameTheme('world_streets')}
               className={clsx(
                 "flex-1 py-2 text-xs font-bold rounded-xl transition-all",
-                gameTheme === 'world_features'
+                gameTheme === 'world_streets'
                   ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow shadow-indigo-500/20"
                   : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900/40"
               )}
             >
-              🌍 Dunyo tabiati
+              🌍 Dunyo ko'chalari
             </button>
           </div>
 
@@ -1875,7 +1877,7 @@ export default function GamificationPage() {
               // Guessing phase: either floating mini-map or full screen
               ((gameMode === 'solo' && !isRoundFinished) || (gameMode === 'battle' && roomData?.roundStatus === 'guessing' && !isRoundFinished))
                 ? (isMapFullscreen
-                    ? "absolute inset-0 w-full h-full z-0 rounded-none border-0 shadow-none"
+                    ? "absolute inset-0 w-full h-full z-10 rounded-none border-0 shadow-none"
                     : clsx(
                         "absolute bottom-4 right-4 z-[1000] border-2",
                         mapHovered 
@@ -1885,7 +1887,7 @@ export default function GamificationPage() {
                   )
                 
                 // Results/Summary phase: Always full screen map takeover
-                : "absolute inset-0 w-full h-full z-0 rounded-none border-0 shadow-none"
+                : "absolute inset-0 w-full h-full z-10 rounded-none border-0 shadow-none"
             )}
           >
             {/* Maximize map button when shrunken */}
@@ -1898,12 +1900,12 @@ export default function GamificationPage() {
                 <Maximize2 size={13} />
               </button>
             )}
-            <div ref={mapContainerRef} className="w-full h-full" />
+            <div ref={mapContainerRef} className="w-full h-full" style={{ width: '100%', height: '100%' }} />
           </div>
 
           {/* ACTIVE ROUND RESULTS feedback floating modal (Solo) */}
           {gameMode === 'solo' && isRoundFinished && (
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1000] w-[320px] sm:w-[350px] bg-white/95 dark:bg-gray-800/95 shadow-2xl rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50 text-center space-y-4">
+            <div className="absolute bottom-4 left-4 z-[1000] w-[320px] sm:w-[350px] bg-white/95 dark:bg-gray-800/95 shadow-2xl rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50 text-center space-y-4 animate-fade-in">
               <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 flex items-center justify-center mx-auto">
                 <CheckCircle size={24} />
               </div>
@@ -1937,7 +1939,7 @@ export default function GamificationPage() {
 
           {/* ACTIVE ROUND RESULTS feedback floating modal (Battle) */}
           {gameMode === 'battle' && roomData && roomData.roundStatus === 'results' && (
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1000] w-[320px] sm:w-[360px] bg-white/95 dark:bg-gray-800/95 shadow-2xl rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50 text-center space-y-4">
+            <div className="absolute bottom-4 left-4 z-[1000] w-[320px] sm:w-[360px] bg-white/95 dark:bg-gray-800/95 shadow-2xl rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50 text-center space-y-4 animate-fade-in">
               <div className="w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-600 flex items-center justify-center mx-auto">
                 <Trophy size={24} />
               </div>
