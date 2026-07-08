@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import {
   LayoutDashboard, BookOpen, Video, FileText, ClipboardList,
   Download, User, Trophy, Award, Settings, Users, BarChart3,
-  Map, X, Gamepad2, Sparkles, Beaker, Briefcase,
+  Map, X, Gamepad2, Sparkles, Beaker, Briefcase, Globe
 } from 'lucide-react'
 import clsx from 'clsx'
 
@@ -37,6 +37,7 @@ const studentCategories = [
       { to: '/ai-assistant', label: 'nav.aiAssistant', icon: Sparkles },
       { to: '/gis-lab', label: 'nav.gisLab', icon: Beaker },
       { to: '/gis-case-study', label: 'nav.gisCaseStudy', icon: Briefcase },
+      { to: '/arcgis-3d', label: 'nav.arcgis3d', icon: Globe },
     ]
   },
   {

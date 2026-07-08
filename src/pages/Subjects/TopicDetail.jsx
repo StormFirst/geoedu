@@ -833,14 +833,14 @@ Format: Return the output formatted in beautiful, clean markdown with icons. Inc
                   <div className="flex items-center gap-3">
                     {topicId === 'gis-4' ? (
                       <Link
-                        to="/map-tools/gis-lab?assignmentId=gis-4"
+                        to="/gis-lab?assignmentId=gis-4"
                         className="btn-primary py-2.5 px-5 text-sm font-semibold rounded-xl"
                       >
                         {lang === 'uz' ? 'GIS Laboratoriyasiga o\'tish' : 'Go to GIS Laboratory'}
                       </Link>
                     ) : (
                       <Link
-                        to={`/map-tools/gis-case?assignmentId=${topicId}`}
+                        to={`/gis-case-study?assignmentId=${topicId}`}
                         className="btn-primary py-2.5 px-5 text-sm font-semibold rounded-xl"
                       >
                         {lang === 'uz' ? 'GIS Case Study sahifasiga o\'tish' : 'Go to GIS Case Study'}

@@ -14,6 +14,7 @@ import MapToolsPage from './pages/MapTools/MapToolsPage'
 import AIAssistantPage from './pages/AIAssistant/AIAssistantPage'
 import GISLaboratoryPage from './pages/MapTools/GISLaboratoryPage'
 import GISCaseStudyPage from './pages/MapTools/GISCaseStudyPage'
+import ArcGIS3DPage from './pages/MapTools/ArcGIS3DPage'
 import GamificationPage from './pages/Gamification/GamificationPage'
 import TestsList from './pages/Tests/TestsList'
 import TestTaker from './pages/Tests/TestTaker'
@@ -62,6 +63,7 @@ export default function App() {
         <Route path="/ai-assistant" element={<AIAssistantPage />} />
         <Route path="/gis-lab" element={<GISLaboratoryPage />} />
         <Route path="/gis-case-study" element={<GISCaseStudyPage />} />
+        <Route path="/arcgis-3d" element={<ArcGIS3DPage />} />
         <Route path="/gamification" element={<GamificationPage />} />
         <Route path="/videos" element={<VideosPage />} />
         <Route path="/tests" element={<TestsList />} />
