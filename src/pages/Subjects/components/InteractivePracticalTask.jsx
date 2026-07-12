@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { MapPin, Compass, Percent, Layers, CheckCircle2, RotateCcw, HelpCircle, Ruler, Box, Activity, CheckSquare, Settings, Database, Server, Image, ShieldAlert } from 'lucide-react'
+import { MapPin, Compass, Percent, Layers, CheckCircle2, RotateCcw, HelpCircle, Ruler, Box, Activity, CheckSquare, Settings, Database, Server, Image, ShieldAlert, ExternalLink, Globe, Building2, Cpu, TreePine } from 'lucide-react'
 
 // Simple Haversine formula to compute distance in km
 function getDistance(lat1, lon1, lat2, lon2) {
@@ -19,6 +20,7 @@ function getDistance(lat1, lon1, lat2, lon2) {
 }
 
 export default function InteractivePracticalTask({ topicId, lang, onComplete, isAlreadyCompleted }) {
+  const navigate = useNavigate()
   const [taskState, setTaskState] = useState('idle') // idle, active, success, fail
   const [feedbackMsg, setFeedbackMsg] = useState('')
   const [attempts, setAttempts] = useState(0)
@@ -53,6 +55,20 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
     title: false, legend: false, scale: false, north: false, cpu: false, internet: false
   })
   const [gis13Input, setGis13Input] = useState('')
+
+  // GIS-4: Raster vs Vector classification
+  const [gis4Classified, setGis4Classified] = useState({})
+  const [gis4Score, setGis4Score] = useState(0)
+
+  // GIS-10: Buffer analysis map
+  const gis10MapRef = useRef(null)
+  const gis10LeafletMap = useRef(null)
+  const gis10BufferLayers = useRef([])
+  const [gis10SelectedCity, setGis10SelectedCity] = useState(null)
+  const [gis10Input, setGis10Input] = useState('')
+
+  // GIS-12: ArcGIS 3D sandbox task
+  const [gis12ScoreInput, setGis12ScoreInput] = useState('')
 
   // Matching game states for default and matched tasks
   const [dragItems, setDragItems] = useState([])
@@ -212,6 +228,22 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
         "Nyu-York (Tayms-skver)": "40.712° N, -74.006° W"
       },
 
+      // gis-4
+      gis4_title: "Vektor va Raster ma'lumotlarni tasniflash",
+      gis4_desc: "Quyidagi 6 ta geografik ma'lumot namunasini 'Vektor' yoki 'Raster' turlaridan biriga tasniflang. Har bir to'g'ri tasniflash 1 ball beradi (maks. 6 ball).",
+      gis4_items: [
+        { id: 'a', label: '📍 GPS yordamida olingan nuqtalar (koordinatalar)', correct: 'vector' },
+        { id: 'b', label: '🛰️ Landsat-8 sun\'iy yo\'ldosh tasviri (piksellar)', correct: 'raster' },
+        { id: 'c', label: '🌊 Daryo va kanal chiziqli konfiguratsiyasi', correct: 'vector' },
+        { id: 'd', label: '🏔️ DEM — Raqamli Balandlik Modeli (grid)', correct: 'raster' },
+        { id: 'e', label: '🏙️ Shahar chegara ko\'pburchagi (polygon)', correct: 'vector' },
+        { id: 'f', label: '🌡️ Harorat interpolatsiyasi (issiqlik xaritasi)', correct: 'raster' },
+      ],
+      gis4_vectorBtn: "Vektor",
+      gis4_rasterBtn: "Raster",
+      gis4_score: "Ball",
+      gis4_submitLabel: "Barcha kartochkalar tasniflanmadi",
+
       // gis-5
       gis5_title: "WMS server so'rov parametrlari",
       gis5_desc: "WMS (Web Map Service) serverdan xarita tasvirini olish so'rovida qatnashishi majburiy bo'lgan 5 ta asosiy parametrni tanlang.",
@@ -262,6 +294,21 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
       gis11_opt4: "Masshtab chizig'i (Scale Bar)",
       gis11_opt5: "Kompyuter video kartasi modeli",
       gis11_opt6: "Internet tarmog'i tezligi",
+
+      // gis-10
+      gis10_title: "Buffer Tahlili — Shahar atrofida Muhofaza Zonasi",
+      gis10_desc: "Quyidagi interaktiv xaritada O'zbekiston shaharlari ko'rsatilgan. Biror shahar ustiga bosing — uning atrofida 50 km va 100 km bufer zonalari chiziladi. Keyin bu shaharning nomini kiriting va topshiriqni tasdiqlang.",
+      gis10_label: "Bosgan shahar nomini kiriting:",
+      gis10_submit: "Tasdiqlash",
+      gis10_hint: "Maslahat: Xaritada ko'rsatilgan shaharlardan birini tanlang (Toshkent, Samarqand, Buxoro yoki Namangan).",
+
+      // gis-12
+      gis12_title: "ArcGIS 3D Sandbox — Aqlli Shahar Loyihalash",
+      gis12_desc: "Bu amaliy topshiriq platformaning ArcGIS 3D Sandbox sahifasida bajariladi. Quyidagi vazifani bajaring:",
+      gis12_task: "3D xaritada kamida 5 ta bino, 3 ta shamol turbinasi va 8 ta daraxt joylashtiring. Loyihangizni saqlang va ochiq meydonda umumiy ob'ektlar sonini hisoblang.",
+      gis12_scoreLabel: "Loyihangizdagi jami ob'ektlar sonini kiriting:",
+      gis12_openBtn: "ArcGIS 3D Sandbox ga o'tish →",
+      gis12_hint: "Maslahat: 3D sahifasida Edit Mode tugmasini bosib ob'ektlar qo'shing. Maqsad: kamida 16 ta ob'ekt (5 bino + 3 turbin + 8 daraxt).",
 
       // gis-13
       gis13_title: "NDVI vegetatsiya indeksini hisoblash",
@@ -531,6 +578,17 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
 
   const tStr = localText[lang] || localText.uz
 
+  // Sync taskState with isAlreadyCompleted
+  useEffect(() => {
+    if (isAlreadyCompleted) {
+      setTaskState('success')
+      setFeedbackMsg(tStr.successMsg)
+    } else {
+      setTaskState('idle')
+      setFeedbackMsg('')
+    }
+  }, [isAlreadyCompleted, topicId])
+
   // Setup matching game states for matching exercises dynamically
   useEffect(() => {
     let sourceTerms = null
@@ -565,6 +623,90 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
       setDragItems({ terms: termsList, definitions: shuffledDefs })
     }
   }, [topicId, lang])
+
+  // Initialize Leaflet map for gis-10 (buffer analysis)
+  useEffect(() => {
+    if (taskState !== 'active') return
+    if (topicId !== 'gis-10') return
+
+    if (gis10LeafletMap.current) {
+      gis10LeafletMap.current.remove()
+      gis10LeafletMap.current = null
+    }
+
+    const timer = setTimeout(() => {
+      if (!gis10MapRef.current) return
+
+      const map = L.map(gis10MapRef.current, {
+        center: [41.3, 63.5],
+        zoom: 6,
+        zoomControl: true,
+      })
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{y}/{x}.png', {
+        maxZoom: 18,
+        attribution: '© OpenStreetMap'
+      }).addTo(map)
+
+      gis10LeafletMap.current = map
+
+      // Uzbekistan cities
+      const cities = [
+        { name: 'Toshkent', lat: 41.299, lng: 69.240 },
+        { name: 'Samarqand', lat: 39.655, lng: 66.975 },
+        { name: 'Buxoro', lat: 39.768, lng: 64.422 },
+        { name: 'Namangan', lat: 40.998, lng: 71.672 },
+        { name: 'Andijon', lat: 40.783, lng: 72.343 },
+        { name: "Farg'ona", lat: 40.384, lng: 71.787 },
+        { name: 'Nukus', lat: 42.460, lng: 59.612 },
+      ]
+
+      const cityIcon = L.divIcon({
+        className: '',
+        html: `<div style="width:12px;height:12px;border-radius:50%;background:#3b82f6;border:2px solid white;box-shadow:0 0 6px rgba(59,130,246,0.6)"></div>`,
+        iconSize: [12, 12],
+        iconAnchor: [6, 6]
+      })
+
+      cities.forEach(city => {
+        const marker = L.marker([city.lat, city.lng], { icon: cityIcon })
+          .addTo(map)
+          .bindTooltip(`<b>${city.name}</b>`, { permanent: false, direction: 'top' })
+
+        marker.on('click', () => {
+          // Remove old buffers
+          gis10BufferLayers.current.forEach(l => {
+            try { map.removeLayer(l) } catch(e){}
+          })
+          gis10BufferLayers.current = []
+
+          // Draw 50km and 100km circles
+          const circle50 = L.circle([city.lat, city.lng], {
+            radius: 50000,
+            color: '#f59e0b',
+            fillColor: '#fef3c7',
+            fillOpacity: 0.25,
+            weight: 2,
+          }).addTo(map).bindTooltip('50 km bufer zonasi', { direction: 'center' })
+
+          const circle100 = L.circle([city.lat, city.lng], {
+            radius: 100000,
+            color: '#ef4444',
+            fillColor: '#fee2e2',
+            fillOpacity: 0.15,
+            weight: 1.5,
+            dashArray: '6,4',
+          }).addTo(map).bindTooltip('100 km bufer zonasi', { direction: 'center' })
+
+          gis10BufferLayers.current = [circle50, circle100]
+          setGis10SelectedCity(city.name)
+          setGis10Input(city.name)
+        })
+      })
+    }, 150)
+
+    return () => clearTimeout(timer)
+  }, [taskState, topicId])
 
   // Initialize Map for topo-3 and gis-3
   useEffect(() => {
@@ -695,7 +837,8 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
 
   // topo check functions
   const checkTopo1 = () => {
-    const val = parseInt(topo1Input.replace(/,/g, '').trim())
+    const cleanVal = topo1Input.replace(/[\s,\._a-zA-Z]/g, '').trim()
+    const val = parseInt(cleanVal)
     if (val === 21382) {
       setFeedbackMsg(tStr.successMsg)
       setTaskState('success')
@@ -707,7 +850,8 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
   }
 
   const checkTopo2 = () => {
-    const val = parseInt(topo2Input.trim())
+    const cleanVal = topo2Input.replace(/[\s,\._a-zA-Z]/g, '').trim()
+    const val = parseInt(cleanVal)
     if (val === 2750) {
       setFeedbackMsg(tStr.successMsg)
       setTaskState('success')
@@ -719,7 +863,8 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
   }
 
   const checkAzimuth = () => {
-    const val = parseInt(azimuthInput.trim())
+    const cleanVal = azimuthInput.replace(/[\s,\._a-zA-Z]/g, '').trim()
+    const val = parseInt(cleanVal)
     if (isNaN(val)) return
     if (Math.abs(val - 120) <= 3) {
       setFeedbackMsg(tStr.successMsg)
@@ -732,7 +877,8 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
   }
 
   const checkSlope = () => {
-    const val = parseFloat(slopeInput.trim())
+    const cleanVal = slopeInput.replace(/[\s,\._a-zA-Z]/g, '').trim()
+    const val = parseFloat(cleanVal)
     if (val === 8) {
       setFeedbackMsg(tStr.successMsg)
       setTaskState('success')
@@ -744,8 +890,10 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
   }
 
   const checkTopo6 = () => {
-    const deg = parseInt(topo6Deg.trim())
-    const min = parseInt(topo6Min.trim())
+    const cleanDeg = topo6Deg.replace(/[\s,\._a-zA-Z]/g, '').trim()
+    const cleanMin = topo6Min.replace(/[\s,\._a-zA-Z]/g, '').trim()
+    const deg = parseInt(cleanDeg)
+    const min = parseInt(cleanMin)
     if (deg === 125 && min === 24) {
       setFeedbackMsg(tStr.successMsg)
       setTaskState('success')
@@ -757,8 +905,8 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
   }
 
   const checkTopo7 = () => {
-    const cleaned = topo7Input.replace('+', '').trim()
-    const val = parseInt(cleaned)
+    const cleanVal = topo7Input.replace(/[\s,\._a-zA-Z\+]/g, '').trim()
+    const val = parseInt(cleanVal)
     if (val === 2) {
       setFeedbackMsg(tStr.successMsg)
       setTaskState('success')
@@ -770,7 +918,8 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
   }
 
   const checkTopo8 = () => {
-    const val = parseFloat(topo8Input.trim())
+    const cleanVal = topo8Input.replace(/[^0-9\.]/g, '').trim()
+    const val = parseFloat(cleanVal)
     if (val === 102.93) {
       setFeedbackMsg(tStr.successMsg)
       setTaskState('success')
@@ -795,7 +944,8 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
   }
 
   const checkKarto5 = () => {
-    const val = parseInt(karto5Input.trim())
+    const cleanVal = karto5Input.replace(/[\s,\._a-zA-Z]/g, '').trim()
+    const val = parseInt(cleanVal)
     if (val === 175) {
       setFeedbackMsg(tStr.successMsg)
       setTaskState('success')
@@ -835,7 +985,8 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
   }
 
   const checkKarto8 = () => {
-    const val = parseInt(karto8Input.trim())
+    const cleanVal = karto8Input.replace(/[\s,\._a-zA-Z]/g, '').trim()
+    const val = parseInt(cleanVal)
     if (val === 1000) {
       setFeedbackMsg(tStr.successMsg)
       setTaskState('success')
@@ -904,7 +1055,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
   }
 
   const checkGis7 = () => {
-    const val = gis7Input.trim().toLowerCase()
+    const val = gis7Input.replace(/[\s']/g, '').trim().toLowerCase()
     if (val === 'parcel_id') {
       setFeedbackMsg(tStr.successMsg)
       setTaskState('success')
@@ -928,7 +1079,8 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
   }
 
   const checkGis13 = () => {
-    const val = parseFloat(gis13Input.trim())
+    const cleanVal = gis13Input.replace(/[^0-9\.]/g, '').trim()
+    const val = parseFloat(cleanVal)
     if (val === 0.5 || val === 0.50) {
       setFeedbackMsg(tStr.successMsg)
       setTaskState('success')
@@ -936,6 +1088,64 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
     } else {
       setAttempts(a => a + 1)
       setFeedbackMsg(tStr.incorrectMsg + " Maslahat: (0.60 - 0.20) / (0.60 + 0.20) = 0.40 / 0.80")
+    }
+  }
+
+  // GIS-4: Classify an item as vector or raster
+  const handleGis4Classify = (itemId, type) => {
+    if (taskState === 'success') return
+    const item = tStr.gis4_items.find(i => i.id === itemId)
+    const isCorrect = item?.correct === type
+    const newClassified = { ...gis4Classified, [itemId]: { type, correct: isCorrect } }
+    setGis4Classified(newClassified)
+
+    if (Object.keys(newClassified).length === tStr.gis4_items.length) {
+      const score = Object.values(newClassified).filter(v => v.correct).length
+      setGis4Score(score)
+      if (score >= 5) {
+        setFeedbackMsg(tStr.successMsg + ` (${score}/6 to'g'ri)`)
+        setTaskState('success')
+        onComplete()
+      } else {
+        setAttempts(a => a + 1)
+        setFeedbackMsg(tStr.incorrectMsg + ` ${score}/6 to'g'ri. Kamida 5 ta to'g'ri bo'lishi kerak.`)
+        setGis4Classified({})
+      }
+    }
+  }
+
+  // GIS-10: Buffer map city click
+  const handleGis10Submit = () => {
+    const validCities = ['toshkent', 'samarqand', 'buxoro', 'namangan', 'andijon', 'farg\'ona', 'nukus']
+    const val = gis10Input.trim().toLowerCase()
+    if (!gis10SelectedCity) {
+      setFeedbackMsg("Avval xaritadan shahar ustiga bosing.")
+      return
+    }
+    if (validCities.some(c => val.includes(c.slice(0, 4)))) {
+      setFeedbackMsg(tStr.successMsg)
+      setTaskState('success')
+      onComplete()
+    } else {
+      setAttempts(a => a + 1)
+      setFeedbackMsg(tStr.incorrectMsg + " Maslahat: Xaritadagi markerga bosganda shahar nomi ko'rinadi.")
+    }
+  }
+
+  // GIS-12: ArcGIS 3D score check
+  const checkGis12 = () => {
+    const val = parseInt(gis12ScoreInput.trim())
+    if (isNaN(val)) {
+      setFeedbackMsg("Iltimos, raqam kiriting.")
+      return
+    }
+    if (val >= 16) {
+      setFeedbackMsg(tStr.successMsg + ` (${val} ta ob'ekt joylashtirildi 🏙️)`)
+      setTaskState('success')
+      onComplete()
+    } else {
+      setAttempts(a => a + 1)
+      setFeedbackMsg(tStr.incorrectMsg + ` Hozir ${val} ta ob'ekt bor. Kamida 16 ta (5 bino + 3 turbin + 8 daraxt) bo'lishi kerak.`)
     }
   }
 
@@ -1002,6 +1212,17 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
     setGis7Input('')
     setGis11Checks({ title: false, legend: false, scale: false, north: false, cpu: false, internet: false })
     setGis13Input('')
+    setGis4Classified({})
+    setGis4Score(0)
+    setGis10SelectedCity(null)
+    setGis10Input('')
+    setGis12ScoreInput('')
+    if (gis10LeafletMap.current) {
+      gis10BufferLayers.current.forEach(l => {
+        try { gis10LeafletMap.current.removeLayer(l) } catch(e){}
+      })
+      gis10BufferLayers.current = []
+    }
     setMatches({})
     setSelectedTerm(null)
     polygonPoints.current = []
@@ -1058,12 +1279,15 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
               {topicId === 'karto-9' && tStr.karto9_title}
               {topicId === 'gis-1' && tStr.gis1_title}
               {topicId === 'gis-2' && tStr.gis2_title}
+              {topicId === 'gis-4' && tStr.gis4_title}
               {topicId === 'gis-5' && tStr.gis5_title}
               {topicId === 'gis-6' && tStr.gis6_title}
               {topicId === 'gis-7' && tStr.gis7_title}
               {topicId === 'gis-8' && tStr.gis8_title}
               {topicId === 'gis-9' && tStr.gis9_title}
+              {topicId === 'gis-10' && tStr.gis10_title}
               {topicId === 'gis-11' && tStr.gis11_title}
+              {topicId === 'gis-12' && tStr.gis12_title}
               {topicId === 'gis-13' && tStr.gis13_title}
               {topicId === 'gis-14' && tStr.gis14_title}
               {topicId === 'gis-15' && tStr.gis15_title}
@@ -1105,12 +1329,15 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
               {topicId === 'karto-9' && tStr.karto9_desc}
               {topicId === 'gis-1' && tStr.gis1_desc}
               {topicId === 'gis-2' && tStr.gis2_desc}
+              {topicId === 'gis-4' && tStr.gis4_desc}
               {topicId === 'gis-5' && tStr.gis5_desc}
               {topicId === 'gis-6' && tStr.gis6_desc}
               {topicId === 'gis-7' && tStr.gis7_desc}
               {topicId === 'gis-8' && tStr.gis8_desc}
               {topicId === 'gis-9' && tStr.gis9_desc}
+              {topicId === 'gis-10' && tStr.gis10_desc}
               {topicId === 'gis-11' && tStr.gis11_desc}
+              {topicId === 'gis-12' && tStr.gis12_desc}
               {topicId === 'gis-13' && tStr.gis13_desc}
               {topicId === 'gis-14' && tStr.gis14_desc}
               {topicId === 'gis-15' && tStr.gis15_desc}
@@ -1146,12 +1373,15 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
               {topicId === 'karto-9' && tStr.karto9_desc}
               {topicId === 'gis-1' && tStr.gis1_desc}
               {topicId === 'gis-2' && tStr.gis2_desc}
+              {topicId === 'gis-4' && tStr.gis4_desc}
               {topicId === 'gis-5' && tStr.gis5_desc}
               {topicId === 'gis-6' && tStr.gis6_desc}
               {topicId === 'gis-7' && tStr.gis7_desc}
               {topicId === 'gis-8' && tStr.gis8_desc}
               {topicId === 'gis-9' && tStr.gis9_desc}
+              {topicId === 'gis-10' && tStr.gis10_desc}
               {topicId === 'gis-11' && tStr.gis11_desc}
+              {topicId === 'gis-12' && tStr.gis12_desc}
               {topicId === 'gis-13' && tStr.gis13_desc}
               {topicId === 'gis-14' && tStr.gis14_desc}
               {topicId === 'gis-15' && tStr.gis15_desc}
@@ -1159,7 +1389,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
             </div>
 
             {/* Widget Workspace */}
-            <div className="relative rounded-xl border border-gray-150 dark:border-gray-800 overflow-hidden bg-gray-50/50">
+            <div className="rounded-xl border border-gray-150 dark:border-gray-800 bg-gray-50/50 relative z-0">
               {/* TOPO-1 */}
               {topicId === 'topo-1' && (
                 <div className="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-855 min-h-[220px]">
@@ -1167,14 +1397,15 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                     <div className="w-16 h-16 rounded-full border-4 border-dashed border-primary-500 flex items-center justify-center font-bold text-primary-500">a</div>
                     <div className="w-12 h-16 rounded-full border-4 border-dashed border-emerald-500 flex items-center justify-center font-bold text-emerald-500">b</div>
                   </div>
-                  <div className="w-full max-w-xs flex items-center gap-3">
+                  <div className="w-full max-w-md flex items-center gap-3">
                     <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.topo1_label}</label>
                     <input
                       type="text"
-                      className="input py-1.5 px-3 text-sm text-center"
+                      className="input py-1.5 px-3 text-sm text-center flex-1 min-w-[80px]"
                       value={topo1Input}
                       placeholder="Metrda"
                       onChange={e => setTopo1Input(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && checkTopo1()}
                       disabled={taskState === 'success'}
                     />
                     {taskState !== 'success' && (
@@ -1195,14 +1426,18 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                     <div className="w-full h-0.5 bg-red-400 absolute left-4 right-4"></div>
                     <span className="w-full text-center text-xs font-bold text-gray-750 dark:text-gray-300">1:50 000 xarita</span>
                   </div>
-                  <div className="w-full max-w-xs flex items-center gap-3">
+                  <div className="w-full max-w-lg flex items-center gap-3 relative z-10">
                     <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.topo2_label}</label>
                     <input
                       type="text"
-                      className="input py-1.5 px-3 text-sm text-center"
+                      className="input py-1.5 px-3 text-sm text-center flex-1 min-w-[80px]"
                       value={topo2Input}
                       placeholder="Metrda"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      spellCheck={false}
                       onChange={e => setTopo2Input(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && checkTopo2()}
                       disabled={taskState === 'success'}
                     />
                     {taskState !== 'success' && (
@@ -1211,6 +1446,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                   </div>
                 </div>
               )}
+
 
               {/* TOPO-3 */}
               {topicId === 'topo-3' && (
@@ -1252,14 +1488,15 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                     })()}
                     <circle cx="100" cy="100" r="5" fill="currentColor" className="text-gray-800 dark:text-white" />
                   </svg>
-                  <div className="w-full max-w-xs mt-3 flex items-center gap-3">
+                  <div className="w-full max-w-md mt-3 flex items-center gap-3">
                     <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.topo4_label}</label>
                     <input
                       type="text"
-                      className="input py-1.5 px-3 text-sm text-center"
+                      className="input py-1.5 px-3 text-sm text-center flex-1 min-w-[80px]"
                       value={azimuthInput}
                       placeholder="Gradus"
                       onChange={e => setAzimuthInput(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && checkAzimuth()}
                       disabled={taskState === 'success'}
                     />
                     {taskState !== 'success' && (
@@ -1281,14 +1518,15 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                     <line x1="90" y1="115" x2="240" y2="115" stroke="currentColor" strokeWidth="1.5" className="text-gray-300 dark:text-gray-600" strokeDasharray="3,3" />
                     <text x="165" y="105" textAnchor="middle" fontSize="9" fill="currentColor" className="text-gray-400">Masofa: d = 500 m</text>
                   </svg>
-                  <div className="w-full max-w-xs mt-3 flex items-center gap-3">
+                  <div className="w-full max-w-lg mt-3 flex items-center gap-3">
                     <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.topo5_label}</label>
                     <input
                       type="text"
-                      className="input py-1.5 px-3 text-sm text-center"
+                      className="input py-1.5 px-3 text-sm text-center flex-1 min-w-[80px]"
                       value={slopeInput}
                       placeholder="%"
                       onChange={e => setSlopeInput(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && checkSlope()}
                       disabled={taskState === 'success'}
                     />
                     {taskState !== 'success' && (
@@ -1326,6 +1564,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                         value={topo6Deg}
                         placeholder="125"
                         onChange={e => setTopo6Deg(e.target.value)}
+                        onKeyDown={e => e.key === 'Enter' && checkTopo6()}
                         disabled={taskState === 'success'}
                       />
                     </div>
@@ -1337,6 +1576,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                         value={topo6Min}
                         placeholder="24"
                         onChange={e => setTopo6Min(e.target.value)}
+                        onKeyDown={e => e.key === 'Enter' && checkTopo6()}
                         disabled={taskState === 'success'}
                       />
                     </div>
@@ -1357,14 +1597,15 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                     <p>C = 89° 59'</p>
                     <p>D = 90° 04'</p>
                   </div>
-                  <div className="w-full max-w-xs flex items-center gap-3">
+                  <div className="w-full max-w-lg flex items-center gap-3">
                     <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.topo7_label}</label>
                     <input
                       type="text"
-                      className="input py-1.5 px-3 text-sm text-center"
+                      className="input py-1.5 px-3 text-sm text-center flex-1 min-w-[80px]"
                       value={topo7Input}
                       placeholder="Daqiqa"
                       onChange={e => setTopo7Input(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && checkTopo7()}
                       disabled={taskState === 'success'}
                     />
                     {taskState !== 'success' && (
@@ -1391,14 +1632,15 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                     <text x="173" y="78" fontSize="8" fontWeight="bold" fill="currentColor">B</text>
                     <line x1="29" y1="40.5" x2="171" y2="40.5" stroke="#ef4444" strokeWidth="1" strokeDasharray="2,2" />
                   </svg>
-                  <div className="w-full max-w-xs flex items-center gap-3">
+                  <div className="w-full max-w-lg flex items-center gap-3">
                     <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.topo8_label}</label>
                     <input
                       type="text"
-                      className="input py-1.5 px-3 text-sm text-center"
+                      className="input py-1.5 px-3 text-sm text-center flex-1 min-w-[80px]"
                       value={topo8Input}
                       placeholder="Balandlik"
                       onChange={e => setTopo8Input(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && checkTopo8()}
                       disabled={taskState === 'success'}
                     />
                     {taskState !== 'success' && (
@@ -1459,14 +1701,15 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                     <circle cx="125" cy="45" r="4.5" fill="#ef4444" />
                     <text x="125" y="38" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#ef4444">X</text>
                   </svg>
-                  <div className="w-full max-w-xs flex items-center gap-3 mt-2">
+                  <div className="w-full max-w-lg flex items-center gap-3 mt-2">
                     <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.karto5_label}</label>
                     <input
                       type="text"
-                      className="input py-1.5 px-3 text-sm text-center"
+                      className="input py-1.5 px-3 text-sm text-center flex-1 min-w-[80px]"
                       value={karto5Input}
                       placeholder="Metr"
                       onChange={e => setKarto5Input(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && checkKarto5()}
                       disabled={taskState === 'success'}
                     />
                     {taskState !== 'success' && (
@@ -1565,14 +1808,15 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                     <div className="w-full h-0.5 bg-red-400 absolute left-4 right-4"></div>
                     <span className="w-full text-center text-xs font-bold text-gray-750 dark:text-gray-300">1:25 000 xarita</span>
                   </div>
-                  <div className="w-full max-w-xs flex items-center gap-3">
+                  <div className="w-full max-w-lg flex items-center gap-3">
                     <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.karto8_label}</label>
                     <input
                       type="text"
-                      className="input py-1.5 px-3 text-sm text-center"
+                      className="input py-1.5 px-3 text-sm text-center flex-1 min-w-[80px]"
                       value={karto8Input}
                       placeholder="Metr"
                       onChange={e => setKarto8Input(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && checkKarto8()}
                       disabled={taskState === 'success'}
                     />
                     {taskState !== 'success' && (
@@ -1652,7 +1896,71 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
 
               {/* GIS-3 */}
               {topicId === 'gis-3' && (
-                <div ref={mapRef} className="w-full h-80 z-10" />
+                <div className="relative">
+                  <div ref={mapRef} className="w-full h-80 z-10" />
+                  <div className="absolute bottom-3 right-3 z-20">
+                    <button
+                      onClick={() => navigate('/gis-lab')}
+                      className="flex items-center gap-1.5 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-gray-200 dark:border-gray-700 text-xs font-bold text-primary-600 dark:text-primary-400 px-3 py-1.5 rounded-lg shadow-lg hover:bg-primary-50 dark:hover:bg-primary-950/30 transition-all"
+                    >
+                      <ExternalLink size={11} />
+                      GIS Lab — GeoJSON yuklash
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* GIS-4: RASTER vs VECTOR CLASSIFICATION */}
+              {topicId === 'gis-4' && (
+                <div className="flex flex-col p-5 bg-white dark:bg-gray-850 min-h-[340px] space-y-3">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs font-bold text-gray-500 uppercase tracking-wide">Kartochkalarni tasniflang:</span>
+                    <span className="text-xs font-bold bg-primary-100 dark:bg-primary-950/30 text-primary-700 dark:text-primary-300 px-2 py-0.5 rounded-full">
+                      {Object.keys(gis4Classified).length} / {tStr.gis4_items.length} tasniflandi
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {tStr.gis4_items.map(item => {
+                      const classified = gis4Classified[item.id]
+                      return (
+                        <div key={item.id} className={`rounded-xl border-2 p-3 transition-all ${
+                          classified
+                            ? classified.correct
+                              ? 'border-emerald-400 bg-emerald-50 dark:bg-emerald-950/20'
+                              : 'border-red-400 bg-red-50 dark:bg-red-950/20'
+                            : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800'
+                        }`}>
+                          <p className="text-xs font-semibold text-gray-750 dark:text-gray-200 leading-snug mb-2">{item.label}</p>
+                          {!classified ? (
+                            <div className="flex gap-1.5">
+                              <button
+                                onClick={() => handleGis4Classify(item.id, 'vector')}
+                                disabled={taskState === 'success'}
+                                className="flex-1 py-1 rounded-lg text-[10px] font-bold bg-blue-100 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/40 transition-all border border-blue-200 dark:border-blue-800"
+                              >
+                                📐 {tStr.gis4_vectorBtn}
+                              </button>
+                              <button
+                                onClick={() => handleGis4Classify(item.id, 'raster')}
+                                disabled={taskState === 'success'}
+                                className="flex-1 py-1 rounded-lg text-[10px] font-bold bg-orange-100 dark:bg-orange-950/30 text-orange-700 dark:text-orange-300 hover:bg-orange-200 dark:hover:bg-orange-900/40 transition-all border border-orange-200 dark:border-orange-800"
+                              >
+                                🖼️ {tStr.gis4_rasterBtn}
+                              </button>
+                            </div>
+                          ) : (
+                            <div className={`text-[10px] font-bold flex items-center gap-1 ${
+                              classified.correct ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500'
+                            }`}>
+                              {classified.correct ? '✅' : '❌'} {classified.type === 'vector' ? `📐 ${tStr.gis4_vectorBtn}` : `🖼️ ${tStr.gis4_rasterBtn}`}
+                              {!classified.correct && <span className="text-gray-400"> (To'g'risi: {item.correct === 'vector' ? tStr.gis4_vectorBtn : tStr.gis4_rasterBtn})</span>}
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
               )}
 
               {/* GIS-5: CHECKBOX PARAMS */}
@@ -1734,14 +2042,15 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                     <p><b>cadastre</b>: parcel_id, area, address</p>
                     <p><b>owners</b>: owner_id, owner_name, parcel_id</p>
                   </div>
-                  <div className="w-full max-w-xs flex items-center gap-3">
+                  <div className="w-full max-w-lg flex items-center gap-3">
                     <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.gis7_label}</label>
                     <input
                       type="text"
-                      className="input py-1.5 px-3 text-sm text-center"
+                      className="input py-1.5 px-3 text-sm text-center flex-1 min-w-[80px]"
                       value={gis7Input}
                       placeholder="parcel_id"
                       onChange={e => setGis7Input(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && checkGis7()}
                       disabled={taskState === 'success'}
                     />
                     {taskState !== 'success' && (
@@ -1783,6 +2092,97 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                 </div>
               )}
 
+              {/* GIS-10: BUFFER ANALYSIS MAP */}
+              {topicId === 'gis-10' && (
+                <div className="flex flex-col bg-white dark:bg-gray-850 min-h-[380px]">
+                  <div
+                    ref={gis10MapRef}
+                    className="w-full h-64 z-10"
+                    style={{ minHeight: 240 }}
+                  />
+                  <div className="p-4 space-y-3">
+                    <p className="text-xs text-blue-600 dark:text-blue-400 font-medium bg-blue-50 dark:bg-blue-950/20 rounded-lg p-2.5 border border-blue-100 dark:border-blue-900/30">
+                      💡 {tStr.gis10_hint}
+                    </p>
+                    {gis10SelectedCity && (
+                      <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                        ✅ Tanlangan shahar: <b>{gis10SelectedCity}</b> — 50km va 100km bufer zonalari chizildi
+                      </p>
+                    )}
+                    <div className="flex items-center gap-3">
+                      <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.gis10_label}</label>
+                      <input
+                        type="text"
+                        className="input py-1.5 px-3 text-sm flex-1"
+                        value={gis10Input}
+                        placeholder="Shahar nomi..."
+                        onChange={e => setGis10Input(e.target.value)}
+                        disabled={taskState === 'success'}
+                      />
+                      {taskState !== 'success' && (
+                        <button onClick={handleGis10Submit} className="btn-primary py-1.5 px-4 text-xs font-bold rounded-lg flex-shrink-0">{tStr.gis10_submit}</button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* GIS-12: ARCGIS 3D CITY PLANNING */}
+              {topicId === 'gis-12' && (
+                <div className="flex flex-col p-5 bg-white dark:bg-gray-850 min-h-[320px] space-y-4">
+                  <div className="rounded-xl overflow-hidden border-2 border-dashed border-indigo-300 dark:border-indigo-800 bg-gradient-to-br from-indigo-50 to-violet-50 dark:from-indigo-950/20 dark:to-violet-950/20 p-5">
+                    <div className="flex items-start gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center flex-shrink-0">
+                        <Building2 size={18} className="text-white" />
+                      </div>
+                      <div>
+                        <h5 className="text-sm font-bold text-gray-850 dark:text-white">Topshiriq:</h5>
+                        <p className="text-xs text-gray-600 dark:text-gray-300 mt-0.5 leading-relaxed">{tStr.gis12_task}</p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 mb-4">
+                      <div className="bg-white/60 dark:bg-gray-800/40 rounded-lg p-2.5 text-center border border-white/80 dark:border-gray-700">
+                        <Building2 size={16} className="text-indigo-500 mx-auto mb-1" />
+                        <p className="text-[10px] font-bold text-gray-700 dark:text-gray-300">5+ Bino</p>
+                      </div>
+                      <div className="bg-white/60 dark:bg-gray-800/40 rounded-lg p-2.5 text-center border border-white/80 dark:border-gray-700">
+                        <Cpu size={16} className="text-violet-500 mx-auto mb-1" />
+                        <p className="text-[10px] font-bold text-gray-700 dark:text-gray-300">3+ Turbin</p>
+                      </div>
+                      <div className="bg-white/60 dark:bg-gray-800/40 rounded-lg p-2.5 text-center border border-white/80 dark:border-gray-700">
+                        <TreePine size={16} className="text-emerald-500 mx-auto mb-1" />
+                        <p className="text-[10px] font-bold text-gray-700 dark:text-gray-300">8+ Daraxt</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => navigate('/arcgis-3d')}
+                      className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all shadow-md shadow-indigo-500/20"
+                    >
+                      <Globe size={14} />
+                      {tStr.gis12_openBtn}
+                    </button>
+                  </div>
+                  <p className="text-xs text-amber-600 dark:text-amber-400 font-medium bg-amber-50 dark:bg-amber-950/20 rounded-lg p-2.5 border border-amber-100 dark:border-amber-900/30">
+                    💡 {tStr.gis12_hint}
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.gis12_scoreLabel}</label>
+                    <input
+                      type="number"
+                      className="input py-1.5 px-3 text-sm text-center flex-1"
+                      value={gis12ScoreInput}
+                      placeholder="16"
+                      min="0"
+                      onChange={e => setGis12ScoreInput(e.target.value)}
+                      disabled={taskState === 'success'}
+                    />
+                    {taskState !== 'success' && (
+                      <button onClick={checkGis12} className="btn-primary py-1.5 px-4 text-xs font-bold rounded-lg flex-shrink-0">{tStr.submitBtn}</button>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* GIS-13: NDVI CALCULATION */}
               {topicId === 'gis-13' && (
                 <div className="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-855 min-h-[220px]">
@@ -1792,14 +2192,15 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                     <p>NIR = 0.60</p>
                     <p>RED = 0.20</p>
                   </div>
-                  <div className="w-full max-w-xs flex items-center gap-3">
+                  <div className="w-full max-w-lg flex items-center gap-3">
                     <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.gis13_label}</label>
                     <input
                       type="text"
-                      className="input py-1.5 px-3 text-sm text-center"
+                      className="input py-1.5 px-3 text-sm text-center flex-1 min-w-[80px]"
                       value={gis13Input}
                       placeholder="0.5"
                       onChange={e => setGis13Input(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && checkGis13()}
                       disabled={taskState === 'success'}
                     />
                     {taskState !== 'success' && (
@@ -1880,8 +2281,17 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
               </div>
 
               {taskState === 'success' ? (
-                <div className="text-emerald-500 text-xs font-bold flex items-center gap-1">
-                  <span>{tStr.completedText}</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-emerald-500 text-xs font-bold flex items-center gap-1">
+                    {tStr.completedText}
+                  </span>
+                  <button
+                    onClick={handleReset}
+                    className="btn-secondary py-1.5 px-3 rounded-lg text-xs font-semibold flex items-center gap-1.5 opacity-70 hover:opacity-100"
+                  >
+                    <RotateCcw size={12} />
+                    Qayta yechish
+                  </button>
                 </div>
               ) : (
                 attempts > 0 && (

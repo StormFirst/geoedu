@@ -124,8 +124,8 @@ export default function TopicDetail() {
   }, [topicId])
 
   const isTabLocked = (tabId) => {
+    return false // TEMPORARILY UNLOCKED FOR TESTING
     if (tabId === 'nazariy') return false
-    if (tabId === 'video') return !theoryCompleted
     if (tabId === 'taqdimot') return videoId ? !videoCompleted : false
     if (tabId === 'amaliy') {
       const hasPres = PRESENTATIONS[topicId] && PRESENTATIONS[topicId].length > 0
@@ -452,6 +452,7 @@ Format: Return the output formatted in beautiful, clean markdown with icons. Inc
 
   // Check if topic is unlocked
   const isTopicUnlocked = (id) => {
+    return true // TEMPORARILY UNLOCKED FOR TESTING
     const idx = topicsList.findIndex((t) => t.id === id)
     if (idx <= 0) return true
 
@@ -754,7 +755,7 @@ Format: Return the output formatted in beautiful, clean markdown with icons. Inc
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center py-16 text-center">
-                  <div className="w-16 h-16 rounded-2xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 rounded-2xl bg-gray-100 dark:gray-700 flex items-center justify-center mb-4">
                     <Presentation size={28} className="text-gray-400" />
                   </div>
                   <p className="text-gray-500 dark:text-gray-400 font-medium">
@@ -768,103 +769,18 @@ Format: Return the output formatted in beautiful, clean markdown with icons. Inc
             </div>
           )}
 
-          {/* AMALIY */}
           {activeTab === 'amaliy' && (
             <div className="space-y-6">
-              {['gis-4', 'gis-10', 'gis-12'].includes(topicId) ? (
-                <div className="bg-white dark:bg-gray-850 rounded-2xl border border-gray-150 dark:border-gray-800 overflow-hidden shadow-sm p-6 space-y-5">
-                  <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
-                    <div>
-                      <h4 className="font-bold text-base text-gray-900 dark:text-white">
-                        {topicId === 'gis-4' && (lang === 'uz' ? 'Vektor va Rastr ma\'lumotlarini tahlil qilish' : 'Vector and Raster Data Analysis')}
-                        {topicId === 'gis-10' && (lang === 'uz' ? 'Proximity va Qoplamali tahlil qilish' : 'Proximity and Overlay Analysis')}
-                        {topicId === 'gis-12' && (lang === 'uz' ? 'Aqlli shahar (School Placement) muvofiqlik tahlili' : 'Smart City School Placement Analysis')}
-                      </h4>
-                      <p className="text-xs text-gray-550 dark:text-gray-400 mt-1 leading-relaxed">
-                        {topicId === 'gis-4' && (lang === 'uz' 
-                          ? 'Ushbu darsning amaliy topshirig\'ini bajarish uchun GIS Laboratoriyasi sahifasiga o\'ting va u yerda Nuqta, Chiziq va Poligon elementlarini chizishni o\'rganing.' 
-                          : 'To complete the practical task for this lesson, navigate to the GIS Laboratory page and practice drawing Point, Line, and Polygon features.')}
-                        {topicId === 'gis-10' && (lang === 'uz' 
-                          ? 'Ushbu topshiriqda GIS Case Study bo\'limidagi Kasalxonalar qamrovi tahlilini tez yordam radiusi 1250 metr qilib bajarish topshiriladi.' 
-                          : 'In this task, you are required to perform proximity coverage analysis for Hospitals inside the GIS Case Study with a 1250m buffer.')}
-                        {topicId === 'gis-12' && (lang === 'uz' 
-                          ? 'GIS Case Study bo\'limidagi Maktab joylashuvi (School Placement) tahlilini barcha muvofiqlik mezonlarini yoqib bajaring.' 
-                          : 'Complete the School Placement analysis in the GIS Case Study by activating all suitability evaluation parameters.')}
-                      </p>
-                    </div>
-                    {practicalCompleted ? (
-                      <span className="bg-emerald-50 text-emerald-600 dark:bg-emerald-950/20 dark:text-emerald-400 border border-emerald-150 dark:border-emerald-900/30 text-xs font-semibold px-3 py-1.5 rounded-full flex-shrink-0">
-                        100 / 100 Ball ✅
-                      </span>
-                    ) : (
-                      <span className="bg-amber-50 text-amber-600 dark:bg-amber-950/20 dark:text-amber-400 border border-amber-150 dark:border-amber-900/30 text-xs font-semibold px-3 py-1.5 rounded-full flex-shrink-0">
-                        Topshirilmagan ✗
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="p-4 bg-gray-50 dark:bg-gray-805/40 rounded-xl border border-gray-100 dark:border-gray-800 text-xs text-gray-600 dark:text-gray-300">
-                    <p className="font-bold mb-1 text-gray-750 dark:text-gray-200">
-                      {lang === 'uz' ? 'Baholash Mezonlari:' : 'Grading Criteria:'}
-                    </p>
-                    <ul className="list-disc pl-4 space-y-1 text-gray-500 dark:text-gray-400">
-                      {topicId === 'gis-4' && (
-                        <>
-                          <li>{lang === 'uz' ? 'Nuqta (Point) elementini chizish va tasdiqlash' : 'Draw and verify a Point feature'}</li>
-                          <li>{lang === 'uz' ? 'Chiziq (Line) elementini chizish va tasdiqlash' : 'Draw and verify a Line feature'}</li>
-                          <li>{lang === 'uz' ? 'Poligon (Polygon) elementini chizish va tasdiqlash' : 'Draw and verify a Polygon feature'}</li>
-                        </>
-                      )}
-                      {topicId === 'gis-10' && (
-                        <>
-                          <li>{lang === 'uz' ? 'Kasalxonalar loyihasiga o\'tish' : 'Open Hospitals Coverage project'}</li>
-                          <li>{lang === 'uz' ? 'Tez yordam bufer radiusini 1250 metrga sozlash' : 'Adjust response radius to 1250 meters'}</li>
-                        </>
-                      )}
-                      {topicId === 'gis-12' && (
-                        <>
-                          <li>{lang === 'uz' ? 'Maktablar loyihasiga o\'tish' : 'Open School Placement project'}</li>
-                          <li>{lang === 'uz' ? 'Aholi zichligi, Maktab buferi, va Yo\'lga yaqinlik mezonlarini belgilash' : 'Check Population density, School buffer, and Road access parameters'}</li>
-                        </>
-                      )}
-                    </ul>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    {topicId === 'gis-4' ? (
-                      <Link
-                        to="/gis-lab?assignmentId=gis-4"
-                        className="btn-primary py-2.5 px-5 text-sm font-semibold rounded-xl"
-                      >
-                        {lang === 'uz' ? 'GIS Laboratoriyasiga o\'tish' : 'Go to GIS Laboratory'}
-                      </Link>
-                    ) : (
-                      <Link
-                        to={`/gis-case-study?assignmentId=${topicId}`}
-                        className="btn-primary py-2.5 px-5 text-sm font-semibold rounded-xl"
-                      >
-                        {lang === 'uz' ? 'GIS Case Study sahifasiga o\'tish' : 'Go to GIS Case Study'}
-                      </Link>
-                    )}
-                    {practicalCompleted && (
-                      <span className="text-emerald-500 text-xs font-semibold">
-                        {lang === 'uz' ? 'Topshiriq muvaffaqiyatli topshirildi va baholandi!' : 'Task successfully completed and graded!'}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <InteractivePracticalTask
-                  topicId={topicId}
-                  lang={lang}
-                  onComplete={() => {
-                    if (!practicalCompleted) {
-                      setPracticalCompleted(true)
-                    }
-                  }}
-                  isAlreadyCompleted={practicalCompleted}
-                />
-              )}
+              <InteractivePracticalTask
+                topicId={topicId}
+                lang={lang}
+                onComplete={() => {
+                  if (!practicalCompleted) {
+                    setPracticalCompleted(true)
+                  }
+                }}
+                isAlreadyCompleted={practicalCompleted}
+              />
               
               {(topic.practical?.[lang] || topic.practical?.uz) && (
                 <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-150 dark:border-gray-700 mt-4 shadow-sm">

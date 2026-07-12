@@ -25,9 +25,73 @@ export default function ArcGIS3DPage() {
   const [isFlying, setIsFlying] = useState(false)
 
   // Uploader & Layers tab states
-  const [activeTab, setActiveTab] = useState('tour') // 'tour' | 'layers'
+  const [activeTab, setActiveTab] = useState('tour') // 'tour' | 'layers' | 'sandbox'
   const [isDragging, setIsDragging] = useState(false)
   const [uploadedLayers, setUploadedLayers] = useState([])
+
+  // Sandbox tab states
+  const [sandboxTool, setSandboxTool] = useState(null) // 'skyscraper' | 'house' | 'tree' | 'turbine' | 'car' | 'delete' | 'edit'
+  const [placedCounts, setPlacedCounts] = useState({
+    skyscraper: 0,
+    house: 0,
+    tree: 0,
+    turbine: 0,
+    car: 0
+  })
+  const [placedGraphics, setPlacedGraphics] = useState([])
+
+  // Selected object editing states
+  const [selectedGraphic, setSelectedGraphic] = useState(null) // { id, type, height, width, color }
+  const [editHeight, setEditHeight] = useState(100)
+  const [editWidth, setEditWidth] = useState(30)
+  const [editColor, setEditColor] = useState([100, 116, 139])
+  
+  const sandboxLayerRef = useRef(null)
+  const selectedGraphicRef = useRef(null)
+  const activeTabRef = useRef(activeTab)
+  const sandboxToolRef = useRef(sandboxTool)
+
+  const uploadedLayersRef = useRef([])
+  const placedGraphicsRef = useRef([])
+
+  useEffect(() => {
+    uploadedLayersRef.current = uploadedLayers
+  }, [uploadedLayers])
+
+  useEffect(() => {
+    placedGraphicsRef.current = placedGraphics
+  }, [placedGraphics])
+
+  useEffect(() => {
+    activeTabRef.current = activeTab
+    // Clean up selected tool and selection when switching tabs
+    if (activeTab !== 'sandbox') {
+      setSandboxTool(null)
+      setSelectedGraphic(null)
+      selectedGraphicRef.current = null
+    }
+  }, [activeTab])
+
+  // Environmental & Saved Projects states
+  const [timeOfDay, setTimeOfDay] = useState(12) // 12 PM default
+  const [savedProjects, setSavedProjects] = useState([])
+  const [projectName, setProjectName] = useState("")
+
+  useEffect(() => {
+    // Read saved projects from localStorage
+    const keys = []
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i)
+      if (key && key.startsWith("sandbox-proj-")) {
+        keys.push(key.replace("sandbox-proj-", ""))
+      }
+    }
+    setSavedProjects(keys)
+  }, [])
+
+  useEffect(() => {
+    sandboxToolRef.current = sandboxTool
+  }, [sandboxTool])
 
   // 1. Load ArcGIS JS SDK from official Esri CDN dynamically
   useEffect(() => {
@@ -116,6 +180,12 @@ export default function ArcGIS3DPage() {
             },
             tilt: 45, // tilt angle
             heading: 0
+          },
+          environment: {
+            lighting: {
+              directShadowsEnabled: true,
+              date: new Date("March 15, 2026 12:00:00 UTC")
+            }
           }
         })
       } else {
@@ -137,12 +207,184 @@ export default function ArcGIS3DPage() {
         index: 2
       })
 
-      // Add a cool feature layer overlay (World Earthquakes or Volcanoes)
-      const volcanicLayer = new FeatureLayer({
-        url: "https://services.arcgis.com/UEv5w9Ohy34YOBcd/arcgis/rest/services/Volcanoes_in_the_US/FeatureServer/0",
-        title: "Active Volcanoes"
+      // 1. Restore previously uploaded GeoJSON/KML custom layers (from ref to prevent closure recreation)
+      if (uploadedLayersRef.current && uploadedLayersRef.current.length > 0) {
+        window.require(["esri/layers/GraphicsLayer"], function(GraphicsLayer) {
+          uploadedLayersRef.current.forEach((layerData) => {
+            const gLayer = new GraphicsLayer({
+              title: layerData.name,
+              visible: layerData.visible
+            })
+            gLayer.addMany(layerData.graphics)
+            map.add(gLayer)
+            graphicsLayersRef.current[layerData.id] = gLayer
+          })
+        })
+      }
+
+      // 2. Initialize and restore Sandbox GraphicsLayer (For 3D City Builder)
+      window.require(["esri/layers/GraphicsLayer"], function(GraphicsLayer) {
+        const sLayer = new GraphicsLayer({
+          title: "Sandbox Layer"
+        })
+        if (placedGraphicsRef.current && placedGraphicsRef.current.length > 0) {
+          sLayer.addMany(placedGraphicsRef.current)
+        }
+        map.add(sLayer)
+        sandboxLayerRef.current = sLayer
       })
-      map.add(volcanicLayer)
+
+      // Add Click Listener to place or erase 3D Objects in Sandbox mode
+      view.on("click", (event) => {
+        if (activeTabRef.current !== 'sandbox') return
+
+        // 1. Eraser / delete mode
+        if (sandboxToolRef.current === 'delete') {
+          view.hitTest(event).then((response) => {
+            const hit = response.results.find(r => r.graphic && r.graphic.layer === sandboxLayerRef.current)
+            if (hit && sandboxLayerRef.current) {
+              const deletedType = hit.graphic.attributes?.objectType
+              const placedAt = hit.graphic.attributes?.placedAt
+              sandboxLayerRef.current.remove(hit.graphic)
+              setPlacedGraphics(prev => prev.filter(g => g.attributes?.placedAt !== placedAt))
+              
+              setPlacedCounts(prev => {
+                const count = prev[deletedType] || 0
+                return {
+                  ...prev,
+                  [deletedType]: Math.max(0, count - 1)
+                }
+              })
+              toast.success(lang === 'uz' ? "Ob'ekt o'chirildi" : "Object removed")
+            }
+          })
+          return
+        }
+
+        // 1.5. Edit / select mode
+        if (sandboxToolRef.current === 'edit') {
+          view.hitTest(event).then((response) => {
+            const hit = response.results.find(r => r.graphic && r.graphic.layer === sandboxLayerRef.current)
+            if (hit) {
+              selectedGraphicRef.current = hit.graphic
+              const symLayer = hit.graphic.symbol.symbolLayers.getItem(0)
+              const h = symLayer.height
+              const w = symLayer.width
+              const c = symLayer.material.color
+              
+              // Normalize Esri color format to simple RGB arrays
+              const rgbColor = c ? [c.r, c.g, c.b] : [100, 116, 139]
+              
+              setSelectedGraphic({
+                id: hit.graphic.attributes.placedAt,
+                type: hit.graphic.attributes.objectType,
+                height: h,
+                width: w,
+                color: rgbColor
+              })
+              setEditHeight(h)
+              setEditWidth(w)
+              setEditColor(rgbColor)
+              toast.success(lang === 'uz' ? "Ob'ekt tanlandi. Quyida tahrirlashingiz mumkin." : "Object selected. Modify properties below.")
+            } else {
+              setSelectedGraphic(null)
+              selectedGraphicRef.current = null
+            }
+          })
+          return
+        }
+
+        // 2. Placing mode
+        const tool = sandboxToolRef.current
+        if (!tool) return
+
+        const mapPoint = event.mapPoint
+        if (mapPoint) {
+          window.require(["esri/Graphic"], function(Graphic) {
+            let symbol = null
+            
+            if (tool === 'skyscraper') {
+              symbol = {
+                type: "point-3d",
+                symbolLayers: [{
+                  type: "object",
+                  resource: { primitive: "cube" },
+                  width: 35,
+                  depth: 35,
+                  height: 140,
+                  material: { color: [100, 116, 139] } // slate gray
+                }]
+              }
+            } else if (tool === 'house') {
+              symbol = {
+                type: "point-3d",
+                symbolLayers: [{
+                  type: "object",
+                  resource: { primitive: "cube" },
+                  width: 18,
+                  depth: 18,
+                  height: 18,
+                  material: { color: [239, 68, 68] } // red
+                }]
+              }
+            } else if (tool === 'tree') {
+              symbol = {
+                type: "point-3d",
+                symbolLayers: [{
+                  type: "object",
+                  resource: { primitive: "cone" },
+                  width: 12,
+                  depth: 12,
+                  height: 35,
+                  material: { color: [16, 185, 129] } // emerald green
+                }]
+              }
+            } else if (tool === 'turbine') {
+              symbol = {
+                type: "point-3d",
+                symbolLayers: [{
+                  type: "object",
+                  resource: { primitive: "cylinder" },
+                  width: 4,
+                  depth: 4,
+                  height: 90,
+                  material: { color: [243, 244, 246] } // light white/gray
+                }]
+              }
+            } else if (tool === 'car') {
+              symbol = {
+                type: "point-3d",
+                symbolLayers: [{
+                  type: "object",
+                  resource: { primitive: "sphere" },
+                  width: 8,
+                  depth: 14,
+                  height: 6,
+                  material: { color: [59, 130, 246] } // blue
+                }]
+              }
+            }
+
+            if (symbol && sandboxLayerRef.current) {
+              const graphic = new Graphic({
+                geometry: mapPoint,
+                symbol: symbol,
+                attributes: {
+                  objectType: tool,
+                  placedAt: Date.now()
+                }
+              })
+              sandboxLayerRef.current.add(graphic)
+              setPlacedGraphics(prev => [...prev, graphic])
+
+              setPlacedCounts(prev => ({
+                ...prev,
+                [tool]: (prev[tool] || 0) + 1
+              }))
+            }
+          })
+        }
+      })
 
       viewInstanceRef.current = view
 
@@ -352,9 +594,52 @@ export default function ArcGIS3DPage() {
               width: 2
             }
           }
+        } else if (geomType === 'MultiPoint') {
+          coords.forEach(ptCoords => {
+            const pGeom = new Point({
+              longitude: ptCoords[0],
+              latitude: ptCoords[1]
+            })
+            const graphic = new Graphic({
+              geometry: pGeom,
+              symbol: {
+                type: "simple-marker",
+                color: [239, 68, 68],
+                size: 10,
+                outline: {
+                  color: [255, 255, 255],
+                  width: 2
+                }
+              },
+              popupTemplate: {
+                title: feature.properties?.name || "GIS Object",
+                content: `<table class="esri-widget__table text-xs font-mono">
+                  ${Object.entries(feature.properties || {}).map(([key, val]) => `
+                    <tr>
+                      <td class="esri-widget__table-header" style="padding: 4px; font-weight:bold;">${key}</td>
+                      <td class="esri-widget__table-value" style="padding: 4px;">${val}</td>
+                    </tr>
+                  `).join('')}
+                </table>`
+              },
+              attributes: feature.properties || {}
+            })
+            graphicsToAdd.push(graphic)
+            graphicsCount++
+          })
+          return
         } else if (geomType === 'LineString') {
           arcgisGeometry = new Polyline({
             paths: [coords]
+          })
+          symbol = {
+            type: "simple-line",
+            color: [59, 130, 246], // Blue
+            width: 3
+          }
+        } else if (geomType === 'MultiLineString') {
+          arcgisGeometry = new Polyline({
+            paths: coords
           })
           symbol = {
             type: "simple-line",
@@ -510,6 +795,284 @@ export default function ArcGIS3DPage() {
     }
   }
 
+  // 13. Clear all objects in Sandbox
+  const handleClearSandbox = () => {
+    if (sandboxLayerRef.current) {
+      sandboxLayerRef.current.removeAll()
+      setPlacedGraphics([])
+      setPlacedCounts({
+        skyscraper: 0,
+        house: 0,
+        tree: 0,
+        turbine: 0,
+        car: 0
+      })
+      toast.success(lang === 'uz' ? "Barcha ob'ektlar o'chirildi" : "All sandbox objects cleared")
+    }
+  }
+
+  // 14. Analyze the placed 3D objects and provide scoring feedback
+  const handleAnalyzeProject = () => {
+    const total = Object.values(placedCounts).reduce((a, b) => a + b, 0)
+    if (total === 0) {
+      toast.error(lang === 'uz' ? "Hali hech qanday ob'ekt joylashtirmadingiz!" : "You haven't placed any objects yet!")
+      return
+    }
+
+    let score = 70
+    let feedbackUz = ""
+    let feedbackEn = ""
+
+    const { skyscraper, house, tree, turbine, car } = placedCounts
+
+    // Rule 1: Skyscraper vs Tree ratio
+    if (skyscraper > 0 && tree === 0) {
+      score -= 20
+      feedbackUz += "❌ Betonli shahar: Osmono'par binolar ko'p, lekin birorta ham daraxt yo'q! Ekologiya juda yomon.\n"
+      feedbackEn += "❌ Concrete Jungle: Skyscrapers placed with zero trees! Very poor ecology.\n"
+    } else if (skyscraper > 0 && tree / skyscraper < 1) {
+      score -= 10
+      feedbackUz += "⚠️ Yashillik kam: Shaharni kislorod bilan ta'minlash uchun ko'proq daraxt eking.\n"
+      feedbackEn += "⚠️ Low Greenery: Try planting more trees to offset skyscrapers.\n"
+    } else if (tree / (skyscraper + house + 1) >= 2) {
+      score += 15
+      feedbackUz += "🌳 A'lo darajada yashillik! Tabiat va shahar binolari uyg'unligi ta'minlangan.\n"
+      feedbackEn += "🌳 Beautiful Greenery! Excellent balance of nature and urban layout.\n"
+    }
+
+    // Rule 2: Green Energy
+    if (turbine > 0) {
+      score += 10
+      feedbackUz += "⚡ Yashil energiya: Shamol generatorlaridan foydalanish ekologik reytingni oshiradi.\n"
+      feedbackEn += "⚡ Clean Power: Wind turbines increase the sustainability rating.\n"
+    } else if (skyscraper > 2 || house > 5) {
+      score -= 5
+      feedbackUz += "⚠️ Energiya taqchilligi: Shaharning energiya ehtiyojlarini qoplash uchun shamol turbinalari qo'shing.\n"
+      feedbackEn += "⚠️ Power Deficit: Consider placing wind turbines to power the buildings.\n"
+    }
+
+    // Rule 3: Vehicles
+    if (car > 0 && (skyscraper + house) === 0) {
+      score -= 15
+      feedbackUz += "❌ Uysiz mashinalar: Binolar yo'q joyda avtomobillar shunchaki tashlab ketilgan.\n"
+      feedbackEn += "❌ Unplanned Vehicles: Placed cars in the wild with no buildings.\n"
+    }
+
+    score = Math.min(100, Math.max(10, score))
+
+    let titleUz = ""
+    let titleEn = ""
+    if (score >= 90) {
+      titleUz = "🏆 Ekologik Mukammal Shahar"
+      titleEn = "🏆 Ecologically Perfect City"
+    } else if (score >= 70) {
+      titleUz = "🏡 Rivojlanayotgan Muvozanatli Shahar"
+      titleEn = "🏡 Balanced Developing Area"
+    } else {
+      titleUz = "🏗️ Rejasiz Zich Qurilgan Hudud"
+      titleEn = "🏗️ Unplanned High-Density Zone"
+    }
+
+    toast(
+      (t) => (
+        <div className="text-xs space-y-2 p-1">
+          <div className="font-extrabold text-sm text-primary-600 dark:text-primary-400">{lang === 'uz' ? titleUz : titleEn}</div>
+          <div className="font-bold text-gray-500 font-mono">Score: {score} / 100</div>
+          <p className="text-[11px] whitespace-pre-line text-gray-700 dark:text-gray-300 leading-relaxed mt-1">
+            {lang === 'uz' ? feedbackUz || "Tuzilma ajoyib, barcha resurslar muvozanatda!" : feedbackEn || "Great structure, resources are in balance!"}
+          </p>
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            className="w-full mt-2 py-1 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-bold text-[10px]"
+          >
+            Ok
+          </button>
+        </div>
+      ),
+      { duration: 7500 }
+    )
+  }
+
+  // 15. Update selected 3D object properties dynamically
+  const handleUpdateSelectedProperties = (height, width, color) => {
+    if (!selectedGraphicRef.current || !sandboxLayerRef.current) return
+
+    const graphic = selectedGraphicRef.current
+    const type = graphic.attributes.objectType
+
+    const updatedSymbol = {
+      type: "point-3d",
+      symbolLayers: [{
+        type: "object",
+        resource: { 
+          primitive: type === 'tree' ? 'cone' : (type === 'car' ? 'sphere' : (type === 'turbine' ? 'cylinder' : 'cube')) 
+        },
+        width: width,
+        depth: width,
+        height: height,
+        material: { color: color }
+      }]
+    }
+
+    const clone = graphic.clone()
+    clone.symbol = updatedSymbol
+    
+    sandboxLayerRef.current.remove(graphic)
+    sandboxLayerRef.current.add(clone)
+    selectedGraphicRef.current = clone
+
+    setPlacedGraphics(prev => prev.map(g => g.attributes?.placedAt === graphic.attributes?.placedAt ? clone : g))
+
+    setEditHeight(height)
+    setEditWidth(width)
+    setEditColor(color)
+    setSelectedGraphic(prev => ({
+      ...prev,
+      height,
+      width,
+      color
+    }))
+  }
+
+  // 16. Change Time of Day to cast dynamic shadows
+  const handleTimeOfDayChange = (hour) => {
+    setTimeOfDay(hour)
+    if (viewInstanceRef.current && mapMode === '3D') {
+      const date = new Date("March 15, 2026 12:00:00 UTC")
+      date.setHours(hour)
+      date.setMinutes(0)
+      viewInstanceRef.current.environment.lighting.date = date
+    }
+  }
+
+  // 17. Save current sandbox layout to localStorage
+  const handleSaveProject = () => {
+    if (!projectName.trim()) {
+      toast.error(lang === 'uz' ? "Loyiha nomini kiriting!" : "Enter project name!")
+      return
+    }
+
+    if (!sandboxLayerRef.current || sandboxLayerRef.current.graphics.length === 0) {
+      toast.error(lang === 'uz' ? "Saqlash uchun hech qanday ob'ekt yo'q!" : "No objects to save!")
+      return
+    }
+
+    // Serialize graphics
+    const serialized = sandboxLayerRef.current.graphics.map(g => ({
+      x: g.geometry.x,
+      y: g.geometry.y,
+      z: g.geometry.z,
+      spatialReference: g.geometry.spatialReference.toJSON(),
+      type: g.attributes.objectType,
+      height: g.symbol.symbolLayers.getItem(0).height,
+      width: g.symbol.symbolLayers.getItem(0).width,
+      color: g.symbol.symbolLayers.getItem(0).material.color
+    })).toArray()
+
+    localStorage.setItem(`sandbox-proj-${projectName.trim()}`, JSON.stringify(serialized))
+    
+    setSavedProjects(prev => {
+      if (!prev.includes(projectName.trim())) {
+        return [...prev, projectName.trim()]
+      }
+      return prev
+    })
+    
+    setProjectName("")
+    toast.success(lang === 'uz' ? "Loyiha muvaffaqiyatli saqlandi!" : "Project saved successfully!")
+  }
+
+  // 18. Load sandbox layout from localStorage
+  const handleLoadProject = (name) => {
+    const dataStr = localStorage.getItem(`sandbox-proj-${name}`)
+    if (!dataStr || !window.require || !sandboxLayerRef.current) return
+
+    const data = JSON.parse(dataStr)
+    sandboxLayerRef.current.removeAll()
+
+    window.require(["esri/Graphic", "esri/geometry/Point"], function(Graphic, Point) {
+      const counts = { skyscraper: 0, house: 0, tree: 0, turbine: 0, car: 0 }
+      const graphicsToAdd = []
+
+      data.forEach(item => {
+        const point = new Point({
+          x: item.x,
+          y: item.y,
+          z: item.z,
+          spatialReference: item.spatialReference
+        })
+
+        const symbol = {
+          type: "point-3d",
+          symbolLayers: [{
+            type: "object",
+            resource: { 
+              primitive: item.type === 'tree' ? 'cone' : (item.type === 'car' ? 'sphere' : (item.type === 'turbine' ? 'cylinder' : 'cube')) 
+            },
+            width: item.width,
+            depth: item.width,
+            height: item.height,
+            material: { color: item.color }
+          }]
+        }
+
+        const graphic = new Graphic({
+          geometry: point,
+          symbol: symbol,
+          attributes: {
+            objectType: item.type,
+            placedAt: Date.now() + Math.random()
+          }
+        })
+        graphicsToAdd.push(graphic)
+        counts[item.type] = (counts[item.type] || 0) + 1
+      })
+
+      sandboxLayerRef.current.addMany(graphicsToAdd)
+      setPlacedGraphics(graphicsToAdd)
+      setPlacedCounts(counts)
+      toast.success(lang === 'uz' ? `${name} loyihasi yuklandi!` : `${name} project loaded!`)
+
+      // Zoom view to loaded graphics bounds
+      if (viewInstanceRef.current && graphicsToAdd.length > 0) {
+        viewInstanceRef.current.goTo(graphicsToAdd).catch(err => console.error(err))
+      }
+    })
+  }
+
+  // 19. Delete saved project from localStorage
+  const handleDeleteProject = (name) => {
+    localStorage.removeItem(`sandbox-proj-${name}`)
+    setSavedProjects(prev => prev.filter(p => p !== name))
+    toast.success(lang === 'uz' ? "Loyiha o'chirib tashlandi" : "Project deleted")
+  }
+
+  // 20. Camera presets (Top, Side, Rotate)
+  const handleCameraPreset = (presetType) => {
+    const view = viewInstanceRef.current
+    if (!view || mapMode !== '3D') {
+      toast.error(lang === 'uz' ? "Kamera burchaklari faqat 3D rejimda ishlaydi!" : "Camera presets only work in 3D mode!")
+      return
+    }
+
+    if (presetType === 'top') {
+      view.goTo({
+        tilt: 0,
+        heading: 0
+      }, { duration: 1500 })
+    } else if (presetType === 'landscape') {
+      view.goTo({
+        tilt: 72,
+        heading: 35
+      }, { duration: 1500 })
+    } else if (presetType === 'rotate') {
+      const nextHeading = (view.camera.heading + 90) % 360
+      view.goTo({
+        heading: nextHeading
+      }, { duration: 1500 })
+    }
+  }
+
 
   return (
     <div className="relative w-full h-[calc(100vh-64px)] flex flex-col md:flex-row overflow-hidden bg-gray-50 dark:bg-gray-950">
@@ -607,6 +1170,17 @@ export default function ArcGIS3DPage() {
             )}
           >
             📂 GIS Yuklash
+          </button>
+          <button
+            onClick={() => setActiveTab('sandbox')}
+            className={clsx(
+              "pb-2.5 pt-1 text-xs font-bold border-b-2 transition-all flex items-center gap-1.5",
+              activeTab === 'sandbox'
+                ? "border-primary-500 text-primary-600 dark:text-primary-400 font-extrabold"
+                : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white"
+            )}
+          >
+            🏗️ 3D Sandbox
           </button>
         </div>
 
@@ -756,6 +1330,315 @@ export default function ArcGIS3DPage() {
                   </div>
                 )}
               </div>
+            </div>
+          )}
+
+          {/* SANDBOX TAB */}
+          {activeTab === 'sandbox' && (
+            <div className="space-y-4 animate-fade-in">
+              
+              {/* OBJECT EDIT PANEL IF SELECTED */}
+              {selectedGraphic ? (
+                <div className="bg-primary-50/30 dark:bg-gray-900 border border-primary-200 dark:border-gray-800 p-4 rounded-2xl space-y-4">
+                  <div className="flex justify-between items-center pb-2 border-b border-gray-150 dark:border-gray-850">
+                    <span className="font-extrabold text-xs text-primary-950 dark:text-primary-400 flex items-center gap-1.5">
+                      ✏️ {lang === 'uz' ? 'Ob\'ektni Tahrirlash' : 'Edit Object'} ({selectedGraphic.type})
+                    </span>
+                    <button
+                      onClick={() => {
+                        setSelectedGraphic(null)
+                        selectedGraphicRef.current = null
+                      }}
+                      className="text-[10px] text-gray-500 font-bold bg-white dark:bg-gray-800 px-2.5 py-1 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100"
+                    >
+                      {lang === 'uz' ? 'Yopish' : 'Close'}
+                    </button>
+                  </div>
+
+                  {/* Height Slider */}
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-[11px] font-bold">
+                      <span className="text-gray-500">{lang === 'uz' ? 'Balandlik:' : 'Height:'}</span>
+                      <span className="text-primary-700 dark:text-primary-400 font-mono">{editHeight} m</span>
+                    </div>
+                    <input
+                      type="range"
+                      min={selectedGraphic.type === 'tree' ? 5 : (selectedGraphic.type === 'car' ? 2 : 10)}
+                      max={selectedGraphic.type === 'tree' ? 80 : (selectedGraphic.type === 'car' ? 25 : 400)}
+                      value={editHeight}
+                      onChange={(e) => {
+                        const h = Number(e.target.value)
+                        handleUpdateSelectedProperties(h, editWidth, editColor)
+                      }}
+                      className="w-full h-1 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary-600"
+                    />
+                  </div>
+
+                  {/* Width Slider */}
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-[11px] font-bold">
+                      <span className="text-gray-500">{lang === 'uz' ? 'Kenglik:' : 'Width:'}</span>
+                      <span className="text-primary-700 dark:text-primary-400 font-mono">{editWidth} m</span>
+                    </div>
+                    <input
+                      type="range"
+                      min={selectedGraphic.type === 'tree' ? 3 : (selectedGraphic.type === 'car' ? 2 : 5)}
+                      max={selectedGraphic.type === 'tree' ? 40 : (selectedGraphic.type === 'car' ? 15 : 120)}
+                      value={editWidth}
+                      onChange={(e) => {
+                        const w = Number(e.target.value)
+                        handleUpdateSelectedProperties(editHeight, w, editColor)
+                      }}
+                      className="w-full h-1 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary-600"
+                    />
+                  </div>
+
+                  {/* Theme Colors */}
+                  <div className="space-y-1.5">
+                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">{lang === 'uz' ? 'Rang tanlash' : 'Select Color'}</p>
+                    <div className="flex gap-2">
+                      {[
+                        { rgb: [100, 116, 139], hex: '#64748b', name: 'Gray' },
+                        { rgb: [239, 68, 68], hex: '#ef4444', name: 'Red' },
+                        { rgb: [16, 185, 129], hex: '#10b981', name: 'Green' },
+                        { rgb: [59, 130, 246], hex: '#3b82f6', name: 'Blue' },
+                        { rgb: [245, 158, 11], hex: '#f59e0b', name: 'Orange' },
+                        { rgb: [139, 92, 246], hex: '#8b5cf6', name: 'Purple' }
+                      ].map((col, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => handleUpdateSelectedProperties(editHeight, editWidth, col.rgb)}
+                          className={clsx(
+                            "w-6 h-6 rounded-full border-2 transition-all hover:scale-110",
+                            JSON.stringify(editColor) === JSON.stringify(col.rgb)
+                              ? "border-primary-600 scale-105 shadow-sm"
+                              : "border-transparent"
+                          )}
+                          style={{ backgroundColor: col.hex }}
+                          title={col.name}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {/* SECTION 1: placement tools */}
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider pl-0.5">
+                      {lang === 'uz' ? '🏗️ 3D Asboblar' : '🏗️ 3D Tools'}
+                    </p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { id: 'skyscraper', name: 'Osmono\'par bino', icon: '🏢', count: placedCounts.skyscraper },
+                        { id: 'house', name: 'Turar-joy', icon: '🏠', count: placedCounts.house },
+                        { id: 'tree', name: 'Daraxt', icon: '🌳', count: placedCounts.tree },
+                        { id: 'turbine', name: 'Turbina', icon: '🌬️', count: placedCounts.turbine },
+                        { id: 'car', name: 'Avtomobil', icon: '🚗', count: placedCounts.car }
+                      ].map((tool) => (
+                        <button
+                          key={tool.id}
+                          onClick={() => setSandboxTool(sandboxTool === tool.id ? null : tool.id)}
+                          className={clsx(
+                            "p-3 rounded-2xl border text-left transition-all flex flex-col justify-between h-20 relative overflow-hidden group",
+                            sandboxTool === tool.id
+                              ? "bg-primary-50 dark:bg-primary-950/40 border-primary-500 text-primary-950 dark:text-primary-400 font-extrabold shadow-sm"
+                              : "bg-white dark:bg-gray-900 border-gray-150 dark:border-gray-800 text-gray-750 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800"
+                          )}
+                        >
+                          <div className="flex justify-between items-start w-full">
+                            <span className="text-xl">{tool.icon}</span>
+                            <span className="text-[10px] font-mono bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 px-1.5 py-0.5 rounded-md font-bold">
+                              {tool.count}
+                            </span>
+                          </div>
+                          <span className="text-[11px] font-extrabold truncate">{tool.name}</span>
+                        </button>
+                      ))}
+
+                      {/* Edit Tool Toggle */}
+                      <button
+                        onClick={() => setSandboxTool(sandboxTool === 'edit' ? null : 'edit')}
+                        className={clsx(
+                          "p-3 rounded-2xl border text-left transition-all flex flex-col justify-between h-20",
+                          sandboxTool === 'edit'
+                            ? "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-500 text-emerald-700 dark:text-emerald-400 font-extrabold"
+                            : "bg-white dark:bg-gray-900 border-gray-150 dark:border-gray-800 text-gray-750 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800"
+                        )}
+                      >
+                        <span className="text-xl">✏️</span>
+                        <div>
+                          <span className="text-[11px] font-extrabold block">{lang === 'uz' ? 'Tahrirlash' : 'Edit Mode'}</span>
+                          <span className="text-[9px] text-gray-450">{lang === 'uz' ? 'Ob\'ektni tanlash' : 'Resize shapes'}</span>
+                        </div>
+                      </button>
+
+                      {/* Eraser Tool */}
+                      <button
+                        onClick={() => setSandboxTool(sandboxTool === 'delete' ? null : 'delete')}
+                        className={clsx(
+                          "p-3 rounded-2xl border text-left transition-all flex flex-col justify-between h-20 col-span-2",
+                          sandboxTool === 'delete'
+                            ? "bg-red-50 dark:bg-red-950/20 border-red-500 text-red-700 dark:text-red-400 font-extrabold"
+                            : "bg-white dark:bg-gray-900 border-gray-150 dark:border-gray-800 text-gray-755 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800"
+                        )}
+                      >
+                        <div className="flex justify-between items-center w-full">
+                          <span className="text-sm font-bold">{lang === 'uz' ? '🧹 O\'chirish rejimi' : '🧹 Eraser Mode'}</span>
+                          <span className="text-[9px] text-gray-455">{lang === 'uz' ? 'Ob\'ektni bosing' : 'Click to erase'}</span>
+                        </div>
+                        <span className="text-[10px] text-gray-500 leading-snug">
+                          {lang === 'uz' ? 'Xaridadagi ob\'ektlarni bosib olib tashlang.' : 'Remove placed objects from terrain.'}
+                        </span>
+                      </button>
+                    </div>
+
+                    {/* Action controls */}
+                    <div className="pt-2 flex gap-2">
+                      <button
+                        onClick={handleAnalyzeProject}
+                        className="flex-1 py-2 px-3 bg-primary-600 hover:bg-primary-700 text-white font-extrabold text-xs rounded-xl shadow transition-all flex items-center justify-center gap-1.5"
+                      >
+                        📊 {lang === 'uz' ? 'Loyihani baholash' : 'Evaluate Project'}
+                      </button>
+                      <button
+                        onClick={handleClearSandbox}
+                        className="py-2 px-3 bg-gray-150 dark:bg-gray-850 hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-750 dark:text-gray-300 font-bold text-xs rounded-xl transition-all"
+                        title={lang === 'uz' ? 'Barchasini tozalash' : 'Clear All'}
+                      >
+                        {lang === 'uz' ? 'Tozalash' : 'Clear'}
+                      </button>
+                    </div>
+                  </div>
+
+                  <hr className="border-gray-150 dark:border-gray-850" />
+
+                  {/* SECTION 2: Lighting, shadows and camera presets */}
+                  <div className="space-y-3">
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider pl-0.5">
+                      {lang === 'uz' ? '⚙️ Atrof-muhit va Soya' : '⚙️ Lighting & Shadows'}
+                    </p>
+
+                    {/* Solar daylight slider */}
+                    <div className="space-y-1 bg-gray-50 dark:bg-gray-900/30 border border-gray-150 dark:border-gray-850 p-3 rounded-2xl">
+                      <div className="flex justify-between text-[11px] font-bold">
+                        <span className="text-gray-500">{lang === 'uz' ? 'Kun vaqti:' : 'Time of Day:'}</span>
+                        <span className="text-primary-600 dark:text-primary-400 font-mono">
+                          {timeOfDay >= 18 ? '🌙' : '☀️'} {timeOfDay}:00 {timeOfDay >= 12 ? 'PM' : 'AM'}
+                        </span>
+                      </div>
+                      <input
+                        type="range"
+                        min="6"
+                        max="21"
+                        value={timeOfDay}
+                        onChange={(e) => handleTimeOfDayChange(Number(e.target.value))}
+                        className="w-full h-1 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary-600"
+                      />
+                      <p className="text-[9px] text-gray-450 leading-relaxed mt-1">
+                        {lang === 'uz' ? 'Slayderni surib, binolar soyasini o\'zgarishini kuzating.' : 'Move slider to cast realistic shadows based on sun angle.'}
+                      </p>
+                    </div>
+
+                    {/* Camera Presets */}
+                    <div className="space-y-1">
+                      <p className="text-[10px] text-gray-400 font-semibold">{lang === 'uz' ? 'Kamera burchaklari:' : 'Camera Presets:'}</p>
+                      <div className="grid grid-cols-3 gap-1.5">
+                        <button
+                          onClick={() => handleCameraPreset('top')}
+                          className="py-1 px-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-[10px] font-bold text-gray-700 dark:text-gray-300 rounded-lg transition-all"
+                        >
+                          📐 {lang === 'uz' ? 'Tepadan' : 'Top'}
+                        </button>
+                        <button
+                          onClick={() => handleCameraPreset('landscape')}
+                          className="py-1 px-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-[10px] font-bold text-gray-700 dark:text-gray-300 rounded-lg transition-all"
+                        >
+                          🔭 {lang === 'uz' ? 'Yonbosh' : 'Landscape'}
+                        </button>
+                        <button
+                          onClick={() => handleCameraPreset('rotate')}
+                          className="py-1 px-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-[10px] font-bold text-gray-700 dark:text-gray-300 rounded-lg transition-all"
+                        >
+                          🔄 {lang === 'uz' ? 'Burish' : 'Orbit'}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr className="border-gray-150 dark:border-gray-850" />
+
+                  {/* SECTION 3: Save and Load Layout */}
+                  <div className="space-y-3">
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider pl-0.5">
+                      {lang === 'uz' ? '💾 Loyihani Saqlash / Yuklash' : '💾 Project Manager'}
+                    </p>
+
+                    {/* Save layout form */}
+                    <div className="flex gap-1.5">
+                      <input
+                        type="text"
+                        placeholder={lang === 'uz' ? 'Loyiha nomi...' : 'Project name...'}
+                        value={projectName}
+                        onChange={(e) => setProjectName(e.target.value)}
+                        className="flex-1 py-1.5 px-3 border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-xs rounded-xl focus:border-primary-500 focus:outline-none dark:text-white"
+                      />
+                      <button
+                        onClick={handleSaveProject}
+                        className="py-1.5 px-3 bg-primary-600 hover:bg-primary-700 text-white font-extrabold text-xs rounded-xl transition-all"
+                      >
+                        {lang === 'uz' ? 'Saqlash' : 'Save'}
+                      </button>
+                    </div>
+
+                    {/* Saved list */}
+                    <div className="space-y-1.5">
+                      {savedProjects.length > 0 && (
+                        <div className="space-y-1.5 max-h-[140px] overflow-y-auto pr-1">
+                          {savedProjects.map((name, idx) => (
+                            <div
+                              key={idx}
+                              className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-850 p-2 rounded-xl flex items-center justify-between gap-2"
+                            >
+                              <span className="font-extrabold text-[11px] text-gray-800 dark:text-gray-200 truncate flex-1 font-sans">
+                                🏙️ {name}
+                              </span>
+                              <div className="flex items-center gap-1">
+                                <button
+                                  onClick={() => handleLoadProject(name)}
+                                  className="py-0.5 px-2 bg-primary-50 hover:bg-primary-100 dark:bg-primary-950/40 text-[9px] font-extrabold text-primary-600 rounded-md transition-all font-sans"
+                                >
+                                  {lang === 'uz' ? 'Yuklash' : 'Load'}
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteProject(name)}
+                                  className="p-1 hover:bg-red-50 dark:hover:bg-red-950/40 text-red-500 rounded-md transition-all"
+                                  title="O'chirish"
+                                >
+                                  <Trash2 size={10} />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* Sandbox Tip Card */}
+              {sandboxTool && sandboxTool !== 'delete' && !selectedGraphic && (
+                <div className="p-3 bg-primary-50/40 dark:bg-primary-950/10 border border-primary-100/50 dark:border-primary-950/50 rounded-2xl animate-pulse">
+                  <p className="text-[10px] text-primary-750 dark:text-primary-400 font-semibold leading-relaxed">
+                    💡 <strong>{lang === 'uz' ? 'Faol Rejim' : 'Active Mode'}</strong>: {
+                      sandboxTool === 'edit'
+                        ? (lang === 'uz' ? 'Xaridadagi joylashtirilgan 3D ob\'ektni ustiga bosib uni tanlang.' : 'Click on any placed 3D shape on the map to edit its details.')
+                        : (lang === 'uz' ? 'Endi xaritada istalgan tog\', tekislik yoki ko\'cha ustiga bosib 3D ob\'ekt joylashtirishingiz mumkin.' : 'Click anywhere on the map terrain, valleys, or streets to build in 3D.')
+                    }
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </div>
