@@ -124,8 +124,8 @@ export default function TopicDetail() {
   }, [topicId])
 
   const isTabLocked = (tabId) => {
-    return false // TEMPORARILY UNLOCKED FOR TESTING
     if (tabId === 'nazariy') return false
+    if (tabId === 'video') return !theoryCompleted
     if (tabId === 'taqdimot') return videoId ? !videoCompleted : false
     if (tabId === 'amaliy') {
       const hasPres = PRESENTATIONS[topicId] && PRESENTATIONS[topicId].length > 0
@@ -452,7 +452,6 @@ Format: Return the output formatted in beautiful, clean markdown with icons. Inc
 
   // Check if topic is unlocked
   const isTopicUnlocked = (id) => {
-    return true // TEMPORARILY UNLOCKED FOR TESTING
     const idx = topicsList.findIndex((t) => t.id === id)
     if (idx <= 0) return true
 

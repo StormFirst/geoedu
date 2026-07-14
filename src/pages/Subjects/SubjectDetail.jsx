@@ -41,8 +41,8 @@ export default function SubjectDetail() {
 
   // A topic is "unlocked" if it's the first one OR (the previous topic is unlocked AND its test/completion is cleared)
   const isTopicUnlocked = (index) => {
-    return true // TEMPORARILY UNLOCKED FOR TESTING
     if (index === 0) return true
+    if (!isTopicUnlocked(index - 1)) return false
 
     const prevTopic = topics[index - 1]
     const prevTest = Object.values(TESTS).find((t) => t.topicId === prevTopic.id)

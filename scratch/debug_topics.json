@@ -1,0 +1,692 @@
+{
+  "topografiya": [
+    {
+      "id": "topo-1",
+      "subjectId": "topografiya",
+      "order": 1,
+      "title": {
+        "uz": "Kursning maqsadi va vazifalari. Yerning shakli va o‘lchamlari",
+        "ru": "Цель и задачи курса. Форма и размеры Земли",
+        "en": "Course Goals. Shape and Size of Earth"
+      },
+      "content": {
+        "uz": "<h2>Kursning maqsadi va vazifalari. Yerning shakli va o'lchamlari</h2><p>Topografiya va kartografiya fanining maqsadi va vazifalari. Geodeziya va topografiyani ta'rifi va uning vazifalari, boshqa fanlar bilan aloqasi Yerning shakli va o'lchamlari.</p><h3>Yerning shakli</h3><p>Yer shar shaklida emas, balki geoid shaklida bo'lib, qutblardan biroz yassilangan ellipsoid (sferoid) ko'rinishiga yaqin. Krasovskiy ellipsoidida: a = 6 378 245 m, b = 6 356 863 m, 1/f = 298.3.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "45:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "45 daqiqa",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "topo-2",
+      "subjectId": "topografiya",
+      "order": 2,
+      "title": {
+        "uz": "Plan, xarita va profillar to‘g‘risida tushuncha. Plan, xaritalarning masshtablari. Topografik xarita, planlarning nomenklaturasi",
+        "ru": "Понятие о планах, картах и профилях. Масштабы планов и карт. Номенклатура топографических карт и планов",
+        "en": "Understanding Plans, Maps, and Profiles. Scale of Plans and Maps. Nomenclature of Topographic Maps and Plans"
+      },
+      "content": {
+        "uz": "<h2>Plan, xarita va profillar to'g'risida tushuncha. Plan, xaritalarning masshtablari. Topografik xarita, planlarning nomenklaturasi</h2><p>Xarita, plan va profil. Topografik plan va xaritalar uchun shartli belgilar. Masshtablar: sonli, chiziqli va ko'ndalang masshtablar. Masshtab aniqligi. Topografik plan va xaritalar nomenklaturasi.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "45:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "45 daqiqa",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "topo-3",
+      "subjectId": "topografiya",
+      "order": 3,
+      "title": {
+        "uz": "Topografiyada qo‘llaniladigan koordinatalar va balandliklar sistemalari",
+        "ru": "Системы координат и высот, применяемые в топографии",
+        "en": "Coordinate and Height Systems Used in Topography"
+      },
+      "content": {
+        "uz": "<h2>Topografiyada qo'llaniladigan koordinatalar va balandliklar sistemalari</h2><p>Geografik koordinatalar sistemasi. To'g'ri burchakli koordinatalar sistemasi. Balandlik sistemalari. Mutloq va nisbiy balandliklar.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "45:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "45 daqiqa",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "topo-4",
+      "subjectId": "topografiya",
+      "order": 4,
+      "title": {
+        "uz": "Oriyentirlash burchaklari",
+        "ru": "Углы ориентирования",
+        "en": "Orientation Angles"
+      },
+      "content": {
+        "uz": "<h2>Oriyentirlash burchaklari</h2><p>Chiziqlarni oriyentirlash. haqiqiy azimut, direksion burchak, magnit azimuti va rumb. Ular orasidagi munosabat. Xarita va planlarda azimut, rumb va direksion burchaklarni aniqlash.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "45:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "45 daqiqa",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "topo-5",
+      "subjectId": "topografiya",
+      "order": 5,
+      "title": {
+        "uz": "Yer relyefi va uni plan va xaritalarda tasvirlash",
+        "ru": "Рельеф Земли и его изображение на планах и картах",
+        "en": "Earth Relief and its Representation on Plans and Maps"
+      },
+      "content": {
+        "uz": "<h2>Yer relyefi va uni plan va xaritalarda tasvirlash</h2><p>Relyefni tasvirlash usullari. Relyefni gorizontallar bilan tasvirlash. Topografik plan va xaritalar shartli belgilari. Topografik xaritada bajariladigan mashqlar.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "45:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "45 daqiqa",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "topo-6",
+      "subjectId": "topografiya",
+      "order": 6,
+      "title": {
+        "uz": "Burchaklarni o‘lchash",
+        "ru": "Измерение углов",
+        "en": "Angle Measurement"
+      },
+      "content": {
+        "uz": "<h2>Burchaklarni o'lchash</h2><p>Gorizontal burchakni o'lchash mohiyati; teodolitlarni sinflanishi va tuzilishi. Gorizontal burchaklarni o'lchash prinsipi va usullari. Teodolitni nuqtada o'rnatish va ish holatga keltirish. Vertikal burchaklarni o'lchash, burchak o'lchash aniqligi. Elektron teodolitlar haqida ma'lumot.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "45:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "45 daqiqa",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "topo-7",
+      "subjectId": "topografiya",
+      "order": 7,
+      "title": {
+        "uz": "Teodolit syomkasi",
+        "ru": "Теодолитная съёмка",
+        "en": "Theodolite Survey"
+      },
+      "content": {
+        "uz": "<h2>Teodolit syomkasi</h2><p>Teodolit syomkasining mohiyati, teodolit yo'llarni o'tkazish. Teodolit yo'llarida burchak va tomonlar uzunligini o'lchash. Tafsilotlarni syomka qilish usullari va teodolit syomka planni rasmiylashtirish.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "45:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "45 daqiqa",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "topo-8",
+      "subjectId": "topografiya",
+      "order": 8,
+      "title": {
+        "uz": "Nivelirlash",
+        "ru": "Нивелирование",
+        "en": "Leveling"
+      },
+      "content": {
+        "uz": "<h2>Nivelirlash</h2><p>Nivelirlashning mohiyati va turlari. Geometrik nivelirlash usullari. Ketma - ket geometrik nivelirlash. Nivelirlar turi. Aniq va texnik nivelirlar tuzilishi. Nivelir reykalari. Elektron raqamli nivelirlar haqida ma'lumot.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "45:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "45 daqiqa",
+      "difficulty": "beginner"
+    }
+  ],
+  "kartografiya": [
+    {
+      "id": "karto-1",
+      "subjectId": "kartografiya",
+      "order": 1,
+      "title": {
+        "uz": "Xarita va boshqa kartografik asarlar",
+        "ru": "Карта и другие картографические произведения",
+        "en": "Maps and Other Cartographic Works"
+      },
+      "content": {
+        "uz": "<h2>Xarita va boshqa kartografik asarlar</h2><p>Xaritaga ta'rif. Umumgeografik va mavzuli xaritalarni elementlari. Geografik atlaslar, sistemali kartografik asar sifatida.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "50:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "50 daqiqa",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "karto-2",
+      "subjectId": "kartografiya",
+      "order": 2,
+      "title": {
+        "uz": "Xaritani matematik asosi",
+        "ru": "Математическая основа карты",
+        "en": "Mathematical Basis of Maps"
+      },
+      "content": {
+        "uz": "<h2>Xaritani matematik asosi</h2><p>Yer ellipsoidi. Masshtablar. Kartografik proyeksiyalar haqida tushuncha, ularni turlari, proyeksiyalarni tasnifi.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "50:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "50 daqiqa",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "karto-3",
+      "subjectId": "kartografiya",
+      "order": 3,
+      "title": {
+        "uz": "Proyeksiyalar tanlash.",
+        "ru": "Выбор проекций",
+        "en": "Choosing Projections"
+      },
+      "content": {
+        "uz": "<h2>Proyeksiyalar tanlash</h2><p>Dunyo, yarimsharlar, materiklar va davlatlar xaritalari uchun proyeksiyalar. Kartografik proyeksiyani tanlash xaritaning ilmiy ishonchliligi va amaliy qo'llanish doirasini belgilaydi.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "50:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "50 daqiqa",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "karto-4",
+      "subjectId": "kartografiya",
+      "order": 4,
+      "title": {
+        "uz": "Kartografik tasvirlash usullari",
+        "ru": "Методы картографического изображения",
+        "en": "Methods of Cartographic Representation"
+      },
+      "content": {
+        "uz": "<h2>Kartografik tasvirlash usullari</h2><p>Kartografik belgilar; ularni funksiyasi va qo'llanilishi. Tasvirlash usullari: belgilar, teng chiziqlar, sifatli rang va boshqalar.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "50:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "50 daqiqa",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "karto-5",
+      "subjectId": "kartografiya",
+      "order": 5,
+      "title": {
+        "uz": "Relyefni tasvirlash usullari",
+        "ru": "Методы изображения рельефа",
+        "en": "Methods of Relief Representation"
+      },
+      "content": {
+        "uz": "<h2>Relyefni tasvirlash usullari</h2><p>Shkalalarni ishlab chiqish, har xil tasvirlash usullarini birgalikda qo'llash. Relyefni tasvirlash usullari haqida tushuncha.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "50:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "50 daqiqa",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "karto-6",
+      "subjectId": "kartografiya",
+      "order": 6,
+      "title": {
+        "uz": "Kartografik generalizatsiya",
+        "ru": "Картографическая генерализация",
+        "en": "Cartographic Generalization"
+      },
+      "content": {
+        "uz": "<h2>Kartografik generalizatsiya</h2><p>Generalizatsiyani mohiyati va omillari. Generalizatsiyani turlari va yo'llari. Punktlarda, chiziqlarda va maydonlarda tarqalgan xodisalarni generalizatsiya qilish.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "50:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "50 daqiqa",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "karto-7",
+      "subjectId": "kartografiya",
+      "order": 7,
+      "title": {
+        "uz": "Geografik xarita va atlaslar va ularni tiplari",
+        "ru": "Географические карты и атласы, их типы",
+        "en": "Geographic Maps and Atlases, and Their Types"
+      },
+      "content": {
+        "uz": "<h2>Geografik xarita va atlaslar va ularni tiplari</h2><p>Geografik xaritalarni tayyorlash usullari. Xaritalar dasturi, xaritani tuzish taxrir qilish. Umumgeografik, mavzuli va maxsus xaritalarni loyihalash usullari.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "50:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "50 daqiqa",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "karto-8",
+      "subjectId": "kartografiya",
+      "order": 8,
+      "title": {
+        "uz": "Xaritalardan foydalanish",
+        "ru": "Использование карт",
+        "en": "Map Use"
+      },
+      "content": {
+        "uz": "<h2>Xaritalardan foydalanish</h2><p>Xaritalardan foydalanish haqida tushuncha. Xaritalardan foydalanishni asosiy usullari. Kartografik tadqiqot usuli.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "50:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "50 daqiqa",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "karto-9",
+      "subjectId": "kartografiya",
+      "order": 9,
+      "title": {
+        "uz": "Geografik xarita va atlaslarni tahlil qilish va baholash",
+        "ru": "Анализ и оценка географических карт и атласов",
+        "en": "Analysis and Evaluation of Geographic Maps and Atlases"
+      },
+      "content": {
+        "uz": "<h2>Geografik xarita va atlaslarni tahlil qilish va baholash</h2><p>Xaritalarni tahlil qilish va baholash haqida tushuncha. Xaritalarni ishonchliligi. Xaritalarni matematik asosi. Mazmunini to'liqligini tahlil qilish. Informatsiya hajmini baholash haqida. Xaritalarni jihozlash sifatini baholash. Atlaslarni tahlil qilish va baholash.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "50:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "50 daqiqa",
+      "difficulty": "intermediate"
+    }
+  ],
+  "gis": [
+    {
+      "id": "gis-1",
+      "subjectId": "gis",
+      "order": 1,
+      "title": {
+        "uz": "Geografik axborot tizimlari va asoslari",
+        "ru": "Основы географических информационных систем",
+        "en": "Fundamentals of Geographic Information Systems"
+      },
+      "content": {
+        "uz": "<h2>Geografik axborot tizimlari (GAT) asoslari</h2><p>Geografik axborot tizimlari fani tushunchasi va vazifalari. Zamonaviy GAT texnalogiyalarining roli, GAT to'g'risida umumiy ma'lumot.</p><h3>GATning 5 komponenti</h3><ul><li><strong>Apparat ta'minot</strong>: kompyuter, server, GPS qabul qilgich, skaner, plotter</li><li><strong>Dastur ta'minot</strong>: ArcGIS, QGIS, MapInfo, Google Earth Engine</li><li><strong>Ma'lumotlar</strong>: vektor, raster, atribut, metadata</li><li><strong>Metodlar</strong>: fazoviy tahlil algoritmlari va modellashtirish</li><li><strong>Foydalanuvchilar</strong>: operatorlar, tahlilchilar, qaror qabul qiluvchilar</li></ul>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-2",
+      "subjectId": "gis",
+      "order": 2,
+      "title": {
+        "uz": "GAT ni qo‘llanilish sohalari",
+        "ru": "Области применения ГИС",
+        "en": "GIS Application Areas"
+      },
+      "content": {
+        "uz": "<h2>GAT ni qo'llanilish sohalari</h2><p>Asosiy ishlatiladigan termin va atamalar. Tizimning qo'llanilish sohalari. Geomatika tushunchasi va tizimdagi o'rni. Geokodlash.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-3",
+      "subjectId": "gis",
+      "order": 3,
+      "title": {
+        "uz": "Geografik axborot tizimlari uchun ma’lumotlarni to‘plash va uni kiritish",
+        "ru": "Сбор и ввод данных для ГИС",
+        "en": "Data Collection and Input for GIS"
+      },
+      "content": {
+        "uz": "<h2>Geografik axborot tizimlari uchun ma'lumotlarni to'plash va uni kiritish</h2><p>Ma'lumot va axborot to'g'risida tushuncha. Ma'lumotlarni to'plash usullari. Ma'lumot to'plashning bosqichlari. Asosiy geografik ma'lumot olish turlari.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-4",
+      "subjectId": "gis",
+      "order": 4,
+      "title": {
+        "uz": "Rastr va vektor mohiyati",
+        "ru": "Суть растра и вектора",
+        "en": "Raster and Vector Concepts"
+      },
+      "content": {
+        "uz": "<h2>Rastr va vektor mohiyati</h2><p>Rastr va vektor ma'lumot olish. Yordamchi yoki ikkilamchi geografik ma'lumot olish. Raqamli fotogrammetriya orqali ma'lumot olish. GPS qurilmasi orqali ma'lumot olish.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-5",
+      "subjectId": "gis",
+      "order": 5,
+      "title": {
+        "uz": "Internet manbalaridan geoma’lumotlar olish",
+        "ru": "Получение геоданных из интернет-источников",
+        "en": "Getting Geodata from Internet Sources"
+      },
+      "content": {
+        "uz": "<h2>Internet manbalaridan geoma'lumotlar olish</h2><p>Tashqi manbalardan ma'lumot olish. Geografik ma'lumot formatlari.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-6",
+      "subjectId": "gis",
+      "order": 6,
+      "title": {
+        "uz": "Geografik axborot tizimida axborotlarni tashkillashtirish va qayta ishlash",
+        "ru": "Организация и обработка информации в ГИС",
+        "en": "Organizing and Processing Information in GIS"
+      },
+      "content": {
+        "uz": "<h2>Geografik axborot tizimida axborotlarni tashkillashtirish va qayta ishlash</h2><p>Raqamli maxsus GAT texnalogiyalari va tasvirlashning qoidalari. Boshqariladigan raqamlashtirish va vektorizatsiyalash. Topologiya.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-7",
+      "subjectId": "gis",
+      "order": 7,
+      "title": {
+        "uz": "Geoma’lumotlar bazasi",
+        "ru": "База геоданных",
+        "en": "Geodatabase"
+      },
+      "content": {
+        "uz": "<h2>Geoma'lumotlar bazasi</h2><p>Ma'lumotni MBBT jadvallarida joylashtirish. Ma'lumotlar bazasini loyihalash. SQL to'g'risida tushuncha. Indekslashning so'rov jarayonidagi ahamiyati.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-8",
+      "subjectId": "gis",
+      "order": 8,
+      "title": {
+        "uz": "Ma’lumotlar bazasi haqida tushuncha",
+        "ru": "Понятие о базах данных",
+        "en": "Database Concepts"
+      },
+      "content": {
+        "uz": "<h2>Ma'lumotlar bazasi haqida tushuncha</h2><p>Ma'lumotlar bazasini boshqarish tizimi (MBBT). Ma'lumotlar bazasini boshqaruvchi dasturlar. MBBT ning turlari. MBBT ning afzalliklari. MBBT ning vazifalari.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-9",
+      "subjectId": "gis",
+      "order": 9,
+      "title": {
+        "uz": "Geografik axborot tizimida ma’lumotlarni tahlil qilish",
+        "ru": "Анализ данных в ГИС (Геовизуализация)",
+        "en": "Data Analysis in GIS (Geovisualization)"
+      },
+      "content": {
+        "uz": "<h2>Geografik axborot tizimida ma'lumotlarni tahlil qilish</h2><p>Geografiyada GAT ma'lumotlari to'plash usullari. GATda kartografik tasvirlash usullari. Geovizuallashtirish tushunchasi mohiyati.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-10",
+      "subjectId": "gis",
+      "order": 10,
+      "title": {
+        "uz": "Geografik axborot tizimida ma’lumotlarni tahlil qilish",
+        "ru": "Анализ данных в ГИС (Пространственное моделирование)",
+        "en": "Data Analysis in GIS (Spatial Modeling)"
+      },
+      "content": {
+        "uz": "<h2>Geografik axborot tizimida ma'lumotlarni tahlil qilish</h2><p>Modellashtirish va modellar. GATda fazoviy modellashtirish. Fazoviy ma'lumotlarning formatlari. Geografiyada GAT ma'lumotlarni geofazoviy tahlil qilish.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-11",
+      "subjectId": "gis",
+      "order": 11,
+      "title": {
+        "uz": "Geofazoviy tahlil tushunchasi va usullari",
+        "ru": "Понятие и методы геопространственного анализа",
+        "en": "Geospatial Analysis Concepts and Methods"
+      },
+      "content": {
+        "uz": "<h2>Geofazoviy tahlil tushunchasi va usullari</h2><p>Geofazoviy tahlil to'g'risida tushuncha. Geofazoviy tahlil usullari. Geofazoviy o'lchovlar. Overley operatsiyasi. Tarmoq tahlili. Yer yuzasi tahlili.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-12",
+      "subjectId": "gis",
+      "order": 12,
+      "title": {
+        "uz": "Geografik tadqiqotlarda olingan ma’lumotlarni GAT da aks ettirish",
+        "ru": "Отображение данных исследований в ГИС",
+        "en": "Representing Research Data in GIS"
+      },
+      "content": {
+        "uz": "<h2>Geografik tadqiqotlarda olingan ma'lumotlarni GAT da aks ettirish</h2><p>Geotasvirlash usullari. Sinflash, qayta sinflash, kartani qiyoslash, grafik va hisobot ko'rinishlari, karta orqali tasvirlash. Elektron kartalar tizimi. Plotter va uning qo'llanilishi.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-13",
+      "subjectId": "gis",
+      "order": 13,
+      "title": {
+        "uz": "GATda geofazoviy ma’lumotlarning uch o‘lchovli tasviri",
+        "ru": "Трехмерное изображение геопространственных данных в ГИС",
+        "en": "3D Representation of Geospatial Data in GIS"
+      },
+      "content": {
+        "uz": "<h2>GATda geofazoviy ma’lumotlarning uch o‘lchovli tasviri</h2><p>GAT texnologiyalari yordamida geofazoviy ma'lumotlarning uch o'lchovli tasviri. Uch o'lchamli tasvirlash. Relyefning raqamli modeli (RRM-DEM) va Joyning raqamli modeli (JRM-DTM).</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-14",
+      "subjectId": "gis",
+      "order": 14,
+      "title": {
+        "uz": "GATda aqlli shahar loyihasi va uning uch o‘lchovli modeli",
+        "ru": "Проект умного города и его 3D-модель в ГИС",
+        "en": "Smart City Project and its 3D Model in GIS"
+      },
+      "content": {
+        "uz": "<h2>GATda aqlli shahar loyihasi va uning uch o‘lchovli modeli</h2><p>GAT texnologiyalari orqali shaharning uch o'lchovli modeli (Smart city). Geofazoviy ma'lumotlarni uch o'lchovli tasvirlash.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-15",
+      "subjectId": "gis",
+      "order": 15,
+      "title": {
+        "uz": "Geografik axborot tizimida boshqaruvni tashkillashtirish",
+        "ru": "Организация управления в ГИС",
+        "en": "Managing and Organizing GIS"
+      },
+      "content": {
+        "uz": "<h2>Geografik axborot tizimida boshqaruvni tashkillashtirish</h2><p>Geografik axborot tizimida boshqaruvning o'rni va vazifalari. Dasturiy ta'minot va uning turlari. Geografik axborot dasturlarini o'rnatishga bo'lgan talablarni o'rganish. Tizimda qo'llaniladigan kompyuter texnologiyalari va ularni boshqarish. Ekspert tizimlar to'g'risida tushunchalar.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-16",
+      "subjectId": "gis",
+      "order": 16,
+      "title": {
+        "uz": "Geografik axborot tizimining zamonaviy rivojlanishi",
+        "ru": "Современное развитие географических информационных систем",
+        "en": "Modern Development of GIS"
+      },
+      "content": {
+        "uz": "<h2>Geografik axborot tizimining zamonaviy rivojlanishi</h2><p>Geografik axborot tizimini ishlatishda multimedia vositalarining o'rni. Geografik axborot tizimi dasturlari va ma'lumotlarini internet tarmog'i orqali o'rganish. Uch o'lchamli modellarning o'rni. Mobillashgan geografik axborot tizimini o'rganish.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-17",
+      "subjectId": "gis",
+      "order": 17,
+      "title": {
+        "uz": "Geografik tadqiqotlarda masofadan zondlash haqida umumiy ma’lumotlar",
+        "ru": "Общие сведения о дистанционном зондировании в географических исследованиях",
+        "en": "General Information about Remote Sensing in Geographic Research"
+      },
+      "content": {
+        "uz": "<h2>Geografik tadqiqotlarda masofadan zondlash haqida umumiy ma’lumotlar</h2><p>Raqamli xaritalash. Masofadan zondlash texnologiyasi. Masofadan zondlash orqali olingan maxsulot. Geoaxborot tizimining masofadan zondlash bilan o'zaro aloqadorligi.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-18",
+      "subjectId": "gis",
+      "order": 18,
+      "title": {
+        "uz": "GATda kosmik suratlarni olish usullari",
+        "ru": "Методы получения космических снимков в ГИС",
+        "en": "Methods of Obtaining Satellite Images in GIS"
+      },
+      "content": {
+        "uz": "<h2>GATda kosmik suratlarni olish usullari</h2><p>Kosmik suratlarni olish usullari. Masofadan ma'lumot olishdagi muammolar. Turli kosmik suratlarning xususiyatlari to'g'risida ma'lumotlar. Global Pozitsiyalash tizimi (GPS) va uning qo'llanilishi. GPS-pryomniklar to'g'risida ma'lumotlar.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "gis-19",
+      "subjectId": "gis",
+      "order": 19,
+      "title": {
+        "uz": "GAT texnologiyalari asosida aerokosmik suratlarni qayta ishlasah",
+        "ru": "Обработка аэрокосмических снимков на основе ГИС-технологий",
+        "en": "Processing Aerospace Images Based on GIS Technologies"
+      },
+      "content": {
+        "uz": "<h2>GAT texnologiyalari asosida aerokosmik suratlarni qayta ishlasah</h2><p>Aerokosmik suratlarni olish usullari. Aerokosmik suratlarni olishdagi muammolar. Turli aerokosmik suratlarning xususiyatlari to'g'risida ma'lumotlar.</p>"
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "videoDuration": "55:00",
+      "hasTest": true,
+      "hasPractical": true,
+      "duration": "55 daqiqa",
+      "difficulty": "advanced"
+    }
+  ]
+}

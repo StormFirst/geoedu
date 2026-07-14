@@ -5,7 +5,9 @@ import {
   Map, Mountain, Globe, BookOpen, Video, FileText, Award,
   Trophy, Users, CheckCircle, ArrowRight, ChevronDown,
 } from 'lucide-react'
-import { SUBJECTS, STATS } from '../data/mockData'
+import { SUBJECTS, TOPICS, TESTS, STATS } from '../data/mockData'
+import { db, isDemoMode } from '../firebase/config'
+import { collection, getCountFromServer, getDocs } from 'firebase/firestore'
 
 const subjectIcons = { kartografiya: Map, topografiya: Mountain, gis: Globe }
 
@@ -18,12 +20,7 @@ const features = [
   { icon: Users, title: "Ko'p foydalanuvchi", desc: "Talaba, o'qituvchi va administrator rollari bilan to'liq tizim" },
 ]
 
-const statsData = [
-  { value: STATS.totalStudents, label: 'Faol talabalar', icon: Users },
-  { value: STATS.totalTopics, label: 'Mavzular', icon: BookOpen },
-  { value: STATS.totalVideos, label: 'Video darslar', icon: Video },
-  { value: STATS.totalTests, label: 'Testlar', icon: FileText },
-]
+// features stays here
 
 const fanlarItems = [
   { id: 'topografiya', label: 'Topografiya', icon: Mountain, color: 'text-emerald-600', bg: 'bg-emerald-50' },
@@ -36,6 +33,19 @@ export default function Home() {
   const lang = i18n.language
   const [fanlarOpen, setFanlarOpen] = useState(false)
   const fanlarRef = useRef(null)
+  
+  const [studentCount, setStudentCount] = useState(STATS.totalStudents)
+
+  const realTopicsCount = Object.values(TOPICS).reduce((acc, list) => acc + list.length, 0)
+  const realVideosCount = Object.values(TOPICS).flat().filter(t => t.videoUrl).length
+  const realTestsCount = Object.keys(TESTS).length
+
+  const statsData = [
+    { value: studentCount, label: 'Faol talabalar', icon: Users },
+    { value: realTopicsCount, label: 'Mavzular', icon: BookOpen },
+    { value: realVideosCount, label: 'Video darslar', icon: Video },
+    { value: realTestsCount, label: 'Testlar', icon: FileText },
+  ]
 
   useEffect(() => {
     function handleClick(e) {
@@ -45,6 +55,29 @@ export default function Home() {
     }
     document.addEventListener('mousedown', handleClick)
     return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
+
+  useEffect(() => {
+    if (isDemoMode || !db) return
+    const getStudentsCount = async () => {
+      try {
+        const coll = collection(db, 'users')
+        const snapshot = await getCountFromServer(coll)
+        if (snapshot && snapshot.data()) {
+          setStudentCount(snapshot.data().count)
+        }
+      } catch (err) {
+        try {
+          const snap = await getDocs(collection(db, 'users'))
+          if (snap && snap.size > 0) {
+            setStudentCount(snap.size)
+          }
+        } catch (e) {
+          console.warn("Failed to fetch registered users:", e)
+        }
+      }
+    }
+    getStudentsCount()
   }, [])
 
   return (
@@ -178,9 +211,9 @@ export default function Home() {
 
               <div className="flex flex-wrap items-center gap-4 mt-8 justify-center lg:justify-start">
                 {[
-                  { val: '700+', label: 'Talabalar' },
-                  { val: '36', label: 'Videolar' },
-                  { val: '24', label: 'Testlar' },
+                  { val: `${studentCount}+`, label: 'Talabalar' },
+                  { val: realVideosCount, label: 'Videolar' },
+                  { val: realTestsCount, label: 'Testlar' },
                 ].map(({ val, label }) => (
                   <div key={label} className="flex items-center gap-2">
                     <span className="text-gray-900 font-bold text-sm">{val}</span>
@@ -239,8 +272,8 @@ export default function Home() {
 
               <div className="w-full max-w-sm grid grid-cols-3 gap-2">
                 {[
-                  { icon: BookOpen, val: '18', label: 'Mavzu', color: 'text-blue-600', bg: 'bg-blue-50 border-blue-200' },
-                  { icon: Video, val: '36', label: 'Video', color: 'text-violet-600', bg: 'bg-violet-50 border-violet-200' },
+                  { icon: BookOpen, val: realTopicsCount, label: 'Mavzu', color: 'text-blue-600', bg: 'bg-blue-50 border-blue-200' },
+                  { icon: Video, val: realVideosCount, label: 'Video', color: 'text-violet-600', bg: 'bg-violet-50 border-violet-200' },
                   { icon: Award, val: '12', label: 'Sertifikat', color: 'text-amber-600', bg: 'bg-amber-50 border-amber-200' },
                 ].map(({ icon: Icon, val, label, color, bg }) => (
                   <div key={label} className={`${bg} border rounded-xl p-3 text-center`}>
@@ -404,7 +437,7 @@ export default function Home() {
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <div className="inline-flex items-center gap-2 bg-white/15 border border-white/30 text-white text-sm font-medium px-4 py-1.5 rounded-full mb-6">
             <Trophy size={14} className="text-yellow-300" />
-            <span>700+ talaba allaqachon o'rganmoqda</span>
+            <span>{studentCount}+ talaba allaqachon o'rganmoqda</span>
           </div>
           <h2 className="text-4xl sm:text-5xl font-extrabold text-white mb-5 tracking-tight leading-tight">
             Bugun boshlang —

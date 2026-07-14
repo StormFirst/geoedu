@@ -1,0 +1,182 @@
+[
+  {
+    "num": 1,
+    "title": "Kursning maqsadi va vazifalari. Yerning shakli va o\u2018lchamlari",
+    "desc": "Topografiya va kartografiya fanining maqsadi va vazifalari. Geodeziya va topografiyani ta\u2019rifi va uning vazifalari, boshqa fanlar bilan aloqasi Yerning shakli va o\u2018lchamlari."
+  },
+  {
+    "num": 2,
+    "title": "Plan, xarita va profillar to\u2018g\u2018risida tushuncha. Plan, xaritalarning masshtablari. Topografik xarita, planlarning nomenklaturasi",
+    "desc": "Xarita, plan va profil. Topografik plan va xaritalar uchun shartli belgilar.  Masshtablar: sonli, chiziqli va ko\u2018ndalang masshtablar. Masshtab aniqligi. Topografik plan va xaritalar nomenklaturasi."
+  },
+  {
+    "num": 3,
+    "title": "Topografiyada qo\u2018llaniladigan koordinatalar va balandliklar sistemalari",
+    "desc": "Geografik koordinatalar sistemasi. To\u2018g\u2018ri burchakli koordinatalar sistemasi. Balandlik sistemalari. Mutloq va nisbiy balandliklar."
+  },
+  {
+    "num": 4,
+    "title": "Oriyentirlash burchaklari",
+    "desc": "Chiziqlarni oriyentirlash. haqiqiy azimut, direksion burchak, magnit azimuti va rumb. Ular orasidagi munosabat. Xarita va planlarda azimut, rumb va direksion burchaklarni aniqlash."
+  },
+  {
+    "num": 5,
+    "title": "Yer relyefi va uni plan va xaritalarda tasvirlash",
+    "desc": "Relyefni tasvirlash usullari. Relyefni gorizontallar bilan  tasvirlash. Topografik plan va xaritalar shartli belgilari. Topografik xaritada bajariladigan mashqlar."
+  },
+  {
+    "num": 6,
+    "title": "Burchaklarni o\u2018lchash",
+    "desc": "Gorizontal burchakni o\u2018lchash mohiyati; teodolitlarni sinflanishi va tuzilishi. Gorizontal burchaklarni o\u2018lchash prinsipi va usullari. Teodolitni nuqtada o\u2018rnatish va ish holatga keltirish. Vertikal burchaklarni o\u2018lchash, burchak o\u2018lchash aniqligi. Elektron teodolitlar haqida ma\u2019lumot."
+  },
+  {
+    "num": 7,
+    "title": "Teodolit syomkasi",
+    "desc": "Teodolit syomkasining mohiyati, teodolit yo\u2018llarni o\u2018tkazish. Teodolit yo\u2018llarida burchak va tomonlar uzunligini o\u2018lchash. Tafsilotlarni syomka qilish usullari va teodolit syomka planni rasmiylashtirish."
+  },
+  {
+    "num": 8,
+    "title": "Nivelirlash",
+    "desc": "Nivelirlashning mohiyati va turlari. Geometrik nivelirlash usullari. Ketma - ket geometrik nivelirlash. Nivelirlar turi. Aniq va texnik nivelirlar tuzilishi. Nivelir reykalari. Elektron raqamli nivelirlar haqida ma\u2019lumot."
+  },
+  {
+    "num": 9,
+    "title": "Xarita va boshqa kartografik asarlar",
+    "desc": "Xaritaga ta\u2019rif. Umumgeografik va mavzuli xaritalarni elementlari. Geografik atlaslar, sistemali kartografik asar sifatida."
+  },
+  {
+    "num": 10,
+    "title": "Xaritani matematik asosi",
+    "desc": "Yer ellipsoidi. Masshtablar. Kartografik proyeksiyalar haqida tushuncha, ularni turlari, proyeksiyalarni tasnifi."
+  },
+  {
+    "num": 11,
+    "title": "Proyeksiyalar tanlash.",
+    "desc": "Dunyo, yarimsharlar, materiklar va davlatlar xaritalari uchun proyeksiyalar."
+  },
+  {
+    "num": 12,
+    "title": "Kartografik tasvirlash usullari",
+    "desc": "Kartografik belgilar; ularni funksiyasi va qo\u2018llanilishi. Tasvirlash usullari: belgilar, teng chiziqlar, sifatli rang va boshqalar."
+  },
+  {
+    "num": 13,
+    "title": "Relyefni tasvirlash usullari",
+    "desc": "Shkalalarni ishlab chiqish, har xil tasvirlash usullarini birgalikda qo\u2018llash. Relyefni tasvirlash usullari haqida tushuncha."
+  },
+  {
+    "num": 14,
+    "title": "Kartografik generalizatsiya",
+    "desc": "Generalizatsiyani mohiyati va omillari. Generalizatsiyani turlari va yo\u2018llari. Punktlarda, chiziqlarda va maydonlarda tarqalgan xodisalarni generalizatsiya qilish."
+  },
+  {
+    "num": 15,
+    "title": "Geografik xarita va atlaslar va ularni tiplari",
+    "desc": "Geografik xaritalarni tayyorlash usullari. Xaritalar dasturi, xaritani tuzish taxrir qilish. Umumgeografik, mavzuli va maxsus xaritalarni loyihalash usullari."
+  },
+  {
+    "num": 16,
+    "title": "Xaritalardan foydalanish",
+    "desc": "Xaritalardan foydalanish haqida tushuncha. Xaritalardan foydalanishni asosiy usullari. Kartografik tadqiqot usuli."
+  },
+  {
+    "num": 17,
+    "title": "Geografik xarita va atlaslarni tahlil qilish va baholash",
+    "desc": "Xaritalarni tahlil qilish va baholash haqida tushuncha. Xaritalarni ishonchliligi. Xaritalarni matematik asosi. Mazmunini to\u2018liqligini tahlil qilish. Informatsiya hajmini baholash haqida. Xaritalarni jihozlash sifatini baholash. Atlaslarni tahlil qilish va baholash."
+  },
+  {
+    "num": 18,
+    "title": "Geografik axborot tizimlari va asoslari",
+    "desc": "Geografik axborot tizimlari fani tushunchasi va vazifalari. Zamonaviy GAT texnalogiyalarining roli, GAT to\u2018g\u2018risida umumiy ma\u2019lumot."
+  },
+  {
+    "num": 19,
+    "title": "GAT ni qo\u2018llanilish sohalari",
+    "desc": "Asosiy ishlatiladigan termin va atamalar.Tizimning qo\u2018llanilish sohalari. Geomatika tushunchasi va tizimdagi o\u2018rni. Geokodlash."
+  },
+  {
+    "num": 20,
+    "title": "Geografik axborot tizimlari uchun ma\u2019lumotlarni to\u2018plash va uni kiritish",
+    "desc": "Ma\u2019lumot va axborot to\u2018g\u2018risida tushuncha. Ma\u2019lumotlarni to\u2018plash usullari. Ma\u2019lumot to\u2018plashning bosqichlari. Asosiy geografik ma\u2019lumot olish turlari."
+  },
+  {
+    "num": 21,
+    "title": "Rastr va vektor mohiyati",
+    "desc": "Rastr va vektor ma\u2019lumotolish. Yordamchi yoki ikkilamchi geografik ma\u2019lumotolish. Raqamli fotogrammetriya orqali ma\u2019lumotolish. GPS qurilmasi orqali ma\u2019lumot olish."
+  },
+  {
+    "num": 22,
+    "title": "Internet manbalaridan geoma\u2019lumotlar olish",
+    "desc": "Tashqi manbalardan ma\u2019lumot olish. Geografik ma\u2019lumot formatlari."
+  },
+  {
+    "num": 23,
+    "title": "Geografik axborot tizimida axborotlarni tashkillashtirish va qayta ishlash",
+    "desc": "Raqamli maxsus GAT texnalogiyalari va tasvirlashning qoidalari. Boshqariladigan raqamlashtirish va vektorizatsiyalash. Topologiya."
+  },
+  {
+    "num": 24,
+    "title": "Geoma\u2019lumotlar bazasi",
+    "desc": "Ma\u2019lumotni MBBT jadvallarida joylashtirish. Ma\u2019lumotlar bazasini loyihalash. SQL to\u2018g\u2018risida tushuncha. Indekslashning so\u2018rov jarayonidagi ahamiyati."
+  },
+  {
+    "num": 25,
+    "title": "Ma\u2019lumotlar bazasi haqida tushuncha",
+    "desc": "Ma\u2019lumotlar bazasini boshqarish tizimi (MBBT). Ma\u2019lumotlar bazasini boshqaruvchi dasturlar. MBBT ning turlari. MBBT ning afzalliklari. MBBT ning vazifalari."
+  },
+  {
+    "num": 26,
+    "title": "Geografik axborot tizimida ma\u2019lumotlarni tahlil qilish",
+    "desc": "Geografiyada GAT ma\u2019lumotlari to\u2018plash usullari. GATda kartografik tasvirlash usullari. Geovizuallashtirish tushunchasi mohiyati."
+  },
+  {
+    "num": 27,
+    "title": "Geografik axborot tizimida ma\u2019lumotlarni tahlil qilish",
+    "desc": "Modellashtirish va modellar. GATda fazoviy modellashtirish. Fazoviy ma\u2019lumotlarning formatlari. Geografiyada GAT ma\u2019lumotlarni geofazoviy tahlil qilish."
+  },
+  {
+    "num": 28,
+    "title": "Geofazoviy tahlil tushunchasi va usullari",
+    "desc": "Geofazoviy tahlil to\u2018g\u2018risida tushuncha. Geofazoviy tahlil usullari. Geofazoviy o\u2018lchovlar. Overley operatsiyasi. Tarmoq tahlili. Yer yuzasi tahlili."
+  },
+  {
+    "num": 29,
+    "title": "Geografik tadqiqotlarda olingan ma\u2019lumotlarni GAT da aks ettirish",
+    "desc": "Geotasvirlash usullari. Sinflash, qayta sinflash, kartani qiyoslash, grafik va hisobot ko\u2018rinishlari, karta orqali tasvirlash. Elektron kartalar tizimi. Plotter va uning qo\u2018llanilishi."
+  },
+  {
+    "num": 30,
+    "title": "GATda geofazoviy ma\u2019lumotlarning uch o\u2018lchovli tasviri",
+    "desc": "GAT texnologiyalari yordamida geofazoviy ma\u2019lumotlarning uch o\u2018lchovli tasviri. Uch o\u2018lchamli tasvirlash. Relyefning raqamli modeli (RRM-DEM) va Joyning raqamli modeli (JRM-DTM)."
+  },
+  {
+    "num": 31,
+    "title": "GATda aqlli shahar loyihasi va uning uch o\u2018lchovli modeli",
+    "desc": "GAT texnologiyalari orqali shaharning uch o\u2018lchovli modeli (Smart city). Geofazoviy ma\u2019lumotlarni uch o\u2018lchovli tasvirlash."
+  },
+  {
+    "num": 32,
+    "title": "Geografik axborot tizimida boshqaruvni tashkillashtirish",
+    "desc": "Geografik axborot tizimida boshqaruvning o\u2018rni va vazifalari. Dasturiy ta\u2019minot va uning turlari. Geografik axborot dasturlarini o\u2018rnatishga bo\u2018lgan talablarni o\u2018rganish. Tizimda qo\u2018llaniladigan kompyuter texnologiyalari va ularni boshqarish. Ekspert tizimlar to\u2018g\u2018risida tushunchalar."
+  },
+  {
+    "num": 33,
+    "title": "Geografik axborot tizimining zamonaviy rivojlanishi",
+    "desc": "Geografik axborot tizimini ishlatishda multimedia vositalarining o\u2018rni. Geografik axborot tizimi dasturlari va ma\u2019lumotlarini internet tarmog\u2018i orqali o\u2018rganish. Uch o\u2018lchamli modellarning o\u2018rni. Mobillashgan geografik axborot tizimini o\u2018rganish."
+  },
+  {
+    "num": 34,
+    "title": "Geografik tadqiqotlarda masofadan zondlash haqida umumiy ma\u2019lumotlar",
+    "desc": "Raqamli xaritalash. Masofadan zondlash texnologiyasi. Masofadan zondlash orqali olingan maxsulot. Geoaxborot tizimining masofadan zondlash bilan o\u2018zaro aloqadorligi."
+  },
+  {
+    "num": 35,
+    "title": "GATda kosmik suratlarni olish usullari",
+    "desc": "Kosmik suratlarni olish usullari. Masofadan ma\u2019lumot olishdagi muammolar. Turli kosmik suratlarning xususiyatlari to\u2018g\u2018risida ma\u2019lumotlar. Global Pozitsiyalash tizimi (GPS) va uning qo\u2018llanilishi. GPS-pryomniklar to\u2018g\u2018risida ma\u2019lumotlar."
+  },
+  {
+    "num": 36,
+    "title": "GAT texnologiyalari asosida aerokosmik suratlarni qayta ishlasah",
+    "desc": "Aerokosmik suratlarni olish usullari. Aerokosmik suratlarni olishdagi muammolar. Turli aerokosmik suratlarning xususiyatlari to\u2018g\u2018risida ma\u2019lumotlar."
+  }
+]

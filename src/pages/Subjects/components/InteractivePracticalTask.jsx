@@ -256,81 +256,117 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
       gis5_opt7: "BACKGROUND_COLOR (Ixtiyoriy)",
 
       // gis-6
-      gis6_title: "Fazoviy SQL so'rovini tuzish",
-      gis6_desc: "Uylar (buildings) va bog'lar (parks) jadvallari berilgan. 'Amir Temur bog'i' hududiga to'liq kiruvchi binolar ID raqamini aniqlash uchun to'g'ri SQL so'rovini tanlang.",
-      gis6_opt1: "SELECT buildings.id FROM buildings, parks WHERE ST_Within(buildings.geom, parks.geom) AND parks.name = 'Amir Temur bog\'i'",
-      gis6_opt2: "SELECT * FROM buildings WHERE ST_Distance(geom, 'Amir Temur bog\'i')",
-      gis6_opt3: "SELECT * FROM buildings JOIN parks ON ST_Buffer(buildings.geom)",
+      gis7_title: "Fazoviy SQL so'rovini tuzish",
+      gis7_desc: "Uylar (buildings) va bog'lar (parks) jadvallari berilgan. 'Amir Temur bog'i' hududiga to'liq kiruvchi binolar ID raqamini aniqlash uchun to'g'ri SQL so'rovini tanlang.",
+      gis7_opt1: "SELECT buildings.id FROM buildings, parks WHERE ST_Within(buildings.geom, parks.geom) AND parks.name = 'Amir Temur bog\'i'",
+      gis7_opt2: "SELECT * FROM buildings WHERE ST_Distance(geom, 'Amir Temur bog\'i')",
+      gis7_opt3: "SELECT * FROM buildings JOIN parks ON ST_Buffer(buildings.geom)",
 
       // gis-7
-      gis7_title: "Relatsion ma'lumotlar bazasi bog'lanishi",
-      gis7_desc: "Uchastkalar kadastri (cadastre: parcel_id, area, address) va mulkdorlar (owners: owner_id, owner_name, parcel_id) jadvallarini bir-biriga bog'lash uchun qaysi umumiy ustun (Primary Key) ishlatiladi?",
-      gis7_label: "Bog'lovchi ustun nomini kiriting:",
+      gis8_title: "Relatsion ma'lumotlar bazasi bog'lanishi",
+      gis8_desc: "Uchastkalar kadastri (cadastre: parcel_id, area, address) va mulkdorlar (owners: owner_id, owner_name, parcel_id) jadvallarini bir-biriga bog'lash uchun qaysi umumiy ustun (Primary Key) ishlatiladi?",
+      gis8_label: "Bog'lovchi ustun nomini kiriting:",
 
       // gis-8
-      gis8_title: "Geovizuallashtirish Symbology turlari",
-      gis8_desc: "Geografik hodisalarni ularga mos xarita ramplari/tasvirlash uslubi bilan bog'lang.",
-      gis8_terms: {
+      gis9_title: "Geovizuallashtirish Symbology turlari",
+      gis9_desc: "Geografik hodisalarni ularga mos xarita ramplari/tasvirlash uslubi bilan bog'lang.",
+      gis9_terms: {
         "Aholi zichligi (tartibli o'sish)": "Sequential (Och rangdan to'q ranggacha / Gradient)",
         "Harorat anomaliyasi (musbat va manfiy)": "Diverging (Moviy va Qizil ranglar / Kontrastli)",
         "Tuproq turlari (kategoriyalangan)": "Qualitative (Har xil ranglar / Tasodifiy)"
       },
 
       // gis-9
-      gis9_title: "Fazoviy interpolatsiya metodlari",
-      gis9_desc: "Fazoviy interpolatsiya metodlarini ularning ta'riflari bilan bog'lang.",
-      gis9_terms: {
+      gis10_title: "Fazoviy interpolatsiya metodlari",
+      gis10_desc: "Fazoviy interpolatsiya metodlarini ularning ta'riflari bilan bog'lang.",
+      gis10_terms: {
         "IDW": "Masofaga teskari og'irlik - yaqin nuqtalarga ko'proq ta'sir beruvchi metod",
         "Kriging": "Geostatistik interpolatsiya - fazoviy korrelyatsiyani hisobga oladi",
         "Spline": "Silliq egri chiziq yuzasini hosil qiluvchi matematik metod"
       },
 
       // gis-11
-      gis11_title: "Xarita sahifasi (Layout) elementlari",
-      gis11_desc: "Eksport qilishga tayyor xaritada mavjud bo'lishi shart bo'lgan 4 ta majburiy kartografik elementni tanlang.",
-      gis11_opt1: "Xarita sarlavhasi (Title)",
-      gis11_opt2: "Xarita afsonasi (Legend)",
-      gis11_opt3: "Shimol ko'rsatkichi (North Arrow)",
-      gis11_opt4: "Masshtab chizig'i (Scale Bar)",
-      gis11_opt5: "Kompyuter video kartasi modeli",
-      gis11_opt6: "Internet tarmog'i tezligi",
+      gis12_title: "Xarita sahifasi (Layout) elementlari",
+      gis12_desc: "Eksport qilishga tayyor xaritada mavjud bo'lishi shart bo'lgan 4 ta majburiy kartografik elementni tanlang.",
+      gis12_opt1: "Xarita sarlavhasi (Title)",
+      gis12_opt2: "Xarita afsonasi (Legend)",
+      gis12_opt3: "Shimol ko'rsatkichi (North Arrow)",
+      gis12_opt4: "Masshtab chizig'i (Scale Bar)",
+      gis12_opt5: "Kompyuter video kartasi modeli",
+      gis12_opt6: "Internet tarmog'i tezligi",
 
       // gis-10
-      gis10_title: "Buffer Tahlili — Shahar atrofida Muhofaza Zonasi",
-      gis10_desc: "Quyidagi interaktiv xaritada O'zbekiston shaharlari ko'rsatilgan. Biror shahar ustiga bosing — uning atrofida 50 km va 100 km bufer zonalari chiziladi. Keyin bu shaharning nomini kiriting va topshiriqni tasdiqlang.",
-      gis10_label: "Bosgan shahar nomini kiriting:",
-      gis10_submit: "Tasdiqlash",
-      gis10_hint: "Maslahat: Xaritada ko'rsatilgan shaharlardan birini tanlang (Toshkent, Samarqand, Buxoro yoki Namangan).",
+      gis11_title: "Buffer Tahlili — Shahar atrofida Muhofaza Zonasi",
+      gis11_desc: "Quyidagi interaktiv xaritada O'zbekiston shaharlari ko'rsatilgan. Biror shahar ustiga bosing — uning atrofida 50 km va 100 km bufer zonalari chiziladi. Keyin bu shaharning nomini kiriting va topshiriqni tasdiqlang.",
+      gis11_label: "Bosgan shahar nomini kiriting:",
+      gis11_submit: "Tasdiqlash",
+      gis11_hint: "Maslahat: Xaritada ko'rsatilgan shaharlardan birini tanlang (Toshkent, Samarqand, Buxoro yoki Namangan).",
 
       // gis-12
-      gis12_title: "ArcGIS 3D Sandbox — Aqlli Shahar Loyihalash",
-      gis12_desc: "Bu amaliy topshiriq platformaning ArcGIS 3D Sandbox sahifasida bajariladi. Quyidagi vazifani bajaring:",
-      gis12_task: "3D xaritada kamida 5 ta bino, 3 ta shamol turbinasi va 8 ta daraxt joylashtiring. Loyihangizni saqlang va ochiq meydonda umumiy ob'ektlar sonini hisoblang.",
-      gis12_scoreLabel: "Loyihangizdagi jami ob'ektlar sonini kiriting:",
-      gis12_openBtn: "ArcGIS 3D Sandbox ga o'tish →",
-      gis12_hint: "Maslahat: 3D sahifasida Edit Mode tugmasini bosib ob'ektlar qo'shing. Maqsad: kamida 16 ta ob'ekt (5 bino + 3 turbin + 8 daraxt).",
+      gis14_title: "ArcGIS 3D Sandbox — Aqlli Shahar Loyihalash",
+      gis14_desc: "Bu amaliy topshiriq platformaning ArcGIS 3D Sandbox sahifasida bajariladi. Quyidagi vazifani bajaring:",
+      gis14_task: "3D xaritada kamida 5 ta bino, 3 ta shamol turbinasi va 8 ta daraxt joylashtiring. Loyihangizni saqlang va ochiq meydonda umumiy ob'ektlar sonini hisoblang.",
+      gis14_scoreLabel: "Loyihangizdagi jami ob'ektlar sonini kiriting:",
+      gis14_openBtn: "ArcGIS 3D Sandbox ga o'tish →",
+      gis14_hint: "Maslahat: 3D sahifasida Edit Mode tugmasini bosib ob'ektlar qo'shing. Maqsad: kamida 16 ta ob'ekt (5 bino + 3 turbin + 8 daraxt).",
 
       // gis-13
-      gis13_title: "NDVI vegetatsiya indeksini hisoblash",
-      gis13_desc: "Pikselning infraqizil (NIR) qaytishi 0.60 va qizil (RED) qaytishi 0.20 ga teng. NDVI vegetatsiya indeksini hisoblang: (NIR - RED) / (NIR + RED)",
-      gis13_label: "NDVI qiymatini kiriting (masalan: 0.5):",
+      gis17_title: "NDVI vegetatsiya indeksini hisoblash",
+      gis17_desc: "Pikselning infraqizil (NIR) qaytishi 0.60 va qizil (RED) qaytishi 0.20 ga teng. NDVI vegetatsiya indeksini hisoblang: (NIR - RED) / (NIR + RED)",
+      gis17_label: "NDVI qiymatini kiriting (masalan: 0.5):",
 
       // gis-14
-      gis14_title: "Kosmik kanallar (Band) kombinatsiyalari",
-      gis14_desc: "Landsat-8 sun'iy yo'ldosh kanallari kombinatsiyasini uning tasvirlash maqsadi bilan bog'lang.",
-      gis14_terms: {
+      gis18_title: "Kosmik kanallar (Band) kombinatsiyalari",
+      gis18_desc: "Landsat-8 sun'iy yo'ldosh kanallari kombinatsiyasini uning tasvirlash maqsadi bilan bog'lang.",
+      gis18_terms: {
         "Tabiiy ranglar (Natural Color)": "4, 3, 2 kanallar",
         "Sun'iy o'simlik ranglari (False Color Infrared)": "5, 4, 3 kanallar",
         "Qurilgan hududlar (Shortwave Infrared)": "7, 6, 4 kanallar"
       },
 
       // gis-15
-      gis15_title: "Topologik xatolar va tahlil",
-      gis15_desc: "Vektor ma'lumotlar bazasidagi topologik xato turlarini ularning tavsifi bilan bog'lang.",
-      gis15_terms: {
+      gis6_title: "Topologik xatolar va tahlil",
+      gis6_desc: "Vektor ma'lumotlar bazasidagi topologik xato turlarini ularning tavsifi bilan bog'lang.",
+      gis6_terms: {
         "Overlap (Ustma-ust tushish)": "Ikki qo'shni yer uchastkasi chegaralari bir-biri ustiga chiqib qolishi",
         "Gap (Bo'shliq)": "Chegaralar orasida keraksiz bo'sh joylar qolib ketishi",
         "Dangle (Osilgan chiziq)": "Chiziqning boshqa chiziq bilan tutashmay ochiq qolgan uchi"
+      },
+
+      // gis-13
+      gis13_title: "3D Balandlik Modellari (DEM/DTM/DSM)",
+      gis13_desc: "Balandlik modellarining turlarini ularning to'g'ri ta'riflari bilan bog'lang.",
+      gis13_terms: {
+        "DEM (Digital Elevation Model)": "Faqat yer yuzasi relyefi balandliklarining raqamli modeli",
+        "DSM (Digital Surface Model)": "Yer yuzasidagi ob'ektlar (binolar, daraxtlar) bilan birgalikdagi balandlik modeli",
+        "TIN (Triangulated Irregular Network)": "Relyefni uchburchaklar to'plami yordamida vektor shaklida ifodalash"
+      },
+
+      // gis-15
+      gis15_title: "GATda boshqaruvni tashkillashtirish",
+      gis15_desc: "GAT loyihalarini boshqarish va apparat ta'minotiga doir atamalarni moslashtiring.",
+      gis15_terms: {
+        "Apparat ta'minot": "Kompyuter, server, skaner, GPS va plotter kabi jismoniy qurilmalar",
+        "Ekspert tizim": "Mantiqiy qoidalar asosida fazoviy qarorlar qabul qiluvchi aqlli tizim",
+        "Litsenziyali GAT": "Foydalanish uchun haq to'lanadigan litsenziyaga ega dastur (masalan, ArcGIS)"
+      },
+
+      // gis-16
+      gis16_title: "GATning zamonaviy rivojlanishi (Web/Cloud/Mobile)",
+      gis16_desc: "Zamonaviy GIS texnologiyalarining yo'nalishlarini moslashtiring.",
+      gis16_terms: {
+        "WebGIS": "Brauzer orqali xaritalarni onlayn tarqatish va tahlil qilish tizimi",
+        "MobileGIS": "Maydonda oflayn geoma'lumot to'plash uchun mobil ilovalar (masalan, QField)",
+        "Bulutli GAT": "Ma'lumotlarni internetdagi serverlarda saqlash va tahlil qilish texnologiyasi"
+      },
+
+      // gis-19
+      gis19_title: "Aerokosmik suratlarni qayta ishlash",
+      gis19_desc: "Aerokosmik suratlarni qayta ishlash va tahlil qilish atamalarini bog'lang.",
+      gis19_terms: {
+        "Ortorektifikatsiya": "Aerokosmik suratdagi relyef va kamera og'ishi xatolarini to'g'rilash",
+        "Nazoratli klassifikatsiya": "Namunaviy piksellar yordamida tasvirni sinflarga ajratish",
+        "Confusion Matrix": "Klassifikatsiya aniqligi va xatoliklarini baholash jadvali"
       },
 
       // Default match puzzle
@@ -501,66 +537,102 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
       gis5_opt7: "BACKGROUND_COLOR (Опционально)",
 
       // gis-6
-      gis6_title: "Составление пространственного SQL запроса",
-      gis6_desc: "Даны таблицы зданий (buildings) и парков (parks). Выберите правильный SQL запрос для нахождения ID зданий, находящихся внутри парка 'Amir Temur bog\'i'.",
-      gis6_opt1: "SELECT buildings.id FROM buildings, parks WHERE ST_Within(buildings.geom, parks.geom) AND parks.name = 'Amir Temur bog\'i'",
-      gis6_opt2: "SELECT * FROM buildings WHERE ST_Distance(geom, 'Amir Temur bog\'i')",
-      gis6_opt3: "SELECT * FROM buildings JOIN parks ON ST_Buffer(buildings.geom)",
+      gis7_title: "Составление пространственного SQL запроса",
+      gis7_desc: "Даны таблицы зданий (buildings) и парков (parks). Выберите правильный SQL запрос для нахождения ID зданий, находящихся внутри парка 'Amir Temur bog\'i'.",
+      gis7_opt1: "SELECT buildings.id FROM buildings, parks WHERE ST_Within(buildings.geom, parks.geom) AND parks.name = 'Amir Temur bog\'i'",
+      gis7_opt2: "SELECT * FROM buildings WHERE ST_Distance(geom, 'Amir Temur bog\'i')",
+      gis7_opt3: "SELECT * FROM buildings JOIN parks ON ST_Buffer(buildings.geom)",
 
       // gis-7
-      gis7_title: "Связь реляционной базы данных",
-      gis7_desc: "Какой общий столбец (Primary Key) используется для объединения таблиц кадастра (cadastre: parcel_id, area, address) и владельцев (owners: owner_id, owner_name, parcel_id)?",
-      gis7_label: "Введите название ключевого столбца:",
+      gis8_title: "Связь реляционной базы данных",
+      gis8_desc: "Какой общий столбец (Primary Key) используется для объединения таблиц кадастра (cadastre: parcel_id, area, address) и владельцев (owners: owner_id, owner_name, parcel_id)?",
+      gis8_label: "Введите название ключевого столбца:",
 
       // gis-8
-      gis8_title: "Стили визуализации ГИС",
-      gis8_desc: "Сопоставьте географическое явление со стилем шкалы отображения.",
-      gis8_terms: {
+      gis9_title: "Стили визуализации ГИС",
+      gis9_desc: "Сопоставьте географическое явление со стилем шкалы отображения.",
+      gis9_terms: {
         "Плотность населения (возрастание)": "Sequential (От светлого к темному / Градиент)",
         "Аномалия температур (плюс и минус)": "Diverging (Синий и красный / Контрастный)",
         "Типы почв (категории)": "Qualitative (Разные цвета / Случайный)"
       },
 
       // gis-9
-      gis9_title: "Методы пространственной интерполяции",
-      gis9_desc: "Сопоставьте методы пространственной интерполяции с их описаниями.",
-      gis9_terms: {
+      gis10_title: "Методы пространственной интерполяции",
+      gis10_desc: "Сопоставьте методы пространственной интерполяции с их описаниями.",
+      gis10_terms: {
         "IDW": "Обратно взвешенные расстояния - больший вес ближайшим точкам",
         "Kriging": "Геостатистическая интерполяция с учетом пространственной корреляции",
         "Spline": "Математический метод получения гладкой кривой поверхности"
       },
 
       // gis-11
-      gis11_title: "Элементы компоновки карты (Layout)",
-      gis11_desc: "Выберите 4 обязательных картографических элемента, которые должны присутствовать на готовом макете карты.",
-      gis11_opt1: "Название карты (Title)",
-      gis11_opt2: "Легенда карты (Legend)",
-      gis11_opt3: "Указатель севера (North Arrow)",
-      gis11_opt4: "Линейный масштаб (Scale Bar)",
-      gis11_opt5: "Модель видеокарты компьютера",
-      gis11_opt6: "Скорость интернет-соединения",
+      gis12_title: "Элементы компоновки карты (Layout)",
+      gis12_desc: "Выберите 4 обязательных картографических элемента, которые должны присутствовать на готовом макете карты.",
+      gis12_opt1: "Название карты (Title)",
+      gis12_opt2: "Легенда карты (Legend)",
+      gis12_opt3: "Указатель севера (North Arrow)",
+      gis12_opt4: "Линейный масштаб (Scale Bar)",
+      gis12_opt5: "Модель видеокарты компьютера",
+      gis12_opt6: "Скорость интернет-соединения",
 
       // gis-13
-      gis13_title: "Расчет вегетационного индекса NDVI",
-      gis13_desc: "Отражение пикселя в ближнем инфракрасном (NIR) спектре равно 0.60, а в красном (RED) спектре 0.20. Вычислите значение NDVI: (NIR - RED) / (NIR + RED)",
-      gis13_label: "Введите значение NDVI (например: 0.5):",
+      gis17_title: "Расчет вегетационного индекса NDVI",
+      gis17_desc: "Отражение пикселя в ближнем инфракрасном (NIR) спектре равно 0.60, а в красном (RED) спектре 0.20. Вычислите значение NDVI: (NIR - RED) / (NIR + RED)",
+      gis17_label: "Введите значение NDVI (например: 0.5):",
 
       // gis-14
-      gis14_title: "Комбинации космических каналов",
-      gis14_desc: "Сопоставьте комбинацию каналов Landsat-8 с ее назначением визуализации.",
-      gis14_terms: {
+      gis18_title: "Комбинации космических каналов",
+      gis18_desc: "Сопоставьте комбинацию каналов Landsat-8 с ее назначением визуализации.",
+      gis18_terms: {
         "Естественные цвета (Natural Color)": "4, 3, 2 каналы",
         "Искусственные цвета растительности (False Color)": "5, 4, 3 каналы",
         "Урбанизированные зоны (Shortwave Infrared)": "7, 6, 4 каналы"
       },
 
       // gis-15
-      gis15_title: "Топологические ошибки",
-      gis15_desc: "Сопоставьте топологические ошибки в векторных базах данных с их описанием.",
-      gis15_terms: {
+      gis6_title: "Топологические ошибки",
+      gis6_desc: "Сопоставьте топологические ошибки в векторных базах данных с их описанием.",
+      gis6_terms: {
         "Overlap (Перекрытие)": "Наложение границ двух соседних участков друг на друга",
         "Gap (Пробел)": "Образование пустых пространств/дыр между смежными границами",
         "Dangle (Висячий узел)": "Конец линии, который не соединяется с другими линиями"
+      },
+
+      // gis-13
+      gis13_title: "3D модели высот (DEM/DTM/DSM)",
+      gis13_desc: "Сопоставьте типы моделей высот с их правильными определениями.",
+      gis13_terms: {
+        "DEM (Digital Elevation Model)": "Цифровая модель высот, представляющая только рельеф земной поверхности",
+        "DSM (Digital Surface Model)": "Модель высот, включающая объекты на земной поверхности (здания, деревья)",
+        "TIN (Triangulated Irregular Network)": "Представление рельефа в виде сети связанных треугольников в векторном формате"
+      },
+
+      // gis-15
+      gis15_title: "Организация управления в ГИС",
+      gis15_desc: "Сопоставьте термины, связанные с управлением ГИС-проектами и аппаратным обеспечением.",
+      gis15_terms: {
+        "Apparat ta'minot": "Физические устройства, такие как компьютер, сервер, сканер, GPS и плоттер",
+        "Ekspert tizim": "Интеллектуальная система принятия пространственных решений на основе логических правил",
+        "Litsenziyali GAT": "Платное лицензионное программное обеспечение (например, ArcGIS)"
+      },
+
+      // gis-16
+      gis16_title: "Современное развитие ГИС (Web/Cloud/Mobile)",
+      gis16_desc: "Сопоставьте направления развития современных ГИС-технологий.",
+      gis16_terms: {
+        "WebGIS": "Система онлайн-распространения и анализа карт через браузер",
+        "MobileGIS": "Мобильные приложения для полевого сбора геоданных в режиме офлайн (например, QField)",
+        "Bulutli GAT": "Технология хранения и анализа данных на интернет-серверах"
+      },
+
+      // gis-19
+      gis19_title: "Обработка аэрокосмических снимков",
+      gis19_desc: "Сопоставьте термины обработки и анализа аэрокосмических снимков.",
+      gis19_terms: {
+        "Ortorektifikatsiya": "Исправление геометрических искажений снимка, вызванных рельефом и наклоном камеры",
+        "Nazoratli klassifikatsiya": "Классификация изображения на основе эталонных пикселей",
+        "Confusion Matrix": "Таблица оценки точности и ошибок классификации снимка"
       },
 
       // Default match puzzle
@@ -601,14 +673,14 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
       sourceTerms = tStr.karto4_terms
     } else if (topicId === 'gis-2') {
       sourceTerms = tStr.gis2_terms
-    } else if (topicId === 'gis-8') {
-      sourceTerms = tStr.gis8_terms
     } else if (topicId === 'gis-9') {
       sourceTerms = tStr.gis9_terms
-    } else if (topicId === 'gis-14') {
-      sourceTerms = tStr.gis14_terms
-    } else if (topicId === 'gis-15') {
-      sourceTerms = tStr.gis15_terms
+    } else if (topicId === 'gis-10') {
+      sourceTerms = tStr.gis10_terms
+    } else if (topicId === 'gis-18') {
+      sourceTerms = tStr.gis18_terms
+    } else if (topicId === 'gis-6') {
+      sourceTerms = tStr.gis6_terms
     } else if (
       !topicId.startsWith('topo-') && 
       !topicId.startsWith('karto-') && 
@@ -627,7 +699,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
   // Initialize Leaflet map for gis-10 (buffer analysis)
   useEffect(() => {
     if (taskState !== 'active') return
-    if (topicId !== 'gis-10') return
+    if (topicId !== 'gis-11') return
 
     if (gis10LeafletMap.current) {
       gis10LeafletMap.current.remove()
@@ -1042,7 +1114,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
     }
   }
 
-  const checkGis6 = (opt) => {
+  const checkGis7 = (opt) => {
     setGis6Selection(opt)
     if (opt === 'opt1') {
       setFeedbackMsg(tStr.successMsg)
@@ -1054,7 +1126,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
     }
   }
 
-  const checkGis7 = () => {
+  const checkGis8 = () => {
     const val = gis7Input.replace(/[\s']/g, '').trim().toLowerCase()
     if (val === 'parcel_id') {
       setFeedbackMsg(tStr.successMsg)
@@ -1066,7 +1138,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
     }
   }
 
-  const checkGis11 = () => {
+  const checkGis12 = () => {
     const { title, legend, scale, north, cpu, internet } = gis11Checks
     if (title && legend && scale && north && !cpu && !internet) {
       setFeedbackMsg(tStr.successMsg)
@@ -1078,7 +1150,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
     }
   }
 
-  const checkGis13 = () => {
+  const checkGis17 = () => {
     const cleanVal = gis13Input.replace(/[^0-9\.]/g, '').trim()
     const val = parseFloat(cleanVal)
     if (val === 0.5 || val === 0.50) {
@@ -1133,7 +1205,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
   }
 
   // GIS-12: ArcGIS 3D score check
-  const checkGis12 = () => {
+  const checkGis14 = () => {
     const val = parseInt(gis12ScoreInput.trim())
     if (isNaN(val)) {
       setFeedbackMsg("Iltimos, raqam kiriting.")
@@ -1164,10 +1236,10 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
     if (topicId === 'karto-2') termsSource = tStr.karto2_terms
     if (topicId === 'karto-4') termsSource = tStr.karto4_terms
     if (topicId === 'gis-2') termsSource = tStr.gis2_terms
-    if (topicId === 'gis-8') termsSource = tStr.gis8_terms
     if (topicId === 'gis-9') termsSource = tStr.gis9_terms
-    if (topicId === 'gis-14') termsSource = tStr.gis14_terms
-    if (topicId === 'gis-15') termsSource = tStr.gis15_terms
+    if (topicId === 'gis-10') termsSource = tStr.gis10_terms
+    if (topicId === 'gis-18') termsSource = tStr.gis18_terms
+    if (topicId === 'gis-6') termsSource = tStr.gis6_terms
 
     const correctDef = termsSource[selectedTerm]
     if (correctDef === def) {
@@ -1237,7 +1309,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
   }
 
   // Determine if it is a matching task
-  const isMatchingTask = ['karto-1', 'karto-2', 'karto-4', 'gis-2', 'gis-8', 'gis-9', 'gis-14', 'gis-15'].includes(topicId) || 
+  const isMatchingTask = ['karto-1', 'karto-2', 'karto-4', 'gis-2', 'gis-9', 'gis-10', 'gis-18', 'gis-6'].includes(topicId) || 
     (!topicId.startsWith('topo-') && !topicId.startsWith('karto-') && !topicId.startsWith('gis-'))
 
   return (
@@ -1281,16 +1353,16 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
               {topicId === 'gis-2' && tStr.gis2_title}
               {topicId === 'gis-4' && tStr.gis4_title}
               {topicId === 'gis-5' && tStr.gis5_title}
-              {topicId === 'gis-6' && tStr.gis6_title}
               {topicId === 'gis-7' && tStr.gis7_title}
               {topicId === 'gis-8' && tStr.gis8_title}
               {topicId === 'gis-9' && tStr.gis9_title}
               {topicId === 'gis-10' && tStr.gis10_title}
               {topicId === 'gis-11' && tStr.gis11_title}
               {topicId === 'gis-12' && tStr.gis12_title}
-              {topicId === 'gis-13' && tStr.gis13_title}
               {topicId === 'gis-14' && tStr.gis14_title}
-              {topicId === 'gis-15' && tStr.gis15_title}
+              {topicId === 'gis-17' && tStr.gis17_title}
+              {topicId === 'gis-18' && tStr.gis18_title}
+              {topicId === 'gis-6' && tStr.gis6_title}
               {!topicId.startsWith('topo-') && !topicId.startsWith('karto-') && !topicId.startsWith('gis-') && tStr.def_title}
             </h4>
             <p className="text-[11px] text-white/80 mt-0.5">
@@ -1331,16 +1403,16 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
               {topicId === 'gis-2' && tStr.gis2_desc}
               {topicId === 'gis-4' && tStr.gis4_desc}
               {topicId === 'gis-5' && tStr.gis5_desc}
-              {topicId === 'gis-6' && tStr.gis6_desc}
               {topicId === 'gis-7' && tStr.gis7_desc}
               {topicId === 'gis-8' && tStr.gis8_desc}
               {topicId === 'gis-9' && tStr.gis9_desc}
               {topicId === 'gis-10' && tStr.gis10_desc}
               {topicId === 'gis-11' && tStr.gis11_desc}
               {topicId === 'gis-12' && tStr.gis12_desc}
-              {topicId === 'gis-13' && tStr.gis13_desc}
               {topicId === 'gis-14' && tStr.gis14_desc}
-              {topicId === 'gis-15' && tStr.gis15_desc}
+              {topicId === 'gis-17' && tStr.gis17_desc}
+              {topicId === 'gis-18' && tStr.gis18_desc}
+              {topicId === 'gis-6' && tStr.gis6_desc}
               {!topicId.startsWith('topo-') && !topicId.startsWith('karto-') && !topicId.startsWith('gis-') && tStr.def_desc}
             </p>
             <button
@@ -1375,16 +1447,16 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
               {topicId === 'gis-2' && tStr.gis2_desc}
               {topicId === 'gis-4' && tStr.gis4_desc}
               {topicId === 'gis-5' && tStr.gis5_desc}
-              {topicId === 'gis-6' && tStr.gis6_desc}
               {topicId === 'gis-7' && tStr.gis7_desc}
               {topicId === 'gis-8' && tStr.gis8_desc}
               {topicId === 'gis-9' && tStr.gis9_desc}
               {topicId === 'gis-10' && tStr.gis10_desc}
               {topicId === 'gis-11' && tStr.gis11_desc}
               {topicId === 'gis-12' && tStr.gis12_desc}
-              {topicId === 'gis-13' && tStr.gis13_desc}
               {topicId === 'gis-14' && tStr.gis14_desc}
-              {topicId === 'gis-15' && tStr.gis15_desc}
+              {topicId === 'gis-17' && tStr.gis17_desc}
+              {topicId === 'gis-18' && tStr.gis18_desc}
+              {topicId === 'gis-6' && tStr.gis6_desc}
               {!topicId.startsWith('topo-') && !topicId.startsWith('karto-') && !topicId.startsWith('gis-') && tStr.def_desc}
             </div>
 
@@ -1997,45 +2069,45 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
               )}
 
               {/* GIS-6: SQL CHOICE */}
-              {topicId === 'gis-6' && (
+              {topicId === 'gis-7' && (
                 <div className="flex flex-col p-5 bg-white dark:bg-gray-850 min-h-[250px] space-y-4">
                   <div className="space-y-2">
                     <button
-                      onClick={() => checkGis6('opt1')}
+                      onClick={() => checkGis7('opt1')}
                       className={`w-full p-3 rounded-xl border text-xs font-mono text-left transition-all ${
                         gis6Selection === 'opt1'
                           ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-500 text-emerald-600'
                           : 'bg-gray-50 dark:bg-gray-800 border-gray-200 text-gray-700 dark:text-gray-200 hover:bg-gray-100'
                       }`}
                     >
-                      {tStr.gis6_opt1}
+                      {tStr.gis7_opt1}
                     </button>
                     <button
-                      onClick={() => checkGis6('opt2')}
+                      onClick={() => checkGis7('opt2')}
                       className={`w-full p-3 rounded-xl border text-xs font-mono text-left transition-all ${
                         gis6Selection === 'opt2'
                           ? 'bg-red-50 dark:bg-red-950/20 border-red-500 text-red-600'
                           : 'bg-gray-50 dark:bg-gray-800 border-gray-200 text-gray-700 dark:text-gray-200 hover:bg-gray-100'
                       }`}
                     >
-                      {tStr.gis6_opt2}
+                      {tStr.gis7_opt2}
                     </button>
                     <button
-                      onClick={() => checkGis6('opt3')}
+                      onClick={() => checkGis7('opt3')}
                       className={`w-full p-3 rounded-xl border text-xs font-mono text-left transition-all ${
                         gis6Selection === 'opt3'
                           ? 'bg-red-50 dark:bg-red-950/20 border-red-500 text-red-600'
                           : 'bg-gray-50 dark:bg-gray-800 border-gray-200 text-gray-700 dark:text-gray-200 hover:bg-gray-100'
                       }`}
                     >
-                      {tStr.gis6_opt3}
+                      {tStr.gis7_opt3}
                     </button>
                   </div>
                 </div>
               )}
 
               {/* GIS-7: PK IDENTIFIER */}
-              {topicId === 'gis-7' && (
+              {topicId === 'gis-8' && (
                 <div className="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-855 min-h-[220px]">
                   <div className="w-full max-w-xs bg-gray-50 dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700 text-xs space-y-2 mb-5">
                     <p className="font-bold mb-1 text-gray-750 dark:text-gray-300">Jadvallar tuzilishi:</p>
@@ -2043,34 +2115,34 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                     <p><b>owners</b>: owner_id, owner_name, parcel_id</p>
                   </div>
                   <div className="w-full max-w-lg flex items-center gap-3">
-                    <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.gis7_label}</label>
+                    <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.gis8_label}</label>
                     <input
                       type="text"
                       className="input py-1.5 px-3 text-sm text-center flex-1 min-w-[80px]"
                       value={gis7Input}
                       placeholder="parcel_id"
                       onChange={e => setGis7Input(e.target.value)}
-                      onKeyDown={e => e.key === 'Enter' && checkGis7()}
+                      onKeyDown={e => e.key === 'Enter' && checkGis8()}
                       disabled={taskState === 'success'}
                     />
                     {taskState !== 'success' && (
-                      <button onClick={checkGis7} className="btn-primary py-1.5 px-4 text-xs font-bold rounded-lg flex-shrink-0">{tStr.submitBtn}</button>
+                      <button onClick={checkGis8} className="btn-primary py-1.5 px-4 text-xs font-bold rounded-lg flex-shrink-0">{tStr.submitBtn}</button>
                     )}
                   </div>
                 </div>
               )}
 
               {/* GIS-11: LAYOUT CHECKBOX */}
-              {topicId === 'gis-11' && (
+              {topicId === 'gis-12' && (
                 <div className="flex flex-col p-5 bg-white dark:bg-gray-850 min-h-[300px] space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {[
-                      { key: 'title', label: tStr.gis11_opt1 },
-                      { key: 'legend', label: tStr.gis11_opt2 },
-                      { key: 'north', label: tStr.gis11_opt3 },
-                      { key: 'scale', label: tStr.gis11_opt4 },
-                      { key: 'cpu', label: tStr.gis11_opt5 },
-                      { key: 'internet', label: tStr.gis11_opt6 }
+                      { key: 'title', label: tStr.gis12_opt1 },
+                      { key: 'legend', label: tStr.gis12_opt2 },
+                      { key: 'north', label: tStr.gis12_opt3 },
+                      { key: 'scale', label: tStr.gis12_opt4 },
+                      { key: 'cpu', label: tStr.gis12_opt5 },
+                      { key: 'internet', label: tStr.gis12_opt6 }
                     ].map(opt => (
                       <label key={opt.key} className="flex items-center gap-3 p-3 rounded-lg border border-gray-150 dark:border-gray-750 bg-gray-50/50 dark:bg-gray-900/10 cursor-pointer hover:bg-gray-100/50 transition-colors">
                         <input
@@ -2085,7 +2157,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                     ))}
                   </div>
                   {taskState !== 'success' && (
-                    <button onClick={checkGis11} className="btn-primary py-2 px-5 text-xs font-bold rounded-xl self-end">
+                    <button onClick={checkGis12} className="btn-primary py-2 px-5 text-xs font-bold rounded-xl self-end">
                       {tStr.submitBtn}
                     </button>
                   )}
@@ -2093,7 +2165,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
               )}
 
               {/* GIS-10: BUFFER ANALYSIS MAP */}
-              {topicId === 'gis-10' && (
+              {topicId === 'gis-11' && (
                 <div className="flex flex-col bg-white dark:bg-gray-850 min-h-[380px]">
                   <div
                     ref={gis10MapRef}
@@ -2102,7 +2174,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                   />
                   <div className="p-4 space-y-3">
                     <p className="text-xs text-blue-600 dark:text-blue-400 font-medium bg-blue-50 dark:bg-blue-950/20 rounded-lg p-2.5 border border-blue-100 dark:border-blue-900/30">
-                      💡 {tStr.gis10_hint}
+                      💡 {tStr.gis11_hint}
                     </p>
                     {gis10SelectedCity && (
                       <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
@@ -2110,7 +2182,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                       </p>
                     )}
                     <div className="flex items-center gap-3">
-                      <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.gis10_label}</label>
+                      <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.gis11_label}</label>
                       <input
                         type="text"
                         className="input py-1.5 px-3 text-sm flex-1"
@@ -2120,7 +2192,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                         disabled={taskState === 'success'}
                       />
                       {taskState !== 'success' && (
-                        <button onClick={handleGis10Submit} className="btn-primary py-1.5 px-4 text-xs font-bold rounded-lg flex-shrink-0">{tStr.gis10_submit}</button>
+                        <button onClick={handleGis10Submit} className="btn-primary py-1.5 px-4 text-xs font-bold rounded-lg flex-shrink-0">{tStr.gis11_submit}</button>
                       )}
                     </div>
                   </div>
@@ -2128,7 +2200,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
               )}
 
               {/* GIS-12: ARCGIS 3D CITY PLANNING */}
-              {topicId === 'gis-12' && (
+              {topicId === 'gis-14' && (
                 <div className="flex flex-col p-5 bg-white dark:bg-gray-850 min-h-[320px] space-y-4">
                   <div className="rounded-xl overflow-hidden border-2 border-dashed border-indigo-300 dark:border-indigo-800 bg-gradient-to-br from-indigo-50 to-violet-50 dark:from-indigo-950/20 dark:to-violet-950/20 p-5">
                     <div className="flex items-start gap-3 mb-4">
@@ -2137,7 +2209,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                       </div>
                       <div>
                         <h5 className="text-sm font-bold text-gray-850 dark:text-white">Topshiriq:</h5>
-                        <p className="text-xs text-gray-600 dark:text-gray-300 mt-0.5 leading-relaxed">{tStr.gis12_task}</p>
+                        <p className="text-xs text-gray-600 dark:text-gray-300 mt-0.5 leading-relaxed">{tStr.gis14_task}</p>
                       </div>
                     </div>
                     <div className="grid grid-cols-3 gap-2 mb-4">
@@ -2159,14 +2231,14 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                       className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all shadow-md shadow-indigo-500/20"
                     >
                       <Globe size={14} />
-                      {tStr.gis12_openBtn}
+                      {tStr.gis14_openBtn}
                     </button>
                   </div>
                   <p className="text-xs text-amber-600 dark:text-amber-400 font-medium bg-amber-50 dark:bg-amber-950/20 rounded-lg p-2.5 border border-amber-100 dark:border-amber-900/30">
-                    💡 {tStr.gis12_hint}
+                    💡 {tStr.gis14_hint}
                   </p>
                   <div className="flex items-center gap-3">
-                    <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.gis12_scoreLabel}</label>
+                    <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.gis14_scoreLabel}</label>
                     <input
                       type="number"
                       className="input py-1.5 px-3 text-sm text-center flex-1"
@@ -2177,14 +2249,14 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                       disabled={taskState === 'success'}
                     />
                     {taskState !== 'success' && (
-                      <button onClick={checkGis12} className="btn-primary py-1.5 px-4 text-xs font-bold rounded-lg flex-shrink-0">{tStr.submitBtn}</button>
+                      <button onClick={checkGis14} className="btn-primary py-1.5 px-4 text-xs font-bold rounded-lg flex-shrink-0">{tStr.submitBtn}</button>
                     )}
                   </div>
                 </div>
               )}
 
               {/* GIS-13: NDVI CALCULATION */}
-              {topicId === 'gis-13' && (
+              {topicId === 'gis-17' && (
                 <div className="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-855 min-h-[220px]">
                   <div className="w-full max-w-xs bg-gray-50 dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700 text-xs space-y-2 mb-5">
                     <p className="font-bold mb-1 text-gray-750 dark:text-gray-300">NDVI formula:</p>
@@ -2193,18 +2265,18 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                     <p>RED = 0.20</p>
                   </div>
                   <div className="w-full max-w-lg flex items-center gap-3">
-                    <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.gis13_label}</label>
+                    <label className="text-xs text-gray-500 font-semibold flex-shrink-0">{tStr.gis17_label}</label>
                     <input
                       type="text"
                       className="input py-1.5 px-3 text-sm text-center flex-1 min-w-[80px]"
                       value={gis13Input}
                       placeholder="0.5"
                       onChange={e => setGis13Input(e.target.value)}
-                      onKeyDown={e => e.key === 'Enter' && checkGis13()}
+                      onKeyDown={e => e.key === 'Enter' && checkGis17()}
                       disabled={taskState === 'success'}
                     />
                     {taskState !== 'success' && (
-                      <button onClick={checkGis13} className="btn-primary py-1.5 px-4 text-xs font-bold rounded-lg flex-shrink-0">{tStr.submitBtn}</button>
+                      <button onClick={checkGis17} className="btn-primary py-1.5 px-4 text-xs font-bold rounded-lg flex-shrink-0">{tStr.submitBtn}</button>
                     )}
                   </div>
                 </div>
