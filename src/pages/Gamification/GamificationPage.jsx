@@ -353,66 +353,70 @@ const PREDEFINED_UZ_FEATURES = [
 
 const PREDEFINED_WORLD_FEATURES = [
   {
-    id: 'w-f1',
-    target: { lat: 28.0026, lng: 86.8528 },
-    name: { uz: 'Everest tog\'i bazaviy lageri', ru: 'Базовый лагерь Эвереста', en: 'Mount Everest Base Camp' },
-    hint: { uz: 'Dunyodagi eng baland cho\'qqining etagida joylashgan alpinistlar boshpanasi.', ru: 'Приют альпинистов у подножия самой высокой вершины мира.', en: 'Shelter for climbers at the foot of the highest peak in the world.' }
+    id: "w-f1",
+    target: { lat: 48.8698, lng: 2.3078 },
+    name: { uz: "Shanz-Elize xiyoboni, Parij", ru: "Елисейские Поля, Париж", en: "Champs-Élysées, Paris" },
+    hint: { uz: "Parijning eng mashhur ko'chasi — G'alaba yoyi bilan boshlangan ulug'vor xiyobon.", ru: "Самая известная улица Парижа — грандиозный проспект, начинающийся от Триумфальной арки.", en: "Most famous street in Paris — grand boulevard starting from the Arc de Triomphe." }
   },
   {
-    id: 'w-f2',
-    target: { lat: 36.0573, lng: -112.1432 },
-    name: { uz: 'Grand Kanyon, AQSh', ru: 'Гранд-Каньон, США', en: 'Grand Canyon, USA' },
-    hint: { uz: 'Kolorado daryosi million yillar davomida o\'yib chiqqan ulkan darasi.', ru: 'Гигантское ущелье, высеченное рекой Колорадо за миллионы лет.', en: 'Giant gorge carved by the Colorado River over millions of years.' }
+    id: "w-f2",
+    target: { lat: 40.7580, lng: -73.9855 },
+    name: { uz: "Tayms-Skver, Nyu-York", ru: "Таймс-сквер, Нью-Йорк", en: "Times Square, New York" },
+    hint: { uz: "Nyu-Yorkning yorqin reklamalar va Broadway teatrlari bilan mashhur markazi.", ru: "Яркий центр Нью-Йорка, известный рекламой и театрами Бродвея.", en: "Bright center of New York, famous for billboards and Broadway theaters." }
   },
   {
-    id: 'w-f3',
-    target: { lat: 35.3606, lng: 138.7274 },
-    name: { uz: 'Fuji tog\'i, Yaponiya', ru: 'Гора Фудзи, Япония', en: 'Mount Fuji, Japan' },
-    hint: { uz: 'Yaponiyaning ramzi bo\'lgan qorli faol vulqon cho\'qqisi.', ru: 'Заснеженная вершина действующего вулкана, символ Японии.', en: 'Snow-capped active volcano peak, symbol of Japan.' }
+    id: "w-f3",
+    target: { lat: 35.6595, lng: 139.7004 },
+    name: { uz: "Shibuya chorrahasi, Tokio", ru: "Перекрёсток Сибуя, Токио", en: "Shibuya Crossing, Tokyo" },
+    hint: { uz: "Dunyodagi eng gavjum piyodalar chorrahasi — Tokio Shibuyasidagi ikonik nuqta.", ru: "Самый оживлённый пешеходный перекрёсток в мире — иконическое место в Токио.", en: "World's busiest pedestrian crossing — iconic spot in Tokyo's Shibuya district." }
   },
   {
-    id: 'w-f4',
-    target: { lat: 31.0983, lng: -3.9822 },
-    name: { uz: 'Sahroi Kabir (Merzuga barxanlari)', ru: 'Пустыня Сахара (дюны Мерзуга)', en: 'Sahara Desert (Merzouga dunes)' },
-    hint: { uz: 'Dunyodagi eng katta issiq cho\'lning ulkan to\'q sariq qum tepaliklari.', ru: 'Гигантские оранжевые песчаные холмы крупнейшей жаркой пустыни в мире.', en: 'Gigantic orange sand dunes of the largest hot desert in the world.' }
+    id: "w-f4",
+    target: { lat: 51.5320, lng: -0.1774 },
+    name: { uz: "Abbey Road piyodalar yo'lagi, London", ru: "Пешеходный переход Эбби-Роуд, Лондон", en: "Abbey Road Crossing, London" },
+    hint: { uz: "The Beatles guruhining albom muqovasidagi mashhur piyodalar o'tish joyi.", ru: "Знаменитый пешеходный переход с обложки альбома группы The Beatles.", en: "The famous pedestrian crossing from The Beatles' album cover." }
   },
   {
-    id: 'w-f5',
-    target: { lat: 45.9763, lng: 7.6585 },
-    name: { uz: 'Alp tog\'lari (Matterhorn, Shveysariya)', ru: 'Альпы (Маттерхорн, Швейцария)', en: 'Swiss Alps (Matterhorn)' },
-    hint: { uz: 'Piramida shaklidagi go\'zal cho\'qqi — Yevropa Alplari ramzi.', ru: 'Живописная пирамидальная вершина — символ европейских Альп.', en: 'Picturesque pyramidal peak — symbol of the European Alps.' }
+    id: "w-f5",
+    target: { lat: 36.1147, lng: -115.1728 },
+    name: { uz: "Las Vegas Strip ko'chasi, Nevada", ru: "Лас-Вегас-Стрип, Невада", en: "Las Vegas Strip, Nevada" },
+    hint: { uz: "Casino va ulkan chiroqli mehmonxonalar joylashgan dunyodagi eng mashhur ko'cha.", ru: "Знаменитая улица с казино и гигантскими светящимися отелями.", en: "Famous street lined with casinos and giant illuminated resort hotels." }
   },
   {
-    id: 'w-f6',
-    target: { lat: 43.0828, lng: -79.0742 },
-    name: { uz: 'Niagara sharsharasi', ru: 'Ниагарский водопад', en: 'Niagara Falls' },
-    hint: { uz: 'AQSh va Kanada chegarasidagi dunyoning eng sersuv sharsharalaridan biri.', ru: 'Один из самых полноводных водопадов мира на границе США и Канады.', en: 'One of the most voluminous waterfalls in the world on the US-Canada border.' }
+    id: "w-f6",
+    target: { lat: 41.3813, lng: 2.1731 },
+    name: { uz: "La Rambla ko'chasi, Barselona", ru: "Улица Ла Рамбла, Барселона", en: "La Rambla Street, Barcelona" },
+    hint: { uz: "Kataloniya poytaxtining markazidagi mashhur ko'cha va daraxtzor sayrgoh.", ru: "Знаменитая пешеходная улица и бульвар в центре столицы Каталонии.", en: "Famous tree-lined pedestrian street in the center of the Catalan capital." }
   },
   {
-    id: 'w-f7',
-    target: { lat: -3.1319, lng: -60.0242 },
-    name: { uz: 'Amazonka daryosi, Braziliya', ru: 'Река Амазонка, Бразилия', en: 'Amazon River, Brazil' },
-    hint: { uz: 'Dunyodagi eng sersuv daryo va uni o\'rab turgan zich tropik o\'rmonlar.', ru: 'Самая полноводная река мира и окружающие её густые тропические леса.', en: 'The most voluminous river in the world and its surrounding dense rainforests.' }
+    id: "w-f7",
+    target: { lat: 34.1016, lng: -118.3268 },
+    name: { uz: "Hollywood shon-shuhrat xiyoboni, Los-Anjeles", ru: "Голливудская аллея славы, Лос-Анджелес", en: "Hollywood Walk of Fame, Los Angeles" },
+    hint: { uz: "Kino, teatr va musiqa yulduzlari nomi yozilgan 2500 dan ortiq yulduzlar joylashgan yo'lak.", ru: "Тротуар с более чем 2500 звездами с именами деятелей кино, театра и музыки.", en: "Sidewalk containing more than 2,500 stars with names of film, theater, and music celebrities." }
   },
   {
-    id: 'w-f8',
-    target: { lat: -17.9243, lng: 25.8572 },
-    name: { uz: 'Viktoriya sharsharasi', ru: 'Водопад Виктория', en: 'Victoria Falls' },
-    hint: { uz: 'Zambezi daryosidagi ulkan sharshara — \"gumburlovchi tutun\" deb ham ataladi.', ru: 'Гигантский водопад на реке Замбези, также называемый \"гремящим дымом\".', en: 'Giant waterfall on the Zambezi River, also called \"the smoke that thunders\".' }
+    id: "w-f8",
+    target: { lat: 55.7525, lng: 37.6231 },
+    name: { uz: "Qizil maydon, Moskva", ru: "Красная площадь, Москва", en: "Red Square, Moscow" },
+    hint: { uz: "Kreml va Vasil Blajenniy ibodatxonasi joylashgan tarixiy maydon.", ru: "Историческая площадь с Кремлём и собором Василия Блаженного.", en: "Historical square containing the Kremlin and Saint Basil's Cathedral." }
   },
   {
-    id: 'w-f9',
-    target: { lat: 64.3104, lng: -20.3024 },
-    name: { uz: 'Geysir issiq buloqlari, Islandiya', ru: 'Горячие источники Гейсир, Исландия', en: 'Geysir Hot Springs, Iceland' },
-    hint: { uz: 'Vaqti-vaqti bilan qaynoq suv otilib chiquvchi geotermal hudud.', ru: 'Геотермальная зона с периодически извергающимися фонтанами горячей воды.', en: 'Geothermal area with periodically erupting fountains of hot water.' }
+    id: "w-f9",
+    target: { lat: 41.9056, lng: 12.4823 },
+    name: { uz: "Via Kondotti ko'chasi, Rim", ru: "Улица Виа Кондотти, Рим", en: "Via Condotti Street, Rome" },
+    hint: { uz: "Rimning Ispan zinasiga olib boruvchi mashhur hashamatli moda va xarid ko'chasi.", ru: "Знаменитая торговая и модная улица Рима, ведущая к Испанской лестнице.", en: "Rome's famous high-fashion shopping street leading to the Spanish Steps." }
   },
   {
-    id: 'w-f10',
-    target: { lat: -0.7401, lng: -90.3113 },
-    name: { uz: 'Galapagos orollari', ru: 'Галапагосские острова', en: 'Galapagos Islands' },
-    hint: { uz: 'Tinch okeanidagi noyob hayvonot dunyosi va vulqonli tuproqli orollar.', ru: 'Острова в Тихом океане с уникальным животным миром и вулканической почвой.', en: 'Islands in the Pacific Ocean with unique wildlife and volcanic soil.' }
+    id: "w-f10",
+    target: { lat: 41.0336, lng: 28.9774 },
+    name: { uz: "Istiqlol ko'chasi, Istanbul", ru: "Улица Истикляль, Стамбул", en: "Istiklal Avenue, Istanbul" },
+    hint: { uz: "Taksim maydoniga olib boruvchi, qizil retro tramvay harakatlanadigan tarixiy piyodalar ko'chasi.", ru: "Историческая пешеходная улица с ретро-трамваем, ведущая к площади Таксим.", en: "Historical pedestrian street with a red retro tram leading to Taksim Square." }
   }
 ]
+
+
+
+
 
 
 
