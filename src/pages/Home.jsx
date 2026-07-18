@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   Map, Mountain, Globe, BookOpen, Video, FileText, Award,
-  Trophy, Users, CheckCircle, ArrowRight, ChevronDown,
+  Trophy, Users, CheckCircle, ArrowRight, ChevronDown, Mail,
 } from 'lucide-react'
 import { SUBJECTS, TOPICS, TESTS, STATS } from '../data/mockData'
 import { db, isDemoMode } from '../firebase/config'
@@ -38,7 +38,7 @@ export default function Home() {
 
   const realTopicsCount = Object.values(TOPICS).reduce((acc, list) => acc + list.length, 0)
   const realVideosCount = Object.values(TOPICS).flat().filter(t => t.videoUrl).length
-  const realTestsCount = Object.keys(TESTS).length
+  const realTestsCount = 360
 
   const statsData = [
     { value: studentCount, label: 'Faol talabalar', icon: Users },
@@ -46,6 +46,23 @@ export default function Home() {
     { value: realVideosCount, label: 'Video darslar', icon: Video },
     { value: realTestsCount, label: 'Testlar', icon: FileText },
   ]
+
+  // Scroll reveal observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal-active')
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+    const elements = document.querySelectorAll('.reveal')
+    elements.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     function handleClick(e) {
@@ -111,37 +128,53 @@ export default function Home() {
             <span className="text-xl font-bold text-gray-900">GeoEdu</span>
           </div>
           <nav className="hidden sm:flex items-center gap-1">
-            <div className="relative" ref={fanlarRef}>
-              <button
-                onClick={() => setFanlarOpen((v) => !v)}
-                className="flex items-center gap-1 px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                Fanlar
-                <ChevronDown size={14} className={`transition-transform duration-200 ${fanlarOpen ? 'rotate-180' : ''}`} />
-              </button>
-              {fanlarOpen && (
-                <div className="absolute top-full left-0 mt-2 w-52 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden z-50">
-                  {fanlarItems.map(({ id, label, icon: Icon, color, bg }) => (
-                    <Link
-                      key={id}
-                      to="/login"
-                      onClick={() => setFanlarOpen(false)}
-                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                    >
-                      <span className={`w-7 h-7 ${bg} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                        <Icon size={14} className={color} />
-                      </span>
-                      {label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-            {['Videolar', 'Testlar'].map((item) => (
-              <Link key={item} to="/login" className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-                {item}
-              </Link>
-            ))}
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault()
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }}
+              className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              Bosh sahifa
+            </a>
+            <a
+              href="#fanlar"
+              onClick={(e) => {
+                e.preventDefault()
+                document.getElementById('fanlar')?.scrollIntoView({ behavior: 'smooth' })
+              }}
+              className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              Fanlar
+            </a>
+            <a
+              href="#imkoniyatlar"
+              onClick={(e) => {
+                e.preventDefault()
+                document.getElementById('imkoniyatlar')?.scrollIntoView({ behavior: 'smooth' })
+              }}
+              className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              Imkoniyatlar
+            </a>
+            <a
+              href="#muallif"
+              onClick={(e) => {
+                e.preventDefault()
+                document.getElementById('muallif')?.scrollIntoView({ behavior: 'smooth' })
+              }}
+              className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              G'oya Muallifi
+            </a>
+            <Link
+              to="/login"
+              className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors flex items-center gap-1.5"
+            >
+              <span className="w-1.5 h-1.5 bg-rose-500 rounded-full animate-ping" />
+              Geoo'yin
+            </Link>
           </nav>
           <div className="flex items-center gap-2">
             <Link
@@ -168,12 +201,12 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-4 py-1.5 text-blue-700 text-sm mb-6">
+              <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-4 py-1.5 text-blue-700 text-sm mb-6 animate-fade-in-up">
                 <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
                 <span>O'zbekistondagi birinchi GIS ta'lim platformasi</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-6 leading-[1.1] tracking-tight">
+              <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-6 leading-[1.1] tracking-tight animate-fade-in-up-delay-1">
                 <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
                   Topografiya
                 </span>
@@ -188,12 +221,12 @@ export default function Home() {
                 fanlarini o'rganing
               </h1>
 
-              <p className="text-base sm:text-lg text-gray-600 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-600 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed animate-fade-in-up-delay-2">
                 Interaktiv darslar, video qo'llanmalar, testlar va amaliy topshiriqlar orqali
                 geografik fanlarni chuqur egallang.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start animate-fade-in-up-delay-3">
                 <Link
                   to="/register"
                   className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-500/30 text-sm"
@@ -209,7 +242,7 @@ export default function Home() {
                 </Link>
               </div>
 
-              <div className="flex flex-wrap items-center gap-4 mt-8 justify-center lg:justify-start">
+              <div className="flex flex-wrap items-center gap-4 mt-8 justify-center lg:justify-start animate-fade-in-up-delay-3">
                 {[
                   { val: `${studentCount}+`, label: 'Talabalar' },
                   { val: realVideosCount, label: 'Videolar' },
@@ -226,7 +259,7 @@ export default function Home() {
 
             {/* Right — floating UI preview */}
             <div className="relative hidden lg:flex flex-col gap-3 items-end">
-              <div className="w-full max-w-sm bg-white border border-gray-200 rounded-2xl p-5 shadow-xl">
+              <div className="w-full max-w-sm bg-white border border-gray-200 rounded-2xl p-5 shadow-xl animate-float-slow">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
                     <Map size={16} className="text-white" />
@@ -259,7 +292,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="w-56 bg-gradient-to-br from-blue-500 to-violet-600 rounded-xl p-4 self-start ml-4 shadow-lg shadow-blue-500/25">
+              <div className="w-56 bg-gradient-to-br from-blue-500 to-violet-600 rounded-xl p-4 self-start ml-4 shadow-lg shadow-blue-500/25 animate-float-medium">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-white/80 text-xs">Test natijasi</span>
                   <Trophy size={14} className="text-yellow-300" />
@@ -270,11 +303,10 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="w-full max-w-sm grid grid-cols-3 gap-2">
+              <div className="w-full max-w-sm grid grid-cols-2 gap-2 animate-float-fast">
                 {[
                   { icon: BookOpen, val: realTopicsCount, label: 'Mavzu', color: 'text-blue-600', bg: 'bg-blue-50 border-blue-200' },
                   { icon: Video, val: realVideosCount, label: 'Video', color: 'text-violet-600', bg: 'bg-violet-50 border-violet-200' },
-                  { icon: Award, val: '12', label: 'Sertifikat', color: 'text-amber-600', bg: 'bg-amber-50 border-amber-200' },
                 ].map(({ icon: Icon, val, label, color, bg }) => (
                   <div key={label} className={`${bg} border rounded-xl p-3 text-center`}>
                     <Icon size={16} className={`${color} mx-auto mb-1`} />
@@ -289,7 +321,7 @@ export default function Home() {
       </section>
 
       {/* ── Stats ── */}
-      <section className="relative py-14 border-y border-gray-200/80">
+      <section className="relative py-14 border-y border-gray-200/80 reveal">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-gray-200 rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
             {statsData.map(({ value, label, icon: Icon }) => (
@@ -307,7 +339,7 @@ export default function Home() {
       </section>
 
       {/* ── Subjects ── */}
-      <section className="py-20 border-t border-gray-100">
+      <section id="fanlar" className="py-20 border-t border-gray-150 reveal">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
             <span className="inline-block text-xs font-semibold tracking-widest text-blue-600 uppercase mb-3 bg-blue-50 border border-blue-200 px-4 py-1.5 rounded-full">
@@ -336,7 +368,8 @@ export default function Home() {
               return (
                 <div
                   key={subject.id}
-                  className={`group relative bg-white border border-gray-200 rounded-2xl p-6 transition-all duration-300 hover:shadow-xl ${hoverBorder[subject.id]} overflow-hidden cursor-pointer`}
+                  id={subject.id}
+                  className={`group relative bg-white border border-gray-200 rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 ${hoverBorder[subject.id]} overflow-hidden cursor-pointer`}
                 >
                   <div className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-br ${gradients[subject.id]} opacity-5 group-hover:opacity-10 rounded-bl-full transition-opacity duration-500`} />
                   <div className="relative">
@@ -381,7 +414,7 @@ export default function Home() {
       </section>
 
       {/* ── Features ── */}
-      <section className="relative py-20 overflow-hidden border-t border-gray-100 bg-gray-50/70">
+      <section id="imkoniyatlar" className="relative py-20 overflow-hidden border-t border-gray-100 bg-gray-50/70 reveal">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
             <span className="inline-block text-xs font-semibold tracking-widest text-violet-600 uppercase mb-3 bg-violet-50 border border-violet-200 px-4 py-1.5 rounded-full">
@@ -396,7 +429,7 @@ export default function Home() {
             {features.map(({ icon: Icon, title, desc }, i) => (
               <div
                 key={title}
-                className="group bg-white border border-gray-200 hover:border-violet-200 hover:shadow-lg rounded-2xl p-6 transition-all duration-300"
+                className="group bg-white border border-gray-200 hover:border-violet-300 hover:shadow-xl hover:-translate-y-1.5 rounded-2xl p-6 transition-all duration-300"
               >
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 bg-gradient-to-br from-violet-500 to-blue-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md shadow-violet-500/20">
@@ -416,8 +449,63 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── G'oya Muallifi (Author of the Idea) ── */}
+      <section id="muallif" className="py-20 border-t border-gray-150 bg-white reveal">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-14">
+            <span className="inline-block text-xs font-semibold tracking-widest text-emerald-600 uppercase mb-3 bg-emerald-50 border border-emerald-200 px-4 py-1.5 rounded-full">
+              Loyiha Tashabbuskori
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3 tracking-tight">
+              G'oya va Loyiha Muallifi
+            </h2>
+            <p className="text-gray-500 max-w-xl mx-auto">
+              Ushbu platforma geografiya, kartografiya va GIS fanlarini zamonaviy usullar bilan o'rgatish maqsadida yaratilgan.
+            </p>
+          </div>
+
+          <div className="max-w-3xl mx-auto bg-gray-50 hover:bg-gray-50/80 border border-gray-200 rounded-3xl p-8 sm:p-10 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col md:flex-row items-center gap-8">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-bl-full pointer-events-none" />
+            
+            {/* Author Avatar/Image */}
+            <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-3xl overflow-hidden shadow-md border-2 border-emerald-500/20 flex-shrink-0 bg-gray-100 flex items-center justify-center">
+              <img
+                src="/Mahfuza.jpg"
+                alt="Sangirova Mahfuza Hasanovna"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Author Details */}
+            <div className="flex-1 text-center md:text-left">
+              <span className="text-xs font-bold text-emerald-600 tracking-wider uppercase bg-emerald-100/50 px-2.5 py-1 rounded-md">
+                G'oya Muallifi
+              </span>
+              <h3 className="text-2xl font-bold text-gray-900 mt-3">
+                Sangirova Mahfuza Hasanovna
+              </h3>
+              <p className="text-sm text-emerald-600 font-medium mt-1 leading-relaxed">
+                Nizomiy nomidagi Oʻzbekiston milliy pedagogika universiteti tayanch doktoranti
+              </p>
+              <p className="text-sm text-gray-500 mt-4 leading-relaxed">
+                Ushbu interaktiv platforma geografiya, kartografiya va GIS texnologiyalarini o'qitish metodikasini takomillashtirish hamda talabalarning amaliy ko'nikmalarini oshirish maqsadida yaratilgan loyihadir. Barcha darsliklar, interaktiv topshiriqlar va geoo'yinlar muallif tomonidan ishlab chiqilgan va amalga oshirilgan.
+              </p>
+              
+              <div className="flex flex-wrap gap-4 mt-6 justify-center md:justify-start">
+                <a
+                  href="mailto:m.sangirova@pedagog.uz"
+                  className="inline-flex items-center gap-2 text-xs font-semibold text-gray-600 hover:text-gray-950 transition-colors"
+                >
+                  <Mail size={14} /> m.sangirova@pedagog.uz
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA ── */}
-      <section className="relative py-24 overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-violet-700">
+      <section className="relative py-24 overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-violet-700 reveal">
         <div
           className="absolute inset-0 pointer-events-none opacity-10"
           style={{

@@ -55,7 +55,7 @@ const createPointIcon = (color = '#3b82f6') => {
 export default function GISLaboratoryPage() {
   const { t, i18n } = useTranslation()
   const lang = i18n.language || 'uz'
-  const { currentUser } = useAuth()
+  const { currentUser, completePracticalTask } = useAuth()
 
   const mapContainerRef = useRef(null)
   const mapRef = useRef(null)
@@ -946,8 +946,10 @@ export default function GISLaboratoryPage() {
 
             {sessionDrawings.point && sessionDrawings.line && sessionDrawings.polygon && (
               <button
-                onClick={() => {
-                  localStorage.setItem(`completed_practical_gis-4`, 'true')
+                onClick={async () => {
+                  if (completePracticalTask) {
+                    await completePracticalTask('gis-4')
+                  }
                   toast.success("Topshiriq muvaffaqiyatli topshirildi (100 ball)! 🎉")
                   window.location.href = "/subjects/gis/topics/gis-4"
                 }}

@@ -36,7 +36,7 @@ const LAND_CLASSES = [
 export default function GISCaseStudyPage() {
   const { t, i18n } = useTranslation()
   const lang = i18n.language || 'uz'
-  const { currentUser } = useAuth()
+  const { currentUser, completePracticalTask } = useAuth()
 
   // Case Study Saved States & Modes
   const [sidebarMode, setSidebarMode] = useState('editor') // 'editor' or 'saved'
@@ -2045,8 +2045,10 @@ export default function GISCaseStudyPage() {
                 </div>
                 {coverageRadius === 1250 ? (
                   <button
-                    onClick={() => {
-                      localStorage.setItem('completed_practical_gis-10', 'true')
+                    onClick={async () => {
+                      if (completePracticalTask) {
+                        await completePracticalTask('gis-10')
+                      }
                       toast.success("Topshiriq 100 ball bilan muvaffaqiyatli topshirildi! 🎉")
                       window.location.href = "/subjects/gis/topics/gis-10"
                     }}
@@ -2088,8 +2090,10 @@ export default function GISCaseStudyPage() {
 
                 {schoolChecklist.popDensity && schoolChecklist.schoolBuffer && schoolChecklist.roadAccess ? (
                   <button
-                    onClick={() => {
-                      localStorage.setItem('completed_practical_gis-12', 'true')
+                    onClick={async () => {
+                      if (completePracticalTask) {
+                        await completePracticalTask('gis-12')
+                      }
                       toast.success("Topshiriq 100 ball bilan muvaffaqiyatli topshirildi! 🎉")
                       window.location.href = "/subjects/gis/topics/gis-12"
                     }}

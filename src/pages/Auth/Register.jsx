@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
@@ -8,8 +8,14 @@ import toast from 'react-hot-toast'
 export default function Register() {
   const { t, i18n } = useTranslation()
   const lang = i18n.language || 'uz'
-  const { register } = useAuth()
+  const { register, currentUser, logout } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (currentUser && logout) {
+      logout()
+    }
+  }, [currentUser, logout])
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',

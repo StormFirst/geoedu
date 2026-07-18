@@ -131,6 +131,33 @@ export function AuthProvider({ children }) {
     }
   }
 
+  const completePracticalTask = async (topicId, points = 100) => {
+    if (!currentUser) return
+    const completedTopics = currentUser.completedTopics || []
+    const updates = {}
+
+    // Check if the practical is already marked completed to avoid duplicate points
+    const alreadyCompleted = localStorage.getItem(`completed_practical_${topicId}`) === 'true'
+
+    if (!alreadyCompleted) {
+      updates.totalScore = (currentUser.totalScore || 0) + points
+    }
+
+    if (!completedTopics.includes(topicId)) {
+      updates.completedTopics = [...completedTopics, topicId]
+    }
+
+    if (Object.keys(updates).length > 0) {
+      await updateUser(updates)
+    }
+
+    // Set all local storage completion flags for this topic to unlock everything cleanly
+    localStorage.setItem(`completed_theory_${topicId}`, 'true')
+    localStorage.setItem(`completed_video_${topicId}`, 'true')
+    localStorage.setItem(`completed_presentation_${topicId}`, 'true')
+    localStorage.setItem(`completed_practical_${topicId}`, 'true')
+  }
+
   const saveTestResult = async (result) => {
     if (!currentUser) return
     const results = currentUser.testResults || []
@@ -182,6 +209,7 @@ export function AuthProvider({ children }) {
         logout,
         updateUser,
         completeTopicDemo,
+        completePracticalTask,
         saveTestResult,
       }}
     >
