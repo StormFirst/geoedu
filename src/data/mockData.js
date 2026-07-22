@@ -43,7 +43,7 @@ export const SUBJECTS = [
   {
     "id": "gis",
     "name": {
-      "uz": "GIS",
+      "uz": "GAT",
       "ru": "ГИС",
       "en": "GIS"
     },
@@ -342,7 +342,7 @@ export const TOPICS = {
         "en": "Geographic Maps and Atlases, and Their Types"
       },
       "content": {
-        "uz": "<h2>Geografik xarita va atlaslar va ularni tiplari</h2><p>Geografik xaritalarni tayyorlash usullari. Xaritalar dasturi, xaritani tuzish taxrir qilish. Umumgeografik, mavzuli va maxsus xaritalarni loyihalash usullari.</p><p>Zamonaviy xarita va atlaslar murakkab texnologik jarayon asosida yaratiladi. Loyihalash bosqichi — eng muhim qarorlar qabul qilinadigan bosqich.</p><h3>Atlaslar tipologiyasi</h3><ul><li><strong>Maktab atlasi</strong>: o'quv maqsadi, sodda tasvirlash</li><li><strong>Milliy atlas</strong>: mamlakatni har tomonlama ko'rsatadi</li><li><strong>Ilmiy-ma'lumotnoma</strong>: ilmiy tadqiqot uchun</li><li><strong>Sayohat atlasi</strong>: navigator, turist</li></ul><h3>Loyihalash bosqichlari</h3><ol><li>Konsepsiya va maqsad belgilash</li><li>Mazmun tuzilmasi (bo'limlar, xaritalar ro'yxati)</li><li>Proyeksiya va masshtabni tanlash</li><li>Dizayn standartini ishlab chiqish</li><li>Ma'lumot to'plash va qayta ishlash</li><li>Xaritalarni tuzish va tahrirlash</li><li>Chop etish yoki raqamli nashr</li></ol><h3>Raqamli kartografiya</h3><p>GIS (QGIS, ArcGIS), Adobe Illustrator, Mapbox kabi vositalar zamonaviy atlas tuzishda ishlatiladi.</p>"
+        "uz": "<h2>Geografik xarita va atlaslar va ularni tiplari</h2><p>Geografik xaritalarni tayyorlash usullari. Xaritalar dasturi, xaritani tuzish taxrir qilish. Umumgeografik, mavzuli va maxsus xaritalarni loyihalash usullari.</p><p>Zamonaviy xarita va atlaslar murakkab texnologik jarayon asosida yaratiladi. Loyihalash bosqichi — eng muhim qarorlar qabul qilinadigan bosqich.</p><h3>Atlaslar tipologiyasi</h3><ul><li><strong>Maktab atlasi</strong>: o'quv maqsadi, sodda tasvirlash</li><li><strong>Milliy atlas</strong>: mamlakatni har tomonlama ko'rsatadi</li><li><strong>Ilmiy-ma'lumotnoma</strong>: ilmiy tadqiqot uchun</li><li><strong>Sayohat atlasi</strong>: navigator, turist</li></ul><h3>Loyihalash bosqichlari</h3><ol><li>Konsepsiya va maqsad belgilash</li><li>Mazmun tuzilmasi (bo'limlar, xaritalar ro'yxati)</li><li>Proyeksiya va masshtabni tanlash</li><li>Dizayn standartini ishlab chiqish</li><li>Ma'lumot to'plash va qayta ishlash</li><li>Xaritalarni tuzish va tahrirlash</li><li>Chop etish yoki raqamli nashr</li></ol><h3>Raqamli kartografiya</h3><p>GAT (QGAT, ArcGAT), Adobe Illustrator, Mapbox kabi vositalar zamonaviy atlas tuzishda ishlatiladi.</p>"
       },
       "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
       "videoDuration": "55:00",
@@ -3621,7 +3621,7 @@ export const TESTS = {
           1
         ],
         "explanation": {
-          "uz": "Raqamli relyef modellari relyefni hisoblash va GIS-analiz darajasida tahlil qilishda alohida ahamiyatga ega."
+          "uz": "Raqamli relyef modellari relyefni hisoblash va GAT-analiz darajasida tahlil qilishda alohida ahamiyatga ega."
         }
       },
       {
@@ -5084,7 +5084,7 @@ export const TESTS = {
           1
         ],
         "explanation": {
-          "uz": "Dala yig‘uvi GNSS yoki mobil GIS orqali yuqori aniqlik beradi va infratuzilma inventarizatsiyasi uchun muhimdir."
+          "uz": "Dala yig‘uvi GNSS yoki mobil GAT orqali yuqori aniqlik beradi va infratuzilma inventarizatsiyasi uchun muhimdir."
         }
       },
       {
@@ -5329,14 +5329,14 @@ export const TESTS = {
           0
         ],
         "explanation": {
-          "uz": "Fotogrammetriya GIS ma’lumotlarini ishlab chiqarishda rastr va vektor modellari orqali ishlaydi."
+          "uz": "Fotogrammetriya GAT ma’lumotlarini ishlab chiqarishda rastr va vektor modellari orqali ishlaydi."
         }
       },
       {
         "id": "q5",
         "type": "single",
         "question": {
-          "uz": "GPS/GNSS kuzatuvlari GISda qanday maqsadda ishlatiladi?"
+          "uz": "GPS/GNSS kuzatuvlari GATda qanday maqsadda ishlatiladi?"
         },
         "options": {
           "uz": [
@@ -5350,7 +5350,7 @@ export const TESTS = {
           1
         ],
         "explanation": {
-          "uz": "GPS/GNSS kuzatuvlari GISda nuqta, chiziq va poligon geometriyani yaratish uchun ishlatiladi."
+          "uz": "GPS/GNSS kuzatuvlari GATda nuqta, chiziq va poligon geometriyani yaratish uchun ishlatiladi."
         }
       },
       {
@@ -5735,7 +5735,7 @@ export const TESTS = {
           0
         ],
         "explanation": {
-          "uz": "SQL fazoviy so‘rovlarni bajarish uchun ishlatiladi, bu esa GISda analitik jarayonlarni avtomatlashtirishga yordam beradi."
+          "uz": "SQL fazoviy so‘rovlarni bajarish uchun ishlatiladi, bu esa GATda analitik jarayonlarni avtomatlashtirishga yordam beradi."
         }
       },
       {
@@ -6085,7 +6085,7 @@ export const TESTS = {
           0
         ],
         "explanation": {
-          "uz": "Fazoviy MBBT GISga moslashtirilgan relatsion yoki NoSQL bazalardir."
+          "uz": "Fazoviy MBBT GATga moslashtirilgan relatsion yoki NoSQL bazalardir."
         }
       },
       {
@@ -7149,7 +7149,7 @@ export const TESTS = {
         "id": "q6",
         "type": "single",
         "question": {
-          "uz": "BIM-GIS integratsiyasi nima uchun muhim?"
+          "uz": "BIM-GAT integratsiyasi nima uchun muhim?"
         },
         "options": {
           "uz": [
@@ -7163,7 +7163,7 @@ export const TESTS = {
           0
         ],
         "explanation": {
-          "uz": "BIM-GIS integratsiyasi muhandislik aniqligini va hududiy tahlilni birlashtiradi, bu esa shahar rejalashtirishda muhimdir."
+          "uz": "BIM-GAT integratsiyasi muhandislik aniqligini va hududiy tahlilni birlashtiradi, bu esa shahar rejalashtirishda muhimdir."
         }
       },
       {
@@ -7205,7 +7205,7 @@ export const TESTS = {
           0
         ],
         "explanation": {
-          "uz": "Dashboard GIS natijalarini boshqaruv tiliga tarjima qiladigan interfeys bo'lib, operatsion savollarga tez javob berishga yordam beradi."
+          "uz": "Dashboard GAT natijalarini boshqaruv tiliga tarjima qiladigan interfeys bo'lib, operatsion savollarga tez javob berishga yordam beradi."
         }
       },
       {
@@ -7639,7 +7639,7 @@ export const TESTS = {
         "id": "q8",
         "type": "single",
         "question": {
-          "uz": "GISda tasvir georeferenslash jarayonida qanday metodlar qo'llaniladi?"
+          "uz": "GATda tasvir georeferenslash jarayonida qanday metodlar qo'llaniladi?"
         },
         "options": {
           "uz": [
@@ -7716,7 +7716,7 @@ export const TESTS = {
         "id": "q1",
         "type": "single",
         "question": {
-          "uz": "Aerokosmik suratlarni GISda qayta ishlash jarayoni qanday maqsadga xizmat qiladi?"
+          "uz": "Aerokosmik suratlarni GATda qayta ishlash jarayoni qanday maqsadga xizmat qiladi?"
         },
         "options": {
           "uz": [
@@ -8570,14 +8570,14 @@ export const TESTS = {
           0
         ],
         "explanation": {
-          "uz": "BIM - binoning barcha muhandislik, material va arxitektura ma'lumotlarini o'z ichiga olgan batafsil 3D modeli bo'lib, keyinchalik GISga integratsiya qilinadi."
+          "uz": "BIM - binoning barcha muhandislik, material va arxitektura ma'lumotlarini o'z ichiga olgan batafsil 3D modeli bo'lib, keyinchalik GATga integratsiya qilinadi."
         }
       },
       {
         "id": "q10",
         "type": "single",
         "question": {
-          "uz": "Qaysi dastur 3D GIS bilan ishlash uchun ishlatiladi?"
+          "uz": "Qaysi dastur 3D GAT bilan ishlash uchun ishlatiladi?"
         },
         "options": {
           "uz": [
@@ -8591,7 +8591,7 @@ export const TESTS = {
           0
         ],
         "explanation": {
-          "uz": "ArcGIS Pro, ArcScene, ArcGlobe hamda CesiumJS, QGIS (3D view) tizimlari 3D geofazoviy tahlil va vizualizatsiya uchun ishlatiladi."
+          "uz": "ArcGAT Pro, ArcScene, ArcGlobe hamda CesiumJS, QGAT (3D view) tizimlari 3D geofazoviy tahlil va vizualizatsiya uchun ishlatiladi."
         }
       }
     ]
@@ -8689,7 +8689,7 @@ export const TESTS = {
           0
         ],
         "explanation": {
-          "uz": "ArcGIS - bu litsenziya talab qiladigan eng mashhur tijorat GAT tizimidir. QGIS, GRASS va SAGA esa bepul va ochiq kodli dasturlardir."
+          "uz": "ArcGAT - bu litsenziya talab qiladigan eng mashhur tijorat GAT tizimidir. QGAT, GRASS va SAGA esa bepul va ochiq kodli dasturlardir."
         }
       },
       {
@@ -8759,7 +8759,7 @@ export const TESTS = {
         "id": "q8",
         "type": "single",
         "question": {
-          "uz": "Enterprise GIS (Korporativ GAT) nima?"
+          "uz": "Enterprise GAT (Korporativ GAT) nima?"
         },
         "options": {
           "uz": [
@@ -8773,7 +8773,7 @@ export const TESTS = {
           0
         ],
         "explanation": {
-          "uz": "Enterprise GIS - yirik tashkilotlar uchun mo'ljallangan bo'lib, ko'plab bo'limlarning geoma'lumotlarini yagona serverda birlashtiradi va markazlashgan tahlillarni amalga oshiradi."
+          "uz": "Enterprise GAT - yirik tashkilotlar uchun mo'ljallangan bo'lib, ko'plab bo'limlarning geoma'lumotlarini yagona serverda birlashtiradi va markazlashgan tahlillarni amalga oshiradi."
         }
       },
       {
@@ -8801,7 +8801,7 @@ export const TESTS = {
         "id": "q10",
         "type": "single",
         "question": {
-          "uz": "GATda bulutli texnologiyalar (Cloud GIS) ning afzalligi nima?"
+          "uz": "GATda bulutli texnologiyalar (Cloud GAT) ning afzalligi nima?"
         },
         "options": {
           "uz": [
@@ -8815,7 +8815,7 @@ export const TESTS = {
           0
         ],
         "explanation": {
-          "uz": "Cloud GIS (masalan, ArcGIS Online, Google Earth Engine) bulutli serverlar yordamida foydalanuvchilarga ma'lumotlarni saqlash va murakkab hisob-kitoblarni internet orqali bajarish imkonini beradi."
+          "uz": "Cloud GAT (masalan, ArcGAT Online, Google Earth Engine) bulutli serverlar yordamida foydalanuvchilarga ma'lumotlarni saqlash va murakkab hisob-kitoblarni internet orqali bajarish imkonini beradi."
         }
       }
     ]
@@ -8873,7 +8873,7 @@ export const VIDEOS = [
     "subjectId": "gis",
     "topicId": "gis-1",
     "title": {
-      "uz": "GIS tushunchasi - 1-dars",
+      "uz": "GAT tushunchasi - 1-dars",
       "ru": "Понятие ГИС - Урок 1",
       "en": "GIS Concepts - Lesson 1"
     },
@@ -8888,7 +8888,7 @@ export const VIDEOS = [
     "subjectId": "gis",
     "topicId": "gis-2",
     "title": {
-      "uz": "ArcGIS bilan ishlash - 2-dars",
+      "uz": "ArcGAT bilan ishlash - 2-dars",
       "ru": "Работа с ArcGIS - Урок 2",
       "en": "Working with ArcGIS - Lesson 2"
     },
@@ -9183,7 +9183,7 @@ export const ASSIGNMENTS = [
       "en": "Introduction to GIS Software"
     },
     "description": {
-      "uz": "QGIS va ArcGIS dasturiy ta'minotlarining interfeysi va asosiy panellari bilan tanishish."
+      "uz": "QGAT va ArcGAT dasturiy ta'minotlarining interfeysi va asosiy panellari bilan tanishish."
     },
     "dueDate": "2025-01-18",
     "maxScore": 100,
@@ -9242,12 +9242,12 @@ export const ASSIGNMENTS = [
     "subjectId": "gis",
     "topicId": "gis-9",
     "title": {
-      "uz": "ArcGIS dasturining asosiy funksional imkoniyatlarini o‘rganish",
+      "uz": "ArcGAT dasturining asosiy funksional imkoniyatlarini o‘rganish",
       "ru": "Изучение основных функциональных возможностей программы ArcGIS",
       "en": "Studying the Core Functional Capabilities of ArcGIS"
     },
     "description": {
-      "uz": "ArcGIS platformasining ishlash prinsiplari, ma'lumotlarni boshqarish tizimlari bilan tanishish."
+      "uz": "ArcGAT platformasining ishlash prinsiplari, ma'lumotlarni boshqarish tizimlari bilan tanishish."
     },
     "dueDate": "2025-02-20",
     "maxScore": 100,
@@ -9258,7 +9258,7 @@ export const ASSIGNMENTS = [
     "subjectId": "gis",
     "topicId": "gis-9",
     "title": {
-      "uz": "ArcGIS dasturining ArcMap ilovasining asosiy funksional imkoniyatlarini o‘rganish",
+      "uz": "ArcGAT dasturining ArcMap ilovasining asosiy funksional imkoniyatlarini o‘rganish",
       "ru": "Изучение основных возможностей приложения ArcMap программы ArcGIS",
       "en": "Studying ArcMap Application in ArcGIS"
     },
@@ -9274,7 +9274,7 @@ export const ASSIGNMENTS = [
     "subjectId": "gis",
     "topicId": "gis-12",
     "title": {
-      "uz": "ArcGIS dasturida mavzuli xaritalarning komponovkasini ishlab chiqish",
+      "uz": "ArcGAT dasturida mavzuli xaritalarning komponovkasini ishlab chiqish",
       "ru": "Разработка компоновки тематических карт в программе ArcGIS",
       "en": "Designing Layouts for Thematic Maps in ArcGIS"
     },
@@ -9290,12 +9290,12 @@ export const ASSIGNMENTS = [
     "subjectId": "gis",
     "topicId": "gis-12",
     "title": {
-      "uz": "ArcGIS dasturida geografik ma’lumotlar bilan ishlash",
+      "uz": "ArcGAT dasturida geografik ma’lumotlar bilan ishlash",
       "ru": "Работа с географическими данными в программе ArcGIS",
       "en": "Working with Geographic Data in ArcGIS"
     },
     "description": {
-      "uz": "ArcGIS da vektor va raster ma'lumotlarni tahlil qilish, tahrirlash va saqlash."
+      "uz": "ArcGAT da vektor va raster ma'lumotlarni tahlil qilish, tahrirlash va saqlash."
     },
     "dueDate": "2025-03-15",
     "maxScore": 100,
@@ -9338,12 +9338,12 @@ export const ASSIGNMENTS = [
     "subjectId": "gis",
     "topicId": "gis-13",
     "title": {
-      "uz": "ArcGIS dasturida 3 o‘lchamli xaritalar yaratish",
+      "uz": "ArcGAT dasturida 3 o‘lchamli xaritalar yaratish",
       "ru": "Создание трехмерных карт в программе ArcGIS",
       "en": "Creating 3D Maps in ArcGIS"
     },
     "description": {
-      "uz": "ArcScene yoki ArcGIS 3D Analyst yordamida relyef va binolarni 3D ko'rinishda vizuallashtirish."
+      "uz": "ArcScene yoki ArcGAT 3D Analyst yordamida relyef va binolarni 3D ko'rinishda vizuallashtirish."
     },
     "dueDate": "2025-04-10",
     "maxScore": 100,
@@ -9386,7 +9386,7 @@ export const ASSIGNMENTS = [
 export const DEMO_USERS = {
   "admin": {
     "id": "user-admin",
-    "email": "admin@geoedu.uz",
+    "email": "admin@geogatacademy.uz",
     "password": "admin123",
     "name": "Abdullayev Jasur",
     "role": "admin",
@@ -9400,7 +9400,7 @@ export const DEMO_USERS = {
   },
   "teacher": {
     "id": "user-teacher",
-    "email": "teacher@geoedu.uz",
+    "email": "teacher@geogatacademy.uz",
     "password": "teacher123",
     "name": "Rahimova Malika",
     "role": "teacher",
@@ -9414,7 +9414,7 @@ export const DEMO_USERS = {
   },
   "student": {
     "id": "user-student",
-    "email": "student@geoedu.uz",
+    "email": "student@geogatacademy.uz",
     "password": "student123",
     "name": "Mirzayev Bobur",
     "role": "student",

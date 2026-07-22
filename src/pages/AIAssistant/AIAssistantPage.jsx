@@ -160,7 +160,7 @@ Where $e_{xi}$ and $e_{yi}$ represent the coordinate deviations for control poin
 
 const GENERAL_GIS_QA = {
   gis: {
-    uz: "GIS (Geografik Axborot Tizimi) — fazoviy yoki geografik ma'lumotlarni to'plash, saqlash, tahlil qilish va vizuallashtirish (xaritalash) imkonini beruvchi kompyuter tizimidir. U dasturiy ta'minot, ma'lumotlar, apparat vositalari va foydalanuvchilardan tashkil topadi.",
+    uz: "GAT (Geografik Axborot Tizimi) — fazoviy yoki geografik ma'lumotlarni to'plash, saqlash, tahlil qilish va vizuallashtirish (xaritalash) imkonini beruvchi kompyuter tizimidir. U dasturiy ta'minot, ma'lumotlar, apparat vositalari va foydalanuvchilardan tashkil topadi.",
     ru: "ГИС (Географическая Информационная Система) — это компьютерная система для сбора, хранения, анализа и визуализации (картографирования) пространственных данных. Она состоит из ПО, данных, оборудования и пользователей.",
     en: "GIS (Geographic Information System) is a computer system designed to capture, store, manipulate, analyze, manage, and present all types of geographical or spatial data."
   },
@@ -185,7 +185,7 @@ export default function AIAssistantPage() {
       id: 'welcome',
       sender: 'assistant',
       text: lang === 'uz'
-        ? "Salom! Men sizning AI GIS Assistentingizman. Men sizga geografik axborot tizimlari, kartografiya va topografiyaga oid savollaringizni tushuntirib bera olaman. Quyidagi tayyor mavzulardan birini tanlang yoki o'z savolingizni yozing."
+        ? "Salom! Men sizning AI GAT Assistentingizman. Men sizga geografik axborot tizimlari, kartografiya va topografiyaga oid savollaringizni tushuntirib bera olaman. Quyidagi tayyor mavzulardan birini tanlang yoki o'z savolingizni yozing."
         : lang === 'ru'
         ? "Привет! Я ваш AI ГИС Ассистент. Я могу объяснить вам вопросы, связанные с географическими информационными системами, картографией и топографией. Выберите готовую тему ниже или напишите свой вопрос."
         : "Hello! I am your AI GIS Assistant. I can help you understand geographic information systems, cartography, and topography. Choose a preset topic below or type your own question.",
@@ -204,7 +204,7 @@ export default function AIAssistantPage() {
     if (envKey) {
       setApiKey(envKey)
     } else {
-      const savedKey = localStorage.getItem('geoedu_openai_key')
+      const savedKey = localStorage.getItem('geogatacademy_openai_key')
       if (savedKey) {
         setApiKey(savedKey)
       }
@@ -223,7 +223,7 @@ export default function AIAssistantPage() {
   // --- HANDLERS ---
   const queryChatGPT = async (queryText, topicId = null) => {
     try {
-      const prompt = `You are a professional GIS Academic Assistant in an educational web platform called GeoEdu.
+      const prompt = `You are a professional GIS Academic Assistant in an educational web platform called Geo Gat Akademiya.
 Answer the user's question clearly, academically, and comprehensively.
 Format your answer nicely using markdown (bullet points, bold text).
 Language constraints: The user is asking in ${lang === 'uz' ? 'Uzbek' : lang === 'ru' ? 'Russian' : 'English'}. Answer in the same language.
@@ -427,12 +427,12 @@ To enable open-ended questions, please configure an OpenAI API Key in the settin
     e.preventDefault()
     const trimmed = apiKey.trim()
     if (trimmed) {
-      localStorage.setItem('geoedu_openai_key', trimmed)
+      localStorage.setItem('geogatacademy_openai_key', trimmed)
       setApiKey(trimmed)
       toast.success(lang === 'uz' ? 'API kalit muvaffaqiyatli saqlandi!' : 'API key saved successfully!')
       setShowApiModal(false)
     } else {
-      localStorage.removeItem('geoedu_openai_key')
+      localStorage.removeItem('geogatacademy_openai_key')
       setApiKey('')
       toast.success(lang === 'uz' ? 'API kalit o\'chirildi' : 'API key removed')
       setShowApiModal(false)
@@ -464,7 +464,7 @@ To enable open-ended questions, please configure an OpenAI API Key in the settin
               <Bot size={22} className="animate-pulse" />
             </div>
             <div>
-              <h2 className="font-bold text-gray-900 dark:text-white text-base">AI GIS Assistent</h2>
+              <h2 className="font-bold text-gray-900 dark:text-white text-base">AI GAT Assistent</h2>
               <p className="text-[11px] text-gray-500 flex items-center gap-1.5 mt-0.5">
                 <span className={`w-2 h-2 rounded-full ${apiKey ? 'bg-green-500' : 'bg-orange-400'}`}></span>
                 {apiKey ? (lang === 'uz' ? 'Generativ rejim faol' : 'Generative mode active') : (lang === 'uz' ? 'Offline o\'quv rejimi' : 'Offline learning mode')}
@@ -590,7 +590,7 @@ To enable open-ended questions, please configure an OpenAI API Key in the settin
             type="text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            placeholder={lang === 'uz' ? "GISga oid savolingizni yozing..." : "Type your GIS question..."}
+            placeholder={lang === 'uz' ? "GATga oid savolingizni yozing..." : "Type your GIS question..."}
             className="flex-1 input px-4 py-2.5 text-sm"
           />
           <button
@@ -609,7 +609,7 @@ To enable open-ended questions, please configure an OpenAI API Key in the settin
         <div className="px-6 py-4 border-b border-gray-150 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/30 select-none">
           <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2 text-sm uppercase tracking-wider">
             <Sparkles size={16} className="text-primary-500" />
-            {lang === 'uz' ? 'Interaktiv GIS Simulyatori' : 'Interactive GIS Simulator'}
+            {lang === 'uz' ? 'Interaktiv GAT Simulyatori' : 'Interactive GIS Simulator'}
           </h3>
         </div>
 
@@ -623,7 +623,7 @@ To enable open-ended questions, please configure an OpenAI API Key in the settin
                 <h4 className="font-bold text-gray-900 dark:text-white text-sm">Simulyator Faol Emas</h4>
                 <p className="text-xs text-gray-500 mt-1 leading-relaxed">
                   {lang === 'uz'
-                    ? "GIS konseptsiyalarini vizual ko'rish uchun chapdagi tayyor savollardan birini bosing yoki uning simulyatsiya tugmasini tanlang."
+                    ? "GAT konseptsiyalarini vizual ko'rish uchun chapdagi tayyor savollardan birini bosing yoki uning simulyatsiya tugmasini tanlang."
                     : "Click on one of the preset questions on the left to activate its live visual simulator sandbox."}
                 </p>
               </div>
@@ -631,7 +631,7 @@ To enable open-ended questions, please configure an OpenAI API Key in the settin
               <div className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900/30 text-blue-700 dark:text-blue-400 rounded-xl text-[11px] leading-relaxed text-left flex gap-2">
                 <AlertCircle size={16} className="flex-shrink-0" />
                 <span>
-                  <strong>Buffer, Georeferencing</strong> va <strong>UTM Zone</strong> kabi eng muhim GIS mavzulariga oid jonli dasturlashtirilgan vizualizatsiyalar o'rnatilgan.
+                  <strong>Buffer, Georeferencing</strong> va <strong>UTM Zone</strong> kabi eng muhim GAT mavzulariga oid jonli dasturlashtirilgan vizualizatsiyalar o'rnatilgan.
                 </span>
               </div>
             </div>
@@ -652,7 +652,7 @@ To enable open-ended questions, please configure an OpenAI API Key in the settin
               OpenAI API Kaliti Sozlamalari
             </h3>
             <p className="text-xs text-gray-500 leading-relaxed mb-4">
-              Erkin GIS savollarini OpenAI ChatGPT API yordamida jonli ravishda so'rash uchun o'z API kalitingizni kiriting.
+              Erkin GAT savollarini OpenAI ChatGPT API yordamida jonli ravishda so'rash uchun o'z API kalitingizni kiriting.
               Kalit faqat brauzeringizning <code>localStorage</code> xotirasida saqlanadi va bevosita OpenAI serverlariga yuboriladi.
             </p>
 

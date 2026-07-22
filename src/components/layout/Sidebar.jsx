@@ -31,7 +31,7 @@ const studentCategories = [
   {
     id: 'gis',
     label: 'nav.groupGis',
-    defaultLabel: 'GIS & Xaritalar',
+    defaultLabel: 'GAT & Xaritalar',
     links: [
       { to: '/map-tools', label: 'nav.mapTools', icon: Map },
       { to: '/ai-assistant', label: 'nav.aiAssistant', icon: Sparkles },
@@ -100,8 +100,8 @@ export default function Sidebar({ open, onClose }) {
               <Map size={18} className="text-white" />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-black bg-gradient-to-r from-primary-600 to-emerald-500 bg-clip-text text-transparent tracking-tight leading-none">GeoEdu</span>
-              <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1">GIS Academy</span>
+              <span className="text-base font-black bg-gradient-to-r from-primary-600 to-emerald-500 bg-clip-text text-transparent tracking-tight leading-none">Geo Gat Akademiya</span>
+              <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1">GAT Akademiyasi</span>
             </div>
           </div>
           <button

@@ -133,7 +133,7 @@ export const PRESENTATIONS = {
   "gis-4": [
     {
       "num": 21,
-      "title": "Rastr va vektor mohiyati GISdagi fazoviy axborot modellari",
+      "title": "Rastr va vektor mohiyati GATdagi fazoviy axborot modellari",
       "size": "6.1 MB",
       "sizeBytes": 6400430,
       "url": "https://firebasestorage.googleapis.com/v0/b/geoedu-15dd5.firebasestorage.app/o/presentations%2F21.pptx?alt=media&token=e922814b-574f-457b-bb12-e2f35a1dea55",

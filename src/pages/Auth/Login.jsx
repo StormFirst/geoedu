@@ -34,14 +34,14 @@ export default function Login() {
           <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
             <Map size={20} className="text-white" />
           </div>
-          <span className="text-2xl font-bold text-white">GeoEdu</span>
+          <span className="text-2xl font-bold text-white">Geo Gat Akademiya</span>
         </div>
         <div>
           <h2 className="text-4xl font-bold text-white mb-4">
             Geografik fanlarni<br />professional darajada o'rganing
           </h2>
           <p className="text-blue-200 text-lg">
-            Kartografiya, Topografiya va GIS bo'yicha to'liq kurslar
+            Kartografiya, Topografiya va GAT bo'yicha to'liq kurslar
           </p>
         </div>
         <div className="grid grid-cols-3 gap-4">
@@ -60,7 +60,7 @@ export default function Login() {
             <div className="w-9 h-9 bg-primary-600 rounded-xl flex items-center justify-center">
               <Map size={18} className="text-white" />
             </div>
-            <span className="text-xl font-bold text-gray-900 dark:text-white">GeoEdu</span>
+            <span className="text-xl font-bold text-gray-900 dark:text-white">Geo Gat Akademiya</span>
           </div>
 
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{t('auth.login')}</h1>

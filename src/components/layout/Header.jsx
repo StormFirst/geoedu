@@ -4,30 +4,17 @@ import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import { useTheme } from '../../context/ThemeContext'
 import {
-  Menu, Sun, Moon, Globe, LogOut, User, ChevronDown, Bell,
+  Menu, Sun, Moon, LogOut, User, Bell, ChevronDown
 } from 'lucide-react'
 import clsx from 'clsx'
 import toast from 'react-hot-toast'
-
-const LANGUAGES = [
-  { code: 'uz', label: "O'zbekcha" },
-  { code: 'ru', label: 'Русский' },
-  { code: 'en', label: 'English' },
-]
 
 export default function Header({ onMenuClick }) {
   const { t, i18n } = useTranslation()
   const { currentUser, logout } = useAuth()
   const { theme, toggleTheme } = useTheme()
   const navigate = useNavigate()
-  const [langOpen, setLangOpen] = useState(false)
   const [userOpen, setUserOpen] = useState(false)
-
-  const handleLangChange = (code) => {
-    i18n.changeLanguage(code)
-    localStorage.setItem('geoedu-lang', code)
-    setLangOpen(false)
-  }
 
   const handleLogout = () => {
     logout()
@@ -35,8 +22,6 @@ export default function Header({ onMenuClick }) {
     toast.success("Tizimdan chiqildi")
     setUserOpen(false)
   }
-
-  const currentLang = LANGUAGES.find((l) => l.code === i18n.language) || LANGUAGES[0]
 
   return (
     <header className="sticky top-0 z-10 h-14 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 flex items-center px-4 gap-3">
@@ -58,34 +43,6 @@ export default function Header({ onMenuClick }) {
           {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
         </button>
 
-        <div className="relative">
-          <button
-            onClick={() => { setLangOpen(!langOpen); setUserOpen(false) }}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300 text-sm font-medium transition-colors"
-          >
-            <Globe size={16} />
-            <span className="hidden sm:inline">{currentLang.label}</span>
-            <ChevronDown size={14} />
-          </button>
-          {langOpen && (
-            <div className="absolute right-0 top-full mt-1 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg py-1 z-50">
-              {LANGUAGES.map((lang) => (
-                <button
-                  key={lang.code}
-                  onClick={() => handleLangChange(lang.code)}
-                  className={clsx(
-                    'w-full text-left px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors',
-                    i18n.language === lang.code
-                      ? 'text-primary-600 dark:text-primary-400 font-medium'
-                      : 'text-gray-700 dark:text-gray-300'
-                  )}
-                >
-                  {lang.label}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
 
         <button className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 relative">
           <Bell size={18} />
@@ -94,7 +51,7 @@ export default function Header({ onMenuClick }) {
 
         <div className="relative">
           <button
-            onClick={() => { setUserOpen(!userOpen); setLangOpen(false) }}
+            onClick={() => setUserOpen(!userOpen)}
             className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           >
             <div className="w-7 h-7 rounded-full bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center text-primary-700 dark:text-primary-400 font-semibold text-xs overflow-hidden border border-gray-200 dark:border-gray-700">
@@ -135,8 +92,8 @@ export default function Header({ onMenuClick }) {
         </div>
       </div>
 
-      {(langOpen || userOpen) && (
-        <div className="fixed inset-0 z-40" onClick={() => { setLangOpen(false); setUserOpen(false) }} />
+      {userOpen && (
+        <div className="fixed inset-0 z-40" onClick={() => setUserOpen(false)} />
       )}
     </header>
   )

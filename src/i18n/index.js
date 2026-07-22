@@ -5,22 +5,22 @@ const resources = {
   uz: {
     translation: {
       app: {
-        name: 'GeoEdu',
-        tagline: "Kartografiya, Topografiya va GIS fanlarini o'rganing",
+        name: 'Geo Gat Akademiya',
+        tagline: "Kartografiya, Topografiya va GAT fanlarini o'rganing",
       },
       nav: {
         home: 'Bosh sahifa',
         dashboard: 'Dashboard',
         groupMain: 'Asosiy',
         groupLearning: "O'quv xonasi",
-        groupGis: 'GIS & Xaritalar',
+        groupGis: 'GAT & Xaritalar',
         groupEvaluation: 'Baholash va Natijalar',
         groupCommunity: "Reyting & O'yinlar",
         subjects: 'Fanlar',
         mapTools: 'Interaktiv xarita',
         aiAssistant: 'AI Assistent',
-        gisLab: 'GIS Laboratoriya',
-        gisCaseStudy: 'GIS Case Study',
+        gisLab: 'GAT Laboratoriya',
+        gisCaseStudy: 'GAT Case Study',
         arcgis3d: 'ArcGIS 3D Xarita',
         gamification: "Geoo'yin",
         videos: 'Video darslar',
@@ -212,7 +212,7 @@ const resources = {
   ru: {
     translation: {
       app: {
-        name: 'GeoEdu',
+        name: 'Geo Gat Akademiya',
         tagline: 'Изучайте картографию, топографию и ГИС',
       },
       nav: {
@@ -419,7 +419,7 @@ const resources = {
   en: {
     translation: {
       app: {
-        name: 'GeoEdu',
+        name: 'Geo Gat Academy',
         tagline: 'Learn Cartography, Topography and GIS',
       },
       nav: {
@@ -627,7 +627,7 @@ const resources = {
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: localStorage.getItem('geoedu-lang') || 'uz',
+  lng: 'uz',
   fallbackLng: 'uz',
   interpolation: {
     escapeValue: false,

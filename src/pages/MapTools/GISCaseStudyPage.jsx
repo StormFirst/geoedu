@@ -513,16 +513,27 @@ export default function GISCaseStudyPage() {
           where('uid', '==', currentUser.uid),
           orderBy('createdAt', 'desc')
         )
-        const snap = await getDocs(q)
-        const items = snap.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          createdAt: doc.data().createdAt?.toDate()?.toISOString() || new Date().toISOString()
-        }))
+        const items = snap.docs.map((doc) => {
+          const d = doc.data()
+          let parsedData = d.data
+          if (typeof d.data === 'string') {
+            try {
+              parsedData = JSON.parse(d.data)
+            } catch (e) {
+              console.error("Failed to parse data field:", e)
+            }
+          }
+          return {
+            id: doc.id,
+            ...d,
+            data: parsedData,
+            createdAt: d.createdAt?.toDate()?.toISOString() || new Date().toISOString()
+          }
+        })
         setSavedCases(items)
       } else {
         // LocalStorage fallback
-        const localKey = `geoedu_local_cases_${currentUser.uid}`
+        const localKey = `geogatacademy_local_cases_${currentUser.uid}`
         const local = localStorage.getItem(localKey)
         if (local) {
           setSavedCases(JSON.parse(local))
@@ -532,7 +543,7 @@ export default function GISCaseStudyPage() {
       }
     } catch (err) {
       console.error('Error fetching saved cases:', err)
-      const localKey = `geoedu_local_cases_${currentUser.uid}`
+      const localKey = `geogatacademy_local_cases_${currentUser.uid}`
       const local = localStorage.getItem(localKey)
       if (local) {
         setSavedCases(JSON.parse(local))
@@ -615,7 +626,7 @@ export default function GISCaseStudyPage() {
     }
 
     setIsSaving(true)
-    const localKey = `geoedu_local_cases_${currentUser.uid}`
+    const localKey = `geogatacademy_local_cases_${currentUser.uid}`
 
     try {
       const isUpdating = editingCaseId && !isNewCopy
@@ -626,7 +637,7 @@ export default function GISCaseStudyPage() {
           await updateDoc(doc(db, 'gis_cases', editingCaseId), {
             title: caseTitle.trim(),
             description: caseDescription.trim(),
-            data: dataPayload,
+            data: JSON.stringify(dataPayload),
             updatedAt: serverTimestamp()
           })
         } else {
@@ -663,6 +674,7 @@ export default function GISCaseStudyPage() {
         if (!isDemoMode && db) {
           const docRef = await addDoc(collection(db, 'gis_cases'), {
             ...newCaseDoc,
+            data: JSON.stringify(dataPayload),
             createdAt: serverTimestamp()
           })
           setEditingCaseId(docRef.id)
@@ -745,7 +757,7 @@ export default function GISCaseStudyPage() {
       if (!isDemoMode && db) {
         await deleteDoc(doc(db, 'gis_cases', id))
       } else {
-        const localKey = `geoedu_local_cases_${currentUser.uid}`
+        const localKey = `geogatacademy_local_cases_${currentUser.uid}`
         const localData = localStorage.getItem(localKey)
         if (localData) {
           const parsed = JSON.parse(localData)
@@ -1143,7 +1155,7 @@ export default function GISCaseStudyPage() {
               <Briefcase size={20} />
             </div>
             <div>
-              <h2 className="font-bold text-gray-900 dark:text-white text-base">GIS Case Studies</h2>
+              <h2 className="font-bold text-gray-900 dark:text-white text-base">{lang === 'uz' ? 'GAT Keys Tadqiqotlari' : 'GIS Case Studies'}</h2>
               <p className="text-[11px] text-gray-500">{lang === 'uz' ? 'Talaba tomonidan boshqariladigan keyslar' : 'Student-controlled case studies'}</p>
             </div>
           </div>

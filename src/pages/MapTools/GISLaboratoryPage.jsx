@@ -112,15 +112,27 @@ export default function GISLaboratoryPage() {
           orderBy('createdAt', 'desc')
         )
         const snap = await getDocs(q)
-        const items = snap.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          createdAt: doc.data().createdAt?.toDate()?.toISOString() || new Date().toISOString()
-        }))
+        const items = snap.docs.map((doc) => {
+          const d = doc.data()
+          let parsedCoords = d.coordinates
+          if (typeof d.coordinates === 'string') {
+            try {
+              parsedCoords = JSON.parse(d.coordinates)
+            } catch (e) {
+              console.error("Failed to parse coordinates field:", e)
+            }
+          }
+          return {
+            id: doc.id,
+            ...d,
+            coordinates: parsedCoords,
+            createdAt: d.createdAt?.toDate()?.toISOString() || new Date().toISOString()
+          }
+        })
         setHistoryList(items)
       } else {
         // LocalStorage fallback
-        const local = localStorage.getItem(`geoedu_local_labs_${currentUser.uid}`)
+        const local = localStorage.getItem(`geogatacademy_local_labs_${currentUser.uid}`)
         if (local) {
           setHistoryList(JSON.parse(local))
         } else {
@@ -130,7 +142,7 @@ export default function GISLaboratoryPage() {
     } catch (err) {
       console.error('Error fetching lab history:', err)
       // Fallback on error
-      const local = localStorage.getItem(`geoedu_local_labs_${currentUser.uid}`)
+      const local = localStorage.getItem(`geogatacademy_local_labs_${currentUser.uid}`)
       if (local) {
         setHistoryList(JSON.parse(local))
       }
@@ -367,12 +379,13 @@ export default function GISLaboratoryPage() {
       if (!isDemoMode && db) {
         await addDoc(collection(db, 'gis_labs'), {
           ...newLabDoc,
+          coordinates: JSON.stringify(drawnPoints),
           createdAt: serverTimestamp() // Set real server timestamp
         })
         toast.success(lang === 'uz' ? 'Natija bazaga muvaffaqiyatli saqlandi!' : 'Results saved to database!')
       } else {
         // Save locally under users key
-        const localKey = `geoedu_local_labs_${currentUser.uid}`
+        const localKey = `geogatacademy_local_labs_${currentUser.uid}`
         const localData = localStorage.getItem(localKey)
         const parsed = localData ? JSON.parse(localData) : []
         const updated = [{ id: Date.now().toString(), ...newLabDoc }, ...parsed]
@@ -410,7 +423,7 @@ export default function GISLaboratoryPage() {
         await deleteDoc(doc(db, 'gis_labs', id))
       } else {
         // Delete from LocalStorage
-        const localKey = `geoedu_local_labs_${currentUser.uid}`
+        const localKey = `geogatacademy_local_labs_${currentUser.uid}`
         const localData = localStorage.getItem(localKey)
         if (localData) {
           const parsed = JSON.parse(localData)
@@ -591,7 +604,7 @@ export default function GISLaboratoryPage() {
               <Beaker size={20} />
             </div>
             <div>
-              <h2 className="font-bold text-gray-900 dark:text-white text-base">GIS Laboratoriya</h2>
+              <h2 className="font-bold text-gray-900 dark:text-white text-base">{t('nav.gisLab')}</h2>
               <p className="text-[11px] text-gray-500">{lang === 'uz' ? 'Fazoviy tahlil va xaritalash' : 'Spatial analysis & mapping'}</p>
             </div>
           </div>
@@ -874,7 +887,7 @@ export default function GISLaboratoryPage() {
           <div className="absolute top-16 left-4 z-[1000] w-64 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md shadow-lg border border-gray-200/50 dark:border-gray-700/50 p-4 rounded-2xl">
             <h5 className="text-xs font-bold text-gray-900 dark:text-white flex items-center gap-1.5 mb-2">
               <Beaker size={14} className="text-primary-500" />
-              <span>Amaliy Topshiriq: GIS-4</span>
+              <span>{lang === 'uz' ? 'Amaliy Topshiriq: GAT-4' : 'Practical Assignment: GIS-4'}</span>
             </h5>
             <p className="text-[10px] text-gray-500 dark:text-gray-400 mb-3 leading-relaxed">
               Xaritaga o'ting va ushbu 3 ta geometriya elementlarini chizib tasdiqlang:

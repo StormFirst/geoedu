@@ -353,10 +353,10 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
 
       // gis-16
       gis16_title: "GATning zamonaviy rivojlanishi (Web/Cloud/Mobile)",
-      gis16_desc: "Zamonaviy GIS texnologiyalarining yo'nalishlarini moslashtiring.",
+      gis16_desc: "Zamonaviy GAT texnologiyalarining yo'nalishlarini moslashtiring.",
       gis16_terms: {
-        "WebGIS": "Brauzer orqali xaritalarni onlayn tarqatish va tahlil qilish tizimi",
-        "MobileGIS": "Maydonda oflayn geoma'lumot to'plash uchun mobil ilovalar (masalan, QField)",
+        "WebGAT": "Brauzer orqali xaritalarni onlayn tarqatish va tahlil qilish tizimi",
+        "Mobil GAT": "Maydonda oflayn geoma'lumot to'plash uchun mobil ilovalar (masalan, QField)",
         "Bulutli GAT": "Ma'lumotlarni internetdagi serverlarda saqlash va tahlil qilish texnologiyasi"
       },
 
@@ -370,7 +370,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
       },
 
       // Default match puzzle
-      def_title: "GIS va Kartografiya atamalari mosligini toping",
+      def_title: "GAT va Kartografiya atamalari mosligini toping",
       def_desc: "Chap tomondagi atamalardan birini tanlang va o'ng tomondagi mos ta'rifga bosing.",
       def_terms: {
         "Geoid": "Yerning o'rtacha dengiz sathiga mos keluvchi haqiqiy shakli",
@@ -1976,7 +1976,7 @@ export default function InteractivePracticalTask({ topicId, lang, onComplete, is
                       className="flex items-center gap-1.5 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border border-gray-200 dark:border-gray-700 text-xs font-bold text-primary-600 dark:text-primary-400 px-3 py-1.5 rounded-lg shadow-lg hover:bg-primary-50 dark:hover:bg-primary-950/30 transition-all"
                     >
                       <ExternalLink size={11} />
-                      GIS Lab — GeoJSON yuklash
+                      GAT Laboratoriya — GeoJSON yuklash
                     </button>
                   </div>
                 </div>

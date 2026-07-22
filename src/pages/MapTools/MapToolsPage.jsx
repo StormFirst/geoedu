@@ -500,7 +500,7 @@ export default function MapToolsPage() {
             <div className="w-5 h-5 bg-primary-600 rounded flex items-center justify-center">
               <Settings size={12} className="text-white" />
             </div>
-            <span className="font-bold text-sm text-gray-900 dark:text-white">Interaktiv GIS asboblari</span>
+            <span className="font-bold text-sm text-gray-900 dark:text-white">{lang === 'uz' ? 'Interaktiv GAT asboblari' : 'Interactive GIS Tools'}</span>
           </div>
           <button
             onClick={() => setShowControls(false)}
@@ -887,7 +887,7 @@ export default function MapToolsPage() {
         <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-3 mb-4 select-none">
           <div className="flex items-center gap-2">
             <InfoIcon size={18} className="text-primary-500" />
-            <h3 className="font-bold text-sm text-gray-900 dark:text-white">GIS O'quv qo'llanma</h3>
+            <h3 className="font-bold text-sm text-gray-900 dark:text-white">{lang === 'uz' ? "GAT O'quv qo'llanmasi" : 'GIS Tutorial'}</h3>
           </div>
           <button
             onClick={() => setShowGuide(false)}

@@ -25,7 +25,7 @@ const features = [
 const fanlarItems = [
   { id: 'topografiya', label: 'Topografiya', icon: Mountain, color: 'text-emerald-600', bg: 'bg-emerald-50' },
   { id: 'kartografiya', label: 'Kartografiya', icon: Map, color: 'text-blue-600', bg: 'bg-blue-50' },
-  { id: 'gis', label: 'GIS', icon: Globe, color: 'text-orange-600', bg: 'bg-orange-50' },
+  { id: 'gis', label: 'GAT', icon: Globe, color: 'text-orange-600', bg: 'bg-orange-50' },
 ]
 
 export default function Home() {
@@ -125,7 +125,7 @@ export default function Home() {
             <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-md shadow-blue-500/25">
               <Map size={18} className="text-white" />
             </div>
-            <span className="text-xl font-bold text-gray-900">GeoEdu</span>
+            <span className="text-xl font-bold text-gray-900">Geo Gat Akademiya</span>
           </div>
           <nav className="hidden sm:flex items-center gap-1">
             <a
@@ -203,7 +203,7 @@ export default function Home() {
             <div className="text-center lg:text-left">
               <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-4 py-1.5 text-blue-700 text-sm mb-6 animate-fade-in-up">
                 <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-                <span>O'zbekistondagi birinchi GIS ta'lim platformasi</span>
+                <span>O'zbekistondagi birinchi GAT ta'lim platformasi</span>
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 mb-6 leading-[1.1] tracking-tight animate-fade-in-up-delay-1">
@@ -216,8 +216,8 @@ export default function Home() {
                 </span>{' '}
                 va{' '}
                 <span className="bg-gradient-to-r from-violet-500 to-fuchsia-500 bg-clip-text text-transparent">
-                  GIS
-                </span>{' '}
+                  GAT
+                </span>{" "}
                 fanlarini o'rganing
               </h1>
 
@@ -457,10 +457,10 @@ export default function Home() {
               Loyiha Tashabbuskori
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3 tracking-tight">
-              G'oya va Loyiha Muallifi
+              G'oya va loyiha muallifi
             </h2>
             <p className="text-gray-500 max-w-xl mx-auto">
-              Ushbu platforma geografiya, kartografiya va GIS fanlarini zamonaviy usullar bilan o'rgatish maqsadida yaratilgan.
+              Ushbu platforma Topografiya, kartografiya va GAT fanlarini inovatsion pedagogik yondashuv hamda gefazoviy texnologiyalar integratsiyasi asosida o'qitishni takomillashtirishga xizmat qiladi.
             </p>
           </div>
 
@@ -488,7 +488,7 @@ export default function Home() {
                 Nizomiy nomidagi Oʻzbekiston milliy pedagogika universiteti tayanch doktoranti
               </p>
               <p className="text-sm text-gray-500 mt-4 leading-relaxed">
-                Ushbu interaktiv platforma geografiya, kartografiya va GIS texnologiyalarini o'qitish metodikasini takomillashtirish hamda talabalarning amaliy ko'nikmalarini oshirish maqsadida yaratilgan loyihadir. Barcha darsliklar, interaktiv topshiriqlar va geoo'yinlar muallif tomonidan ishlab chiqilgan va amalga oshirilgan.
+                Ushbu interaktiv platforma Topografiya, kartografiya va GAT fanlarini o'qitish metodikasini takomillashtirish hamda talabalarning amaliy ko'nikmalarini oshirish maqsadida yaratilgan loyihadir. Barcha darsliklar, interaktiv topshiriqlar va geoo'yinlar muallif tomonidan ishlab chiqilgan va amalga oshirilgan.
               </p>
               
               <div className="flex flex-wrap gap-4 mt-6 justify-center md:justify-start">
@@ -496,7 +496,7 @@ export default function Home() {
                   href="mailto:m.sangirova@pedagog.uz"
                   className="inline-flex items-center gap-2 text-xs font-semibold text-gray-600 hover:text-gray-950 transition-colors"
                 >
-                  <Mail size={14} /> m.sangirova@pedagog.uz
+                  <Mail size={14} /> mahfuzasangirova1985@gmail.com
                 </a>
               </div>
             </div>
@@ -563,10 +563,10 @@ export default function Home() {
                 <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-md shadow-blue-500/20">
                   <Map size={16} className="text-white" />
                 </div>
-                <span className="text-xl font-bold text-gray-900">GeoEdu</span>
+                <span className="text-xl font-bold text-gray-900">Geo Gat Akademiya</span>
               </div>
               <p className="text-sm text-gray-500 leading-relaxed max-w-xs">
-                Kartografiya, Topografiya va GIS fanlarini o'rganish uchun zamonaviy interaktiv platforma.
+                Kartografiya, Topografiya va GAT fanlarini o'rganish uchun zamonaviy interaktiv platforma.
               </p>
             </div>
             <div>
@@ -592,7 +592,7 @@ export default function Home() {
           </div>
           <div className="border-t border-gray-200 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-xs text-gray-400">
-              © 2024 GeoEdu. Barcha huquqlar himoyalangan.
+              © 2024 Geo Gat Akademiya. Barcha huquqlar himoyalangan.
             </p>
             <div className="flex items-center gap-1.5">
               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
