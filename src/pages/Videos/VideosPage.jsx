@@ -38,6 +38,27 @@ const isTopicUnlocked = (topicId, subjectId, user) => {
   return true
 }
 
+// Function to check if a video lesson is unlocked for the user
+const isVideoUnlocked = (topicId, subjectId, user) => {
+  if (!topicId || !subjectId) return true
+  if (user?.role === 'admin' || user?.role === 'teacher') return true
+
+  // The topic itself must be unlocked
+  if (!isTopicUnlocked(topicId, subjectId, user)) return false
+
+  // The video is unlocked if the user has completed the theory tab of this topic,
+  // or if they have already completed the whole topic or passed its test.
+  const completedTopics = user?.completedTopics || []
+  const testResults = user?.testResults || []
+  const test = Object.values(TESTS).find((t) => t.topicId === topicId)
+  const testPassed = test ? testResults.some((r) => r.testId === test.id && r.passed) : false
+
+  const isCompleted = completedTopics.includes(topicId) || testPassed
+  const isTheoryCompleted = localStorage.getItem(`completed_theory_${topicId}`) === 'true'
+
+  return isCompleted || isTheoryCompleted
+}
+
 // Combine explicit VIDEOS array and any additional topic videoUrls from TOPICS
 const allTopicsList = Object.values(TOPICS).flat()
 const allVideosList = [
@@ -68,7 +89,7 @@ export default function VideosPage() {
 
   // Filter videos to only show those belonging to unlocked/open topics
   const openVideos = allVideosList.filter((video) =>
-    isTopicUnlocked(video.topicId, video.subjectId, currentUser)
+    isVideoUnlocked(video.topicId, video.subjectId, currentUser)
   )
 
   const filtered = filter === 'all' ? openVideos : openVideos.filter((v) => v.subjectId === filter)

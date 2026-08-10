@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import clsx from 'clsx'
+import { useAuth } from '../../context/AuthContext'
 
 // Earth radius in meters
 const EARTH_RADIUS = 6378137.0
@@ -54,6 +55,10 @@ const createCustomIcon = (color = '#3b82f6') => {
 export default function MapToolsPage() {
   const { t, i18n } = useTranslation()
   const lang = i18n.language?.slice(0, 2) || 'uz'
+  const { currentUser, updateUser } = useAuth()
+
+  const userKey = currentUser?.uid || currentUser?.id || currentUser?.email || 'guest'
+  const [mapReady, setMapReady] = useState(false)
 
   const mapContainerRef = useRef(null)
   const mapRef = useRef(null)
@@ -158,6 +163,7 @@ export default function MapToolsPage() {
       // Initialize groups
       markersGroupRef.current = L.layerGroup().addTo(mapRef.current)
       shapesGroupRef.current = L.layerGroup().addTo(mapRef.current)
+      setMapReady(true)
 
       // Track mousemove for real-time coordinate display
       mapRef.current.on('mousemove', (e) => {
@@ -289,6 +295,54 @@ export default function MapToolsPage() {
     }
   }, [clearDistance, clearArea])
 
+  // Load user-specific markers when map is ready or user switches
+  useEffect(() => {
+    if (!mapReady || !mapRef.current || !markersGroupRef.current) return
+
+    markersGroupRef.current.clearLayers()
+
+    let initialSaved = []
+    if (currentUser?.savedMarkers && Array.isArray(currentUser.savedMarkers)) {
+      initialSaved = currentUser.savedMarkers
+    } else {
+      const local = localStorage.getItem(`geogat_user_markers_${userKey}`)
+      if (local) {
+        try {
+          initialSaved = JSON.parse(local)
+        } catch (e) {
+          console.error('Error parsing stored user markers:', e)
+        }
+      }
+    }
+
+    const loadedState = initialSaved.map((m) => {
+      const leafletMarker = L.marker([m.lat, m.lng], {
+        icon: createCustomIcon('#3b82f6'),
+      }).addTo(markersGroupRef.current)
+
+      leafletMarker.bindPopup(`
+        <div class="text-sm font-sans min-w-[150px]">
+          <h4 class="font-bold text-gray-900 mb-1">${m.name}</h4>
+          <p class="text-xs text-gray-600 leading-snug mb-2">${m.notes || ''}</p>
+          <div class="border-t border-gray-100 pt-1 text-[10px] text-gray-400">
+            📍 ${Number(m.lat).toFixed(6)}, ${Number(m.lng).toFixed(6)}
+          </div>
+        </div>
+      `)
+
+      return {
+        id: m.id || Date.now().toString(),
+        name: m.name,
+        notes: m.notes || '',
+        lat: m.lat,
+        lng: m.lng,
+        layer: leafletMarker,
+      }
+    })
+
+    setMarkersList(loadedState)
+  }, [mapReady, userKey, currentUser?.savedMarkers])
+
   // Click handler for drawing shapes
   useEffect(() => {
     if (!mapRef.current) return
@@ -383,11 +437,12 @@ export default function MapToolsPage() {
     }
   }, [activeTool, drawType, circleRadius, strokeColor, fillColor, fillOpacity])
 
-  // Save Marker
-  const handleSaveMarker = () => {
+  // Save Marker per User
+  const handleSaveMarker = async () => {
     if (!pendingCoords) return
     const name = markerName.trim() || `Marker #${markersList.length + 1}`
     const notes = markerNotes.trim() || 'Izoh yozilmagan'
+    const markerId = Date.now().toString()
 
     const marker = L.marker([pendingCoords.lat, pendingCoords.lng], {
       icon: createCustomIcon('#3b82f6'),
@@ -404,7 +459,7 @@ export default function MapToolsPage() {
     `)
 
     const newMarkerObj = {
-      id: Date.now().toString(),
+      id: markerId,
       name,
       notes,
       lat: pendingCoords.lat,
@@ -412,8 +467,24 @@ export default function MapToolsPage() {
       layer: marker,
     }
 
-    setMarkersList((prev) => [...prev, newMarkerObj])
-    toast.success('Marker saqlandi!')
+    const updatedList = [...markersList, newMarkerObj]
+    setMarkersList(updatedList)
+
+    const serializableList = updatedList.map(({ id, name, notes, lat, lng }) => ({
+      id, name, notes, lat, lng
+    }))
+
+    localStorage.setItem(`geogat_user_markers_${userKey}`, JSON.stringify(serializableList))
+
+    if (currentUser) {
+      try {
+        await updateUser({ savedMarkers: serializableList })
+      } catch (err) {
+        console.warn('Could not sync user markers to profile:', err)
+      }
+    }
+
+    toast.success(lang === 'uz' ? 'Marker foydalanuvchi hisobiga saqlandi!' : 'Marker saved to user profile!')
 
     // Clean temp helper
     if (tempMarkerRef.current && mapRef.current) {
@@ -425,15 +496,56 @@ export default function MapToolsPage() {
     setMarkerNotes('')
   }
 
-  // Delete Marker
-  const handleDeleteMarker = (id, e) => {
+  // Delete Marker per User
+  const handleDeleteMarker = async (id, e) => {
     e.stopPropagation()
     const item = markersList.find((m) => m.id === id)
     if (item) {
-      markersGroupRef.current.removeLayer(item.layer)
-      setMarkersList((prev) => prev.filter((m) => m.id !== id))
-      toast.success('Marker o\'chirildi')
+      if (markersGroupRef.current && item.layer) {
+        markersGroupRef.current.removeLayer(item.layer)
+      }
+
+      const updatedList = markersList.filter((m) => m.id !== id)
+      setMarkersList(updatedList)
+
+      const serializableList = updatedList.map(({ id, name, notes, lat, lng }) => ({
+        id, name, notes, lat, lng
+      }))
+
+      localStorage.setItem(`geogat_user_markers_${userKey}`, JSON.stringify(serializableList))
+
+      if (currentUser) {
+        try {
+          await updateUser({ savedMarkers: serializableList })
+        } catch (err) {
+          console.warn('Could not sync deleted marker to profile:', err)
+        }
+      }
+
+      toast.success(lang === 'uz' ? "Marker o'chirildi" : "Marker deleted")
     }
+  }
+
+  // Clear All Markers per User
+  const handleClearAllMarkers = async () => {
+    if (markersList.length === 0) return
+
+    if (markersGroupRef.current) {
+      markersGroupRef.current.clearLayers()
+    }
+
+    setMarkersList([])
+    localStorage.removeItem(`geogat_user_markers_${userKey}`)
+
+    if (currentUser) {
+      try {
+        await updateUser({ savedMarkers: [] })
+      } catch (err) {
+        console.warn('Could not clear markers in profile:', err)
+      }
+    }
+
+    toast.success(lang === 'uz' ? "Barcha markerlar o'chirildi" : "All markers cleared")
   }
 
   // Focus Marker
@@ -545,6 +657,24 @@ export default function MapToolsPage() {
           {/* A. MARKER TOOL PANEL */}
           {activeTool === 'marker' && (
             <div className="space-y-4">
+              {currentUser ? (
+                <div className="p-2.5 bg-blue-50/60 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/30 rounded-xl flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-1.5 truncate">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse flex-shrink-0" />
+                    <span className="font-semibold text-gray-800 dark:text-gray-200 truncate">
+                      {currentUser.name || currentUser.email}
+                    </span>
+                  </div>
+                  <span className="text-[10px] text-blue-600 dark:text-blue-400 font-semibold bg-white dark:bg-gray-800 px-2 py-0.5 rounded border border-blue-100 dark:border-blue-900/40 flex-shrink-0">
+                    {lang === 'uz' ? 'Profilga saqlanadi' : 'User Storage'}
+                  </span>
+                </div>
+              ) : (
+                <div className="p-2 bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/30 rounded-xl text-[11px] text-amber-700 dark:text-amber-400">
+                  ⚠️ {lang === 'uz' ? "Mehmon rejimi (Markerlar brauzer xotirasiga saqlanadi)" : "Guest mode (Saved in browser storage)"}
+                </div>
+              )}
+
               <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-xl border border-blue-100 dark:border-blue-900/30 text-[11px] leading-relaxed text-blue-700 dark:text-blue-400">
                 💡 <strong>Marker qo'yish:</strong> Xarita yuzasiga bosing, so'ngra quyida marker ma'lumotlarini to'ldirib <em>"Marker Saqlash"</em> tugmasini bosing.
               </div>
@@ -593,9 +723,17 @@ export default function MapToolsPage() {
               {/* Placed Markers List */}
               {markersList.length > 0 && (
                 <div className="space-y-2">
-                  <h4 className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-                    Saqlangan markerlar ({markersList.length})
-                  </h4>
+                  <div className="flex justify-between items-center">
+                    <h4 className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                      Saqlangan markerlar ({markersList.length})
+                    </h4>
+                    <button
+                      onClick={handleClearAllMarkers}
+                      className="text-[10px] text-red-500 hover:underline font-semibold"
+                    >
+                      {lang === 'uz' ? "Barchasini o'chirish" : "Clear all"}
+                    </button>
+                  </div>
                   <div className="divide-y divide-gray-100 dark:divide-gray-700 max-h-40 overflow-y-auto border border-gray-100 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-850">
                     {markersList.map((m) => (
                       <div
@@ -785,6 +923,17 @@ export default function MapToolsPage() {
                       onChange={(e) => setCircleRadius(Number(e.target.value))}
                       className="w-full accent-red-500"
                     />
+                    <div className="mt-2 flex items-center gap-2">
+                      <input
+                        type="number"
+                        min="1"
+                        placeholder="Radius (m)"
+                        value={circleRadius || ''}
+                        onChange={(e) => setCircleRadius(Math.max(1, Number(e.target.value)))}
+                        className="w-full px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-xs font-semibold bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:ring-1 focus:ring-red-500 focus:border-red-500 outline-none"
+                      />
+                      <span className="text-xs font-semibold text-gray-400">m</span>
+                    </div>
                   </div>
                 )}
 

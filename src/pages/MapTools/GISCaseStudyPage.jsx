@@ -80,6 +80,7 @@ export default function GISCaseStudyPage() {
   const [customRoadNodes, setCustomRoadNodes] = useState([])
   const [customRoadSegments, setCustomRoadSegments] = useState([])
   const [roadTool, setRoadTool] = useState('select') // 'select' or 'addNode'
+  const [transportMode, setTransportMode] = useState('car') // 'car', 'bicycle', 'walking', 'ambulance'
 
   // 2. School Placement States
   const [schoolTool, setSchoolTool] = useState('proposed') // 'proposed', 'existing', 'road', 'density'
@@ -173,6 +174,7 @@ export default function GISCaseStudyPage() {
     setRouteStart('')
     setRouteEnd('')
     setRoutingResult(null)
+    setTransportMode('car')
     toast.success(lang === 'uz' ? 'Qo\'shilgan barcha chorraha va yo\'llar tozalandi!' : 'All custom road nodes and segments cleared!')
   }
 
@@ -580,6 +582,7 @@ export default function GISCaseStudyPage() {
     setCustomHospitals([])
     setCustomLandPlots([])
     setSchoolChecklist({ popDensity: false, schoolBuffer: false, roadAccess: false, evaluated: false })
+    setTransportMode('car')
     setEditingCaseId(null)
     setCaseTitle('')
     setCaseDescription('')
@@ -604,7 +607,7 @@ export default function GISCaseStudyPage() {
         toast.error(lang === 'uz' ? 'Iltimos, boshlanish va yakuniy nuqtani tanlang!' : 'Please select start and destination nodes!')
         return
       }
-      dataPayload = { routeStart, routeEnd, routingResult, customRoadNodes, customRoadSegments }
+      dataPayload = { routeStart, routeEnd, routingResult, customRoadNodes, customRoadSegments, transportMode }
     } else if (activeProject === 'schools') {
       if (!customSchoolPoint && existingSchools.length === 0 && roadPoints.length === 0 && densityCenters.length === 0) {
         toast.error(lang === 'uz' ? 'Hech qanday maktab obyekti chizilmagan!' : 'No school objects placed on map!')
@@ -719,6 +722,7 @@ export default function GISCaseStudyPage() {
       setRoutingResult(d.routingResult || null)
       setCustomRoadNodes(d.customRoadNodes || [])
       setCustomRoadSegments(d.customRoadSegments || [])
+      setTransportMode(d.transportMode || 'car')
     } else if (caseItem.projectType === 'schools') {
       setCustomSchoolPoint(d.customSchoolPoint || null)
       setExistingSchools(d.existingSchools || [])
@@ -1050,7 +1054,14 @@ export default function GISCaseStudyPage() {
     }
 
     const finalDist = dist[endId]
-    const finalTime = (finalDist / 40) * 60 // 40 km/h average speed in city
+    
+    // Speed in km/h based on transport mode
+    let speed = 40 // default car
+    if (transportMode === 'ambulance') speed = 60
+    if (transportMode === 'bicycle') speed = 15
+    if (transportMode === 'walking') speed = 5
+
+    const finalTime = (finalDist / speed) * 60
 
     return {
       path,
@@ -1304,6 +1315,23 @@ export default function GISCaseStudyPage() {
                           ))}
                         </select>
                       </div>
+
+                      <div className="flex items-center justify-between border-t border-gray-100 dark:border-gray-800 pt-2">
+                        <span className="text-[10px] text-gray-400 font-bold">{lang === 'uz' ? 'TRANSPORT VOSITASI:' : 'VEHICLE TYPE:'}</span>
+                        <select
+                          value={transportMode}
+                          onChange={(e) => {
+                            setTransportMode(e.target.value)
+                            setRoutingResult(null)
+                          }}
+                          className="text-xs px-2 py-1 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-905 dark:text-white font-semibold focus:outline-none focus:ring-1 focus:ring-primary-500"
+                        >
+                          <option value="car">🚗 {lang === 'uz' ? 'Mashina' : 'Car'} (40 km/s)</option>
+                          <option value="ambulance">Ambulance 🚑 {lang === 'uz' ? 'Tez yordam' : 'Ambulance'} (60 km/s)</option>
+                          <option value="bicycle">🚲 {lang === 'uz' ? 'Velosiped' : 'Bicycle'} (15 km/s)</option>
+                          <option value="walking">🚶 {lang === 'uz' ? 'Piyoda' : 'Walking'} (5 km/s)</option>
+                        </select>
+                      </div>
                     </div>
 
                     <button
@@ -1322,14 +1350,22 @@ export default function GISCaseStudyPage() {
                         <Check size={14} />
                         Hisoblangan Natija:
                       </h4>
-                      <div className="grid grid-cols-2 gap-2 text-[11px] pt-1">
+                      <div className="grid grid-cols-3 gap-2 text-[11px] pt-1">
                         <div>
                           <span className="text-gray-400 block">Masofa:</span>
-                          <span className="font-bold text-gray-800 dark:text-gray-200 font-mono text-sm">{routingResult.dist} km</span>
+                          <span className="font-bold text-gray-800 dark:text-gray-200 font-mono text-[11px]">{routingResult.dist} km</span>
                         </div>
                         <div>
                           <span className="text-gray-400 block">Vaqt:</span>
-                          <span className="font-bold text-gray-800 dark:text-gray-200 font-mono text-sm">{routingResult.time} daqiqa</span>
+                          <span className="font-bold text-gray-800 dark:text-gray-200 font-mono text-[11px]">{routingResult.time} min</span>
+                        </div>
+                        <div>
+                          <span className="text-gray-400 block">Transport:</span>
+                          <span className="font-bold text-gray-800 dark:text-gray-200 text-[10px] truncate block">
+                            {transportMode === 'car' ? '🚗 Mashina' :
+                             transportMode === 'ambulance' ? '🚑 Tez yordam' :
+                             transportMode === 'bicycle' ? '🚲 Velosiped' : '🚶 Piyoda'}
+                          </span>
                         </div>
                       </div>
                       <div className="border-t border-emerald-500/10 pt-2 mt-2">

@@ -806,6 +806,17 @@ export default function GISLaboratoryPage() {
                       onChange={(e) => handleApplyBuffer(Number(e.target.value))}
                       className="w-full accent-emerald-500"
                     />
+                    <div className="mt-2 flex items-center gap-2">
+                      <input
+                        type="number"
+                        min="0"
+                        placeholder={lang === 'uz' ? "Masofa (m)" : "Distance (m)"}
+                        value={bufferDistance || ''}
+                        onChange={(e) => handleApplyBuffer(Math.max(0, Number(e.target.value)))}
+                        className="w-full px-3 py-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-xs font-semibold bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                      />
+                      <span className="text-xs font-semibold text-gray-400">m</span>
+                    </div>
                   </div>
                 </div>
               )}
